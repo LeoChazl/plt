@@ -22,10 +22,7 @@ int main(int argc,char* argv[])
 	
 	string testString = argv[1];
 	
-	if(testString == "Hello")
-	{
-		cout << "Bonjour tout le monde!" << endl;
-	}
+	cout << testString << endl;
 
     cout << "It works !" << endl;
 
