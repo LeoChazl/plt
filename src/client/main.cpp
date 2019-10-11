@@ -17,8 +17,7 @@ using namespace state;
 
 int main(int argc,char* argv[])
 {
-    Exemple exemple;
-    exemple.setX(53);
+
 	
 	string testString = argv[1];
 	
