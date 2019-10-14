@@ -1,21 +1,32 @@
 #include "MobileEntity.h"
+#include "EntityMap.h"
 
 using namespace state;
 using namespace std;
 
+MobileEntity::MobileEntity(){
+    health=100;
+    movementRange=1;
+    attackRange=1;
+    damage=10;
+    armor=1;
+    maxHealth=100;
+    x=0;
+    y=0;
+}
+
 //Constructeur
-/*MobileEntity::MobileEntity (float health = 0, int movementRange = 0, int attackRange = 0, float damage = 0, float armor = 0, float maxHealth = 100, int x = 0, int y = 0)
-{
+MobileEntity::MobileEntity (float health, int movementRange, int attackRange,float damage, float armor, float maxHealth, EntityId entityId, Status status, Direction direction){
     this->health=health;
     this->movementRange=movementRange;
     this->attackRange=attackRange;
     this->damage=damage;
     this->armor=armor;
     this->maxHealth=maxHealth;
-    this->x=x;
-    this->y=y;
-}*/
-
+    this->entityId=entityId;
+    this->status=status;
+    this->direction=direction;
+}
 
 
 //Function
@@ -28,10 +39,23 @@ float MobileEntity::receiveDamage (float damage){
     return health;
 }
 
+void MobileEntity::physicalAttack (std::shared_ptr<MobileEntity> target){
+    float targetHealth=target->getHealth();
+    targetHealth-=damage;
+
+    if((target->getMaxHealth())<0){// If the target Health is left than "0" after the attack
+        target->setHealth(0);
+    }else{
+        target->setHealth(targetHealth);
+    }
+}
+
+
 void MobileEntity::move (Direction direction){ //A compléter avec Map
+    
     if(direction==1)
     {
-
+        
     }
     else if(direction==2)
     {

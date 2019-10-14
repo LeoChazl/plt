@@ -5,13 +5,20 @@ using namespace std;
 
 //Constructor
 Mage::Mage(){
-    this->mana=100;
-    this->manaMax=100;
+    mana=100;
+    manaMax=100;
 }
 
 //Function
-float Mage::castSpell (shared_ptr<MobileEntity>){
+void Mage::castSpell (shared_ptr<MobileEntity> target){
+    float targetHealth=target->getHealth();
+    targetHealth-=damage;
 
+    if((target->getMaxHealth())<0){// If the target Health is left than "0" after the attack
+        target->setHealth(0);
+    }else{
+        target->setHealth(targetHealth);
+    }
 }
 
 //Getters and Setters
