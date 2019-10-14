@@ -1,5 +1,4 @@
-#include "MobileEntity.h"
-#include "EntityMap.h"
+#include "state.h"
 
 using namespace state;
 using namespace std;
@@ -53,7 +52,7 @@ void MobileEntity::physicalAttack (std::shared_ptr<MobileEntity> target){
 
 void MobileEntity::move (Direction direction){ //A compléter avec Map
     
-    int mapWidth=25;
+    int mapWidth=;
     int mapHeight=25;
 
     //UP

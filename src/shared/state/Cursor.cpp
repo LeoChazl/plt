@@ -1,4 +1,4 @@
-#include "Cursor.h"
+#include "state.h"
 
 using namespace state;
 using namespace std;
@@ -9,5 +9,6 @@ Cursor::Cursor(){
 }
 
 void Cursor::moveCursor (int x, int y){
-
+    this->x=x;
+    this->y=y;
 }
