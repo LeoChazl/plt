@@ -7,6 +7,7 @@ using namespace std;
 Mage::Mage(){
     mana=100;
     manaMax=100;
+    entityId=MAGE;
 }
 
 //Function
@@ -32,5 +33,13 @@ EntityId const Mage::getEntityId (){
 
 void Mage::setMana (float mana){
     this->mana=mana;
+}
+
+float Mage::getManaMax (){
+    return manaMax;
+}
+
+void Mage::setManaMax(float manaMax){
+    this->manaMax=manaMax;
 }
 

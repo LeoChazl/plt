@@ -11,8 +11,8 @@ MobileEntity::MobileEntity(){
     damage=10;
     armor=1;
     maxHealth=100;
-    x=0;
-    y=0;
+    status=AVAILABLE;
+    direction=DOWN;
 }
 
 MobileEntity::MobileEntity (float health, int movementRange, int attackRange,float damage, float armor, float maxHealth, EntityId entityId, Status status, Direction direction){

@@ -4,7 +4,7 @@ using namespace state;
 using namespace std;
 
 Knight::Knight(){
-
+    entityId=KNIGHT;
 }
 
 EntityId const Knight::getEntityId (){
