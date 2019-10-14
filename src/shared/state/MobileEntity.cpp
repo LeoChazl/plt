@@ -5,6 +5,7 @@ using namespace std;
 
 //Constructeur
 MobileEntity::MobileEntity(){
+    //Position ?
     health=100;
     movementRange=1;
     attackRange=1;
@@ -28,7 +29,8 @@ MobileEntity::MobileEntity (float health, int movementRange, int attackRange,flo
 }
 
 
-//Function
+//Functions
+//Encore utile ?
 bool const MobileEntity::isStatic(){
     return false;
 }
@@ -39,10 +41,11 @@ float MobileEntity::receiveDamage (float damage){
 }
 
 void MobileEntity::physicalAttack (std::shared_ptr<MobileEntity> target){
+    //Quel intérêt de receivedamage ?
     float targetHealth=target->getHealth();
     targetHealth-=damage;
 
-    if((target->getMaxHealth())<0){// If the target Health is left than "0" after the attack
+    if((target->getMaxHealth())<0){// If the target Health is less than "0" after the attack
         target->setHealth(0);
     }else{
         target->setHealth(targetHealth);
@@ -89,7 +92,8 @@ void MobileEntity::move (Direction direction){ //A compléter avec Map
     
 }
 
-//Getter
+//Getters
+
 float MobileEntity::getHealth(){
     return health;
 }
