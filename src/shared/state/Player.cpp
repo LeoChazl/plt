@@ -1,10 +1,12 @@
 #include "Player.h"
+#include <iostream>
 
 using namespace state;
 using namespace std;
 
-Player::Player(){
-
+Player::Player(int id, string name){
+    this->id = id;
+    this->name = name;
 }
 
 int Player::getId(){
