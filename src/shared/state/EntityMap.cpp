@@ -1,4 +1,8 @@
 #include "EntityMap.h"
+#include "Obstacle.h"
+#include "Space.h"
+#include <fstream>
+#include <iostream>
 
 using namespace state;
 using namespace std;
