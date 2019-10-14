@@ -34,5 +34,9 @@ void Player::setMobileEntityList(vector<shared_ptr<MobileEntity>> mobileEntityLi
 }
 
 void Player::deleteEntity(int x, int y){
-
+    for(int i=0; i<mobileEntityList.size(); i++){
+        if(mobileEntityList[i]->getX() == x && mobileEntityList[i]->getY() == y){
+            //mobileEntityList.erase(i);
+        }
+    }
 }
