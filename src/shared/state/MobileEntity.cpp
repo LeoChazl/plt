@@ -53,22 +53,41 @@ void MobileEntity::physicalAttack (std::shared_ptr<MobileEntity> target){
 
 void MobileEntity::move (Direction direction){ //A compléter avec Map
     
-    if(direction==1)
-    {
-        
-    }
-    else if(direction==2)
-    {
+    int mapWidth=25;
+    int mapHeight=25;
 
-    }
-    else if(direction==3)
+    //UP
+    if((direction==1)&(x>=0))
     {
-
+        x--;
+    }else{
+        x=0;
     }
-    else if(direction==4)
+    
+    //RIGHT
+    if((direction==2)&(y<=mapWidth))
     {
-
+        y++;
+    }else{
+        y=mapHeight;
     }
+    
+    //DOWN
+    if((direction==3)&(x<=mapHeight))
+    {
+        x++;
+    }else{
+        x=mapHeight;
+    }
+
+    //LEFT
+    if((direction==4)&(x>=0))
+    {
+        y--;
+    }else{
+        y=0;
+    }
+    
 }
 
 //Getter
