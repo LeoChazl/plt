@@ -10,7 +10,7 @@ Mage::Mage(){
 }
 
 //Function
-float Mage::castSpell (){
+float Mage::castSpell (shared_ptr<MobileEntity>){
 
 }
 

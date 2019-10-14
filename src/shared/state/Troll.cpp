@@ -11,6 +11,6 @@ EntityId const Troll::getEntityId (){
     return this->entityId;
 }
 
-float Troll::attack(){ //A compléter en mettant en argument le personnage à attaquer
+float Troll::attack(shared_ptr<MobileEntity>){ //A compléter en mettant en argument le personnage à attaquer
 
 }
