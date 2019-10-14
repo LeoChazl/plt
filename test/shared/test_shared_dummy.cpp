@@ -12,6 +12,15 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 BOOST_AUTO_TEST_CASE(TestExemple)
 {
   {
+    BOOST_CHECK_EQUAL(1,1);
+    BOOST_CHECK(true);
+  }
+
+  {
+
+  }
+
+  {
     /*Troll ex {};
     BOOST_CHECK_EQUAL(ex.x, 0);
     ex.setX(21);
