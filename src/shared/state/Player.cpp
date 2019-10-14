@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "state.h"
 #include <iostream>
 
 using namespace state;
@@ -33,10 +33,11 @@ void Player::setMobileEntityList(vector<shared_ptr<MobileEntity>> mobileEntityLi
     this->mobileEntityList = mobileEntityList;
 }
 
+//Delete the MobileEntity with the corresponding position
 void Player::deleteEntity(int x, int y){
-    for(int i=0; i<mobileEntityList.size(); i++){
+    for(unsigned int i=0; i<mobileEntityList.size(); i++){
         if(mobileEntityList[i]->getX() == x && mobileEntityList[i]->getY() == y){
-            //mobileEntityList.erase(i);
+            mobileEntityList.erase(mobileEntityList.begin() + i);
         }
     }
 }
