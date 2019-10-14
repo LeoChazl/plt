@@ -4,6 +4,7 @@
 using namespace state;
 using namespace std;
 
+//Constructeur
 MobileEntity::MobileEntity(){
     health=100;
     movementRange=1;
@@ -15,7 +16,6 @@ MobileEntity::MobileEntity(){
     y=0;
 }
 
-//Constructeur
 MobileEntity::MobileEntity (float health, int movementRange, int attackRange,float damage, float armor, float maxHealth, EntityId entityId, Status status, Direction direction){
     this->health=health;
     this->movementRange=movementRange;
