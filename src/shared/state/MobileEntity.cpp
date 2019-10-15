@@ -5,8 +5,8 @@ using namespace std;
 
 // Constructors
 
-MobileEntity::MobileEntity(){
-    Position();
+MobileEntity::MobileEntity():Position(6,6)
+{
     health=100;
     movementRange=1;
     damage=30;
@@ -16,8 +16,8 @@ MobileEntity::MobileEntity(){
     direction=DOWN;
 }
 
-MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float damage, float armor, float maxHealth, Status status, Direction direction){
-    Position(x,y);
+MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float damage, float armor, float maxHealth, Status status, Direction direction):Position(x,y)
+{
     this->health=health;
     this->movementRange=movementRange;
     this->damage=damage;
@@ -38,11 +38,13 @@ MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float 
  */
 float MobileEntity::receiveDamage (float damage){
     //Damage dealt = damage - reduction from armor
-    health-=damage - (damage/this->armor);
+    //health-=damage - (damage/armor);
+    health=health-(damage-damage/armor);
 
     // If health is less than "0" after the attack
-    if(health<0)
+    if(health<0){
         health=0;
+    }
     return health;
 }
 

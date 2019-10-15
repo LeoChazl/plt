@@ -45,6 +45,9 @@ BOOST_AUTO_TEST_CASE(Troll_test)
     //Constructor With Arguments
   {
     Troll troll(1,1);
+
+    printf("%d",troll.getX());
+
     //Getter test
     BOOST_CHECK_EQUAL(troll.getX(),1);
     BOOST_CHECK_EQUAL(troll.getY(),1);
@@ -131,8 +134,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     Mage mage1(10,10);
     Mage mage2(12,12);
-    mage1.castSpell(mage2);// 70-(45-45/9);
-    BOOST_CHECK_EQUAL(mage2.getHealth(),30);
+    mage1.castSpell(mage2);// 70-(45-45/5) = 34;
+    BOOST_CHECK_EQUAL(mage2.getHealth(),34);
   }
 }
 
