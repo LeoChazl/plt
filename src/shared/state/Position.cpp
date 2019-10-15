@@ -3,7 +3,8 @@
 using namespace state;
 using namespace std;
 
-//Constructor
+// Constructors
+
 Position::Position(){
     x=0;
     y=0;
@@ -14,7 +15,8 @@ Position::Position(int x,int y){
     this->y=y;
 }
 
-//Getters and Setters
+// Getters
+
 int Position::getX(){
     return x;
 }
@@ -22,6 +24,8 @@ int Position::getX(){
 int Position::getY(){
     return y;
 }
+
+// Setters 
 
 void Position::setX(int x){
     this->x=x;
