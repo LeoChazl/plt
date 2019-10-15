@@ -1,6 +1,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "../../src/shared/state.h"
+#include <vector>
 
 
 using namespace std;
@@ -20,18 +21,21 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 /*************/
 /*CLass Troll*/
 /*************/
-BOOST_AUTO_TEST_CASE(TestStateNamespace)
+BOOST_AUTO_TEST_CASE(Troll_test)
 {
   //Constructor Empty Arguments 
   {
+    //Nom_de_la_classe * Nom_du_pointeur; Nom_du_pointeur = new Nom_de_la_classe;
     Troll troll;
+
+    //Troll troll();
     //Getter test
     BOOST_CHECK_EQUAL(troll.getX(), 6);
     BOOST_CHECK_EQUAL(troll.getY(), 6);
     BOOST_CHECK_EQUAL(troll.getHealth(), 100);
-    BOOST_CHECK_EQUAL(troll.getMovementRange(), 1);
-    BOOST_CHECK_EQUAL(troll.getDamage(), 10);
-    BOOST_CHECK_EQUAL(troll.getArmor(), 1);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(), 2);
+    BOOST_CHECK_EQUAL(troll.getDamage(), 35);
+    BOOST_CHECK_EQUAL(troll.getArmor(), 15);
     BOOST_CHECK_EQUAL(troll.getMaxHealth(), 100);
     BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
     BOOST_CHECK_EQUAL(troll.getStatus(), AVAILABLE);
@@ -42,13 +46,13 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
   {
     Troll troll(1,1);
     //Getter test
-    BOOST_CHECK_EQUAL(troll.getX(), 1);
-    BOOST_CHECK_EQUAL(troll.getY(), 1);
-    BOOST_CHECK_EQUAL(troll.getHealth(), 100);
-    BOOST_CHECK_EQUAL(troll.getMovementRange(), 1);
-    BOOST_CHECK_EQUAL(troll.getDamage(), 10);
-    BOOST_CHECK_EQUAL(troll.getArmor(), 1);
-    BOOST_CHECK_EQUAL(troll.getMaxHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getX(),1);
+    BOOST_CHECK_EQUAL(troll.getY(),1);
+    BOOST_CHECK_EQUAL(troll.getHealth(),100);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(),2);
+    BOOST_CHECK_EQUAL(troll.getDamage(),35);
+    BOOST_CHECK_EQUAL(troll.getArmor(),15);
+    BOOST_CHECK_EQUAL(troll.getMaxHealth(),100);
     BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
     BOOST_CHECK_EQUAL(troll.getStatus(), AVAILABLE);
     BOOST_CHECK_EQUAL(troll.getDirection(), DOWN);
@@ -112,6 +116,10 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     Mage mage(10,10);
     //Get and set Mana
+
+    mage.setX(10);
+    mage.setY(10);
+
     BOOST_CHECK_EQUAL(mage.getX(), 10);
     BOOST_CHECK_EQUAL(mage.getY(), 10);
     BOOST_CHECK_EQUAL(mage.getMana(), 100);
@@ -124,7 +132,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
     Mage mage1(10,10);
     Mage mage2(12,12);
     mage1.castSpell(mage2);// 70-(45-45/9);
-    BOOST_CHECK_EQUAL(mage2.getHealth(),46);
+    BOOST_CHECK_EQUAL(mage2.getHealth(),30);
   }
 }
 
