@@ -18,8 +18,8 @@ Player::Player(int id, string name){
  * param : 
  * mobileEntity -> the unit to add to the player unit list
  */
-void Player::addEntity(MobileEntity& mobileEntity){
-    //mobileEntityList.emplace_back(mobileEntity);
+void Player::addEntity(shared_ptr<MobileEntity> mobileEntity){
+    mobileEntityList.push_back(mobileEntity);
 }
 
 /** Delete the MobileEntity with the corresponding position
