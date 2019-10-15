@@ -47,7 +47,7 @@ int State::getLevel(){
     return level;
 }
 
-EntityMap& State::getMap(){
+EntityMap& State::getEntityMap(){
     return map;
 }
 
@@ -57,6 +57,10 @@ vector<shared_ptr<Player>>& State::getPlayerList(){
 
 Cursor& State::getCursor(){
     return cursor;
+}
+
+bool State::getEndGame(){
+    return endGame;
 }
 
 // Setters
