@@ -4,6 +4,7 @@ using namespace state;
 using namespace std;
 
 // Constructors
+
 Mage::Mage(){
     MobileEntity(20,20,70,3,15,5,100,MAGE,AVAILABLE,DOWN);
     mana=100;
@@ -27,18 +28,19 @@ Mage::Mage(int x, int y){
  * param : 
  * target -> target unit who'll take the damage
  */
-void Mage::castSpell (shared_ptr<MobileEntity> target){
-    float targetHealth=target->getHealth();
-    targetHealth=target->receiveDamage(spellDamage);
+void Mage::castSpell (MobileEntity& target){
+    float targetHealth=target.getHealth();
+    targetHealth=target.receiveDamage(spellDamage);
 
     if(targetHealth<0){// If the target health is less than "0" after the attack
-        target->setHealth(0);
+        target.setHealth(0);
     }else{
-        target->setHealth(targetHealth);
+        target.setHealth(targetHealth);
     }
 }
 
 // Getters
+
 float Mage::getMana (){
     return mana;
 }

@@ -48,14 +48,14 @@ float MobileEntity::receiveDamage (float damage){
  * param :
  * target -> target unit who'll take the damage
  */
-void MobileEntity::physicalAttack (shared_ptr<MobileEntity> target){
-    float targetHealth=target->getHealth();
-    targetHealth=target->receiveDamage(damage);
+void MobileEntity::physicalAttack (MobileEntity& target){
+    float targetHealth=target.getHealth();
+    targetHealth=target.receiveDamage(damage);
 
     if(targetHealth<0){// If the target health is less than "0" after the attack
-        target->setHealth(0);
+        target.setHealth(0);
     }else{
-        target->setHealth(targetHealth);
+        target.setHealth(targetHealth);
     }
 }
 
@@ -66,7 +66,6 @@ void MobileEntity::physicalAttack (shared_ptr<MobileEntity> target){
  * direction -> direction of the movement
  */
 void MobileEntity::move (State& state, Direction direction){
-    
     int mapWidth=state.getMap().getWidth();
     int mapHeight=state.getMap().getHeight();
 
