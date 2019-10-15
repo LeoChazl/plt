@@ -22,16 +22,34 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 /*************/
 BOOST_AUTO_TEST_CASE(TestStateNamespace)
 {
-  //Constructeur de Troll vide
+  //Constructor Empty Arguments 
   {
     Troll troll;
     //Getter test
-    BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
+    BOOST_CHECK_EQUAL(troll.getX(), 6);
+    BOOST_CHECK_EQUAL(troll.getY(), 6);
+    BOOST_CHECK_EQUAL(troll.getHealth(), 100);
     BOOST_CHECK_EQUAL(troll.getMovementRange(), 1);
-    BOOST_CHECK_EQUAL(troll.getAttackRange(), 1);
     BOOST_CHECK_EQUAL(troll.getDamage(), 10);
     BOOST_CHECK_EQUAL(troll.getArmor(), 1);
     BOOST_CHECK_EQUAL(troll.getMaxHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
+    BOOST_CHECK_EQUAL(troll.getStatus(), AVAILABLE);
+    BOOST_CHECK_EQUAL(troll.getDirection(), DOWN);
+  }
+
+    //Constructor With Arguments
+  {
+    Troll troll(1,1);
+    //Getter test
+    BOOST_CHECK_EQUAL(troll.getX(), 1);
+    BOOST_CHECK_EQUAL(troll.getY(), 1);
+    BOOST_CHECK_EQUAL(troll.getHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(), 1);
+    BOOST_CHECK_EQUAL(troll.getDamage(), 10);
+    BOOST_CHECK_EQUAL(troll.getArmor(), 1);
+    BOOST_CHECK_EQUAL(troll.getMaxHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
     BOOST_CHECK_EQUAL(troll.getStatus(), AVAILABLE);
     BOOST_CHECK_EQUAL(troll.getDirection(), DOWN);
   }
@@ -42,23 +60,23 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
 
     troll.setHealth(200);
     troll.setMovementRange(2);
-    troll.setAttackRange(2);
     troll.setDamage(20);
     troll.setArmor(2);
     troll.setMaxHealth(200);
-    troll.setEntityId(MAGE);
     troll.setStatus(SELECTED);
     troll.setDirection(UP);
 
 
-    BOOST_CHECK_EQUAL(troll.getEntityId(), MAGE);
-    BOOST_CHECK_EQUAL(troll.getMovementRange(), 2);
-    BOOST_CHECK_EQUAL(troll.getAttackRange(), 2);
-    BOOST_CHECK_EQUAL(troll.getDamage(), 20);
-    BOOST_CHECK_EQUAL(troll.getArmor(), 2);
-    BOOST_CHECK_EQUAL(troll.getMaxHealth(), 200);
-    BOOST_CHECK_EQUAL(troll.getStatus(), SELECTED);
-    BOOST_CHECK_EQUAL(troll.getDirection(), UP);
+    BOOST_CHECK_EQUAL(troll.getX(), 6);
+    BOOST_CHECK_EQUAL(troll.getY(), 6);
+    BOOST_CHECK_EQUAL(troll.getHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(), 1);
+    BOOST_CHECK_EQUAL(troll.getDamage(), 10);
+    BOOST_CHECK_EQUAL(troll.getArmor(), 1);
+    BOOST_CHECK_EQUAL(troll.getMaxHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
+    BOOST_CHECK_EQUAL(troll.getStatus(), AVAILABLE);
+    BOOST_CHECK_EQUAL(troll.getDirection(), DOWN);
   }
 }
 
@@ -85,16 +103,27 @@ BOOST_AUTO_TEST_CASE(Mage_test)
     BOOST_CHECK_EQUAL(mage.getEntityId(), MAGE);
     //Get and set Mana
     BOOST_CHECK_EQUAL(mage.getMana(), 100);
-    mage.setMana(50);
-    BOOST_CHECK_EQUAL(mage.getMana(), 50);
+    BOOST_CHECK_EQUAL(mage.getManaMax(), 100);
+    BOOST_CHECK_EQUAL(mage.getSpellDamage(), 45);
+    BOOST_CHECK_EQUAL(mage.getSpellAttackRange(), 2);
+
   }
 
   {
-    Mage mage;
+    Mage mage(10,10);
     //Get and set Mana
+    BOOST_CHECK_EQUAL(mage.getX(), 10);
+    BOOST_CHECK_EQUAL(mage.getY(), 10);
+    BOOST_CHECK_EQUAL(mage.getMana(), 100);
     BOOST_CHECK_EQUAL(mage.getManaMax(), 100);
-    mage.setManaMax(50);
-    BOOST_CHECK_EQUAL(mage.getManaMax(), 50);
+    BOOST_CHECK_EQUAL(mage.getSpellDamage(), 45);
+    BOOST_CHECK_EQUAL(mage.getSpellAttackRange(), 2);
+  }
+
+  {
+    Mage mage1(10,10);
+    Mage mage2(12,12);
+    mage1.castSpell(mage2);
   }
 }
 
