@@ -11,7 +11,7 @@ Player::Player(int id, string name){
     this->name = name;
 }
 
-// Function
+// Functions
 
 /** Add a unit for a player
  * 
