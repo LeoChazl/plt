@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 /**************************/
 
 /*************/
-/*CLass Troll*/
+/*Class Troll*/
 /*************/
 BOOST_AUTO_TEST_CASE(Troll_test)
 {
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE(Troll_test)
 }
 
 /*************/
-/*CLass Knight*/
+/*Class Knight*/
 /*************/
 BOOST_AUTO_TEST_CASE(Knight_test)
 {
@@ -120,7 +120,7 @@ BOOST_AUTO_TEST_CASE(Knight_test)
 }
 
 /*************/
-/*CLass Mage*/
+/*Class Mage*/
 /*************/
 BOOST_AUTO_TEST_CASE(Mage_test)
 {
@@ -280,7 +280,6 @@ BOOST_AUTO_TEST_CASE(Position_test)
 {
   {
     Position position;
-    //Get EntityId
     BOOST_CHECK_EQUAL(position.getX(), 0);
     BOOST_CHECK_EQUAL(position.getY(), 0);
 
@@ -301,7 +300,6 @@ BOOST_AUTO_TEST_CASE(Cursor_test)
   //Constructor 1
   {
     Cursor cursor;
-    //Get EntityId
     BOOST_CHECK_EQUAL(cursor.getX(), 0);
     BOOST_CHECK_EQUAL(cursor.getY(), 0);
 
@@ -350,6 +348,46 @@ BOOST_AUTO_TEST_CASE(Space_test)
   {
     Space space;
     BOOST_CHECK_EQUAL(space.isSpace(), true);
+  }
+}
+
+/*******/
+/*EntityMap*/
+/*******/
+BOOST_AUTO_TEST_CASE(EntityMap_test)
+{
+  {
+    //Constructor level 1
+    EntityMap entityMap(1);
+
+    BOOST_CHECK_EQUAL(entityMap.getWidth(),25);
+    BOOST_CHECK_EQUAL(entityMap.getHeight(),25);
+  }
+}
+
+/*******/
+/*State*/
+/*******/
+BOOST_AUTO_TEST_CASE(State_test)
+{
+  {
+    //Constructor without arguments
+    State state;
+    EntityMap entityMap(1);
+    Cursor cursor;
+
+    BOOST_CHECK_EQUAL(state.getRound(),1);
+    BOOST_CHECK_EQUAL(state.getLevel(),1);
+    //BOOST_CHECK_EQUAL(state.getEntityMap(),entityMap);
+    //BOOST_CHECK_EQUAL(state.getCursor(),cursor);
+    BOOST_CHECK_EQUAL(state.getEndGame(),false);
+
+    state.setRound(2);
+    state.setLevel(2);
+    state.setEndGame(true);
+    BOOST_CHECK_EQUAL(state.getRound(),2);
+    BOOST_CHECK_EQUAL(state.getLevel(),2);
+    BOOST_CHECK_EQUAL(state.getEndGame(),true);
   }
 }
 

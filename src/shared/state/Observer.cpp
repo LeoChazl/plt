@@ -30,8 +30,14 @@ void Observer::unregisterObserver(IObserver* obs){
     observers.erase(remove(observers.begin(), observers.end(), obs), observers.end());
 }
 
-void const Observer::notifyObservers(const StateEvent& e, State& state){
 
+/** Scroll through the list of observers
+ * To complete when render part of the code is done
+ */
+void const Observer::notifyObservers(const StateEvent& stateEvent, State& state){
+	for(auto observer : observers){
+		observer->stateChanged(stateEvent, state);
+	}
 }
 
 // Destructor

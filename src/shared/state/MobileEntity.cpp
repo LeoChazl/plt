@@ -64,8 +64,8 @@ void MobileEntity::physicalAttack (MobileEntity& target){
  * direction -> direction of the movement
  */
 void MobileEntity::move (State& state, Direction direction){
-    int mapWidth=state.getMap().getWidth();
-    int mapHeight=state.getMap().getHeight();
+    int mapWidth=state.getEntityMap().getWidth();
+    int mapHeight=state.getEntityMap().getHeight();
 
     switch(direction){
         case UP: 

@@ -20,8 +20,8 @@ State::State(){
  * param : 
  * player -> the player to add to the player list
  */
-void State::addPlayer(Player& player){
-    //playerList.emplace_back(player);
+void State::addPlayer(shared_ptr<Player> player){
+    playerList.push_back(player);
 }
 
 /** Delete the player with the corresponding id
@@ -47,7 +47,7 @@ int State::getLevel(){
     return level;
 }
 
-EntityMap& State::getMap(){
+EntityMap& State::getEntityMap(){
     return map;
 }
 
@@ -57,6 +57,10 @@ vector<shared_ptr<Player>>& State::getPlayerList(){
 
 Cursor& State::getCursor(){
     return cursor;
+}
+
+bool State::getEndGame(){
+    return endGame;
 }
 
 // Setters
