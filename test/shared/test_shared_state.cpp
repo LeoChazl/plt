@@ -183,8 +183,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   //Move UP
   {
     State state;
-    BOOST_CHECK_EQUAL(state.getMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
     Mage mage(10,10);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -196,8 +196,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
    //Move RIGHT
   {
     State state;
-    BOOST_CHECK_EQUAL(state.getMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
     Mage mage(10,10);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -209,8 +209,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
    //Move DOWN
   {
     State state;
-    BOOST_CHECK_EQUAL(state.getMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
     Mage mage(10,10);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -222,8 +222,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
    //Move LEFT
   {
     State state;
-    BOOST_CHECK_EQUAL(state.getMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
     Mage mage(10,10);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -235,8 +235,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   //MOVE UP OR LEFT WHEN MobileEntity is on the map border TOP (0,0)
   {
     State state;
-    BOOST_CHECK_EQUAL(state.getMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
     Mage mage(0,0); // x=0 ;y=0
     BOOST_CHECK_EQUAL(mage.getX(),0);
     BOOST_CHECK_EQUAL(mage.getY(),0);
@@ -253,8 +253,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   //MOVE DOWN OR RIGHT WHEN MobileEntity is on the map border BOTTOM (25,25)=MAP_SIZE
   {
     State state;
-    int mapHeight=state.getMap().getHeight();
-    int mapWidth=state.getMap().getWidth();
+    int mapHeight=state.getEntityMap().getHeight();
+    int mapWidth=state.getEntityMap().getWidth();
 
     BOOST_CHECK_EQUAL(mapHeight,25);
     BOOST_CHECK_EQUAL(mapWidth,25);
@@ -388,6 +388,40 @@ BOOST_AUTO_TEST_CASE(State_test)
     BOOST_CHECK_EQUAL(state.getRound(),2);
     BOOST_CHECK_EQUAL(state.getLevel(),2);
     BOOST_CHECK_EQUAL(state.getEndGame(),true);
+  }
+}
+
+
+/********/
+/*Player*/
+/********/
+BOOST_AUTO_TEST_CASE(PLayer_test)
+{
+  {
+    //Constructor without arguments
+    Player player1(1,"player1");
+
+  }
+
+  //Getter and Setter
+  {
+    Player player1(1,"player1");
+
+    BOOST_CHECK_EQUAL(player1.getId(),1);
+    BOOST_CHECK_EQUAL(player1.getName(),"player1");
+
+    player1.setId(2);
+    player1.setName("player2");
+    BOOST_CHECK_EQUAL(player1.getId(),2);
+    BOOST_CHECK_EQUAL(player1.getName(),"player2");
+  }
+
+  //Add or Delete MOBILE Entity on Player
+  {
+    Troll troll;
+    Player player1(1,"player1");
+    //player1.addEntity(troll);
+
   }
 }
 
