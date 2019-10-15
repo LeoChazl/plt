@@ -65,19 +65,19 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
 /*************/
 /*CLass Knight*/
 /*************/
-/*BOOST_AUTO_TEST_CASE(Knight_test)
+BOOST_AUTO_TEST_CASE(Knight_test)
 {
   {
     Knight knight;
     //Get EntityId
     BOOST_CHECK_EQUAL(knight.getEntityId(), KNIGHT);
   }
-}*/
+}
 
 /*************/
 /*CLass Mage*/
 /*************/
-/*BOOST_AUTO_TEST_CASE(Mage_test)
+BOOST_AUTO_TEST_CASE(Mage_test)
 {
   {
     Mage mage;
@@ -96,12 +96,12 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
     mage.setManaMax(50);
     BOOST_CHECK_EQUAL(mage.getManaMax(), 50);
   }
-}*/
+}
 
 /**********/
 /*Position*/
 /**********/
-/*BOOST_AUTO_TEST_CASE(Position_test)
+BOOST_AUTO_TEST_CASE(Position_test)
 {
   {
     Position position;
@@ -115,13 +115,13 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
     BOOST_CHECK_EQUAL(position.getX(), 10);
     BOOST_CHECK_EQUAL(position.getY(), 20);
   }
-}*/
+}
 
 
 /********/
 /*Cursor*/
 /********/
-/*BOOST_AUTO_TEST_CASE(Cursor_test)
+BOOST_AUTO_TEST_CASE(Cursor_test)
 {
   {
     Cursor cursor;
@@ -138,10 +138,35 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
     BOOST_CHECK_EQUAL(cursor.getX(), 30);
     BOOST_CHECK_EQUAL(cursor.getY(), 30);
   }
-}*/
+}
 
+/***************************/
+/***************************
+ ****** STATIC ENTITY*******/
+/**************************/
 
+/**********/
+/*Obstacle*/
+/**********/
+BOOST_AUTO_TEST_CASE(Obstacle_test)
+{
+  {
+    Obstacle obstacle;
+    BOOST_CHECK_EQUAL(obstacle.isSpace(), false);
+   
+  }
+}
 
+/*******/
+/*Space*/
+/*******/
+BOOST_AUTO_TEST_CASE(Space_test)
+{
+  {
+    Space space;
+    BOOST_CHECK_EQUAL(space.isSpace(), true);
+  }
+}
 
 
 /*vim: set sw=2 sts=2 et : */
