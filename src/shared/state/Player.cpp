@@ -4,7 +4,7 @@
 using namespace state;
 using namespace std;
 
-// Constructors
+// Constructor
 
 Player::Player(int id, string name){
     this->id = id;
@@ -13,12 +13,23 @@ Player::Player(int id, string name){
 
 // Function
 
+/** Add a unit for a player
+ * 
+ * param : 
+ * mobileEntity -> the unit to add to the player unit list
+ */
+void Player::addEntity(MobileEntity& mobileEntity){
+    //mobileEntityList.emplace_back(mobileEntity);
+}
+
 /** Delete the MobileEntity with the corresponding position
  * 
+ * param :
+ * mobileEntity -> the unit to delete from the player unit list
  */
-void Player::deleteEntity(int x, int y){
+void Player::deleteEntity(MobileEntity& mobileEntity){
     for(unsigned int i=0; i<mobileEntityList.size(); i++){
-        if(mobileEntityList[i]->getX() == x && mobileEntityList[i]->getY() == y){
+        if(mobileEntityList[i]->getX() == mobileEntity.getX() && mobileEntityList[i]->getY() == mobileEntity.getY()){
             mobileEntityList.erase(mobileEntityList.begin() + i);
         }
     }

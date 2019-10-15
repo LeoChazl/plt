@@ -21,6 +21,14 @@ Mage::Mage(int x, int y){
     spellAttackRange=2;
 }
 
+Mage::Mage(int x, int y, float mana, float manaMax, float spellDamage, int spellAttackRange){
+     MobileEntity(x,y,70,3,45,5,100,MAGE,AVAILABLE,DOWN);
+    this->mana=mana;
+    this->manaMax=manaMax;
+    this->spellDamage=spellDamage;
+    this->spellAttackRange=spellAttackRange;
+}
+
 // Function
 
 /** Mage casts a ranged attack
@@ -29,14 +37,7 @@ Mage::Mage(int x, int y){
  * target -> target unit who'll take the damage
  */
 void Mage::castSpell (MobileEntity& target){
-    float targetHealth=target.getHealth();
-    targetHealth=target.receiveDamage(spellDamage);
-
-    if(targetHealth<0){// If the target health is less than "0" after the attack
-        target.setHealth(0);
-    }else{
-        target.setHealth(targetHealth);
-    }
+    target.receiveDamage(spellDamage);
 }
 
 // Getters
@@ -55,4 +56,10 @@ float Mage::getSpellDamage(){
 
 int Mage::getSpellAttackRange(){
     return spellAttackRange;
+}
+
+// Setters
+
+void Mage::setMana(float mana){
+    this->mana=mana;
 }
