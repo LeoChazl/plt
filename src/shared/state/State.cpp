@@ -19,6 +19,10 @@ vector<shared_ptr<Player>> State::getPlayerList(){
     return playerList;
 }
 
+Cursor State::getCursor(){
+    return cursor;
+}
+
 State::~State(){
 
 }
