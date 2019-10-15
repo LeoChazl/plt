@@ -3,10 +3,12 @@
 using namespace state;
 using namespace std;
 
+// Constructors
+
 Troll::Troll(){
-    entityId=TROLL;
+    MobileEntity(6,6,100,2,35,15,100,TROLL,AVAILABLE,DOWN);
 }
 
-EntityId const Troll::getEntityId (){
-    return entityId;
+Troll::Troll(int x, int y){
+    MobileEntity(x,y,100,2,35,15,100,TROLL,AVAILABLE,DOWN);
 }

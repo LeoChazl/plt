@@ -3,23 +3,23 @@
 using namespace state;
 using namespace std;
 
-//Constructeur
+// Constructors
+
 MobileEntity::MobileEntity(){
-    //Position ?
+    Position();
     health=100;
     movementRange=1;
-    attackRange=1;
-    damage=10;
-    armor=1;
+    damage=30;
+    armor=10;
     maxHealth=100;
     status=AVAILABLE;
     direction=DOWN;
 }
 
-MobileEntity::MobileEntity (float health, int movementRange, int attackRange,float damage, float armor, float maxHealth, EntityId entityId, Status status, Direction direction){
+MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float damage, float armor, float maxHealth, EntityId entityId, Status status, Direction direction){
+    Position(x,y);
     this->health=health;
     this->movementRange=movementRange;
-    this->attackRange=attackRange;
     this->damage=damage;
     this->armor=armor;
     this->maxHealth=maxHealth;
@@ -28,71 +28,77 @@ MobileEntity::MobileEntity (float health, int movementRange, int attackRange,flo
     this->direction=direction;
 }
 
+// Functions
 
-//Functions
-//Encore utile ?
-bool const MobileEntity::isStatic(){
-    return false;
-}
-
+/** Unit takes damage
+ * 
+ * param :
+ * damage -> damage value of the attacking unit
+ * 
+ * return : new health value
+ */
 float MobileEntity::receiveDamage (float damage){
-    health-=damage;
+    //Damage dealt = damage - reduction from armor
+    health-=damage - (damage/this->armor);
     return health;
 }
 
-void MobileEntity::physicalAttack (std::shared_ptr<MobileEntity> target){
-    //Quel intérêt de receivedamage ?
+/** Unit deals an attack
+ * 
+ * param :
+ * target -> target unit who'll take the damage
+ */
+void MobileEntity::physicalAttack (shared_ptr<MobileEntity> target){
     float targetHealth=target->getHealth();
-    targetHealth-=damage;
+    targetHealth=target->receiveDamage(damage);
 
-    if((target->getMaxHealth())<0){// If the target Health is less than "0" after the attack
+    if(targetHealth<0){// If the target health is less than "0" after the attack
         target->setHealth(0);
     }else{
         target->setHealth(targetHealth);
     }
 }
 
+/** Move the unit and verify that it doesn't go over the boundaries of the map
+ * 
+ * param : 
+ * state -> game actual state containing the map
+ * direction -> direction of the movement
+ */
+void MobileEntity::move (State& state, Direction direction){
+    
+    int mapWidth=state.getMap().getWidth();
+    int mapHeight=state.getMap().getHeight();
 
-void MobileEntity::move (Direction direction){ //A compléter avec Map
-    
-    int mapWidth=25;
-    int mapHeight=25;
-
-    //UP
-    if((direction==1)&(x>=0))
-    {
-        x--;
-    }else{
-        x=0;
+    switch(direction){
+        case UP: 
+            if(x>0){
+                x--;
+                this->direction=direction;
+            }else
+                x=0;
+        case RIGHT:
+            if(y<mapWidth){
+                y++;
+                this->direction=direction;
+            }else
+                y=mapWidth;
+        case DOWN:
+            if(x<mapHeight){
+                x++;
+                this->direction=direction;
+            }else
+                x=mapHeight;
+        case LEFT:
+            if(y>0){
+                y--;
+                this->direction=direction;
+            }else
+                y=0;
     }
-    
-    //RIGHT
-    if((direction==2)&(y<=mapWidth))
-    {
-        y++;
-    }else{
-        y=mapHeight;
-    }
-    
-    //DOWN
-    if((direction==3)&(x<=mapHeight))
-    {
-        x++;
-    }else{
-        x=mapHeight;
-    }
-
-    //LEFT
-    if((direction==4)&(x>=0))
-    {
-        y--;
-    }else{
-        y=0;
-    }
-    
 }
 
-//Getters
+// Getters
 
 float MobileEntity::getHealth(){
     return health;
@@ -100,10 +106,6 @@ float MobileEntity::getHealth(){
 
 float MobileEntity::getMovementRange(){
     return movementRange;
-}
-
-float MobileEntity::getAttackRange(){
-    return attackRange;
 }
 
 float MobileEntity::getDamage(){
@@ -118,6 +120,10 @@ float MobileEntity::getMaxHealth(){
     return maxHealth;
 }
 
+EntityId MobileEntity::getEntityId(){
+    return entityId;
+}
+
 Status MobileEntity::getStatus(){
     return status;
 }
@@ -127,7 +133,7 @@ Direction MobileEntity::getDirection(){
 }
 
 
-//Setters
+// Setters
 
 void MobileEntity::setHealth(float health){
     this->health=health;
@@ -135,10 +141,6 @@ void MobileEntity::setHealth(float health){
 
 void MobileEntity::setMovementRange(int movementRange){
     this->movementRange=movementRange;
-}
-
-void MobileEntity::setAttackRange(int attackRange){
-    this->attackRange=attackRange;
 }
 
 void MobileEntity::setDamage(float damage){
@@ -151,10 +153,6 @@ void MobileEntity::setArmor(float armor){
 
 void MobileEntity::setMaxHealth(float maxHealth){
     this->maxHealth=maxHealth;
-}
-
-void MobileEntity::setEntityId(EntityId entityId){
-    this->entityId=entityId;
 }
 
 void MobileEntity::setStatus(Status status){

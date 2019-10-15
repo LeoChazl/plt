@@ -3,10 +3,12 @@
 using namespace state;
 using namespace std;
 
+// Constructors
+
 Knight::Knight(){
-    entityId=KNIGHT;
+    MobileEntity(15,15,100,2,35,15,100,KNIGHT,AVAILABLE,DOWN);
 }
 
-EntityId const Knight::getEntityId (){
-    return this->entityId;
+Knight::Knight(int x, int y){
+    MobileEntity(x,y,100,2,35,15,100,KNIGHT,AVAILABLE,DOWN);
 }
