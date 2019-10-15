@@ -40,6 +40,10 @@ MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float 
 float MobileEntity::receiveDamage (float damage){
     //Damage dealt = damage - reduction from armor
     health-=damage - (damage/this->armor);
+
+    // If health is less than "0" after the attack
+    if(health<0)
+        health=0;
     return health;
 }
 
@@ -49,14 +53,7 @@ float MobileEntity::receiveDamage (float damage){
  * target -> target unit who'll take the damage
  */
 void MobileEntity::physicalAttack (MobileEntity& target){
-    float targetHealth=target.getHealth();
-    targetHealth=target.receiveDamage(damage);
-
-    if(targetHealth<0){// If the target health is less than "0" after the attack
-        target.setHealth(0);
-    }else{
-        target.setHealth(targetHealth);
-    }
+    target.receiveDamage(damage);
 }
 
 /** Move the unit and verify that it doesn't go over the boundaries of the map
