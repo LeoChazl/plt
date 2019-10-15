@@ -16,14 +16,13 @@ MobileEntity::MobileEntity(){
     direction=DOWN;
 }
 
-MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float damage, float armor, float maxHealth, EntityId entityId, Status status, Direction direction){
+MobileEntity::MobileEntity (int x, int y,float health, int movementRange, float damage, float armor, float maxHealth, Status status, Direction direction){
     Position(x,y);
     this->health=health;
     this->movementRange=movementRange;
     this->damage=damage;
     this->armor=armor;
     this->maxHealth=maxHealth;
-    this->entityId=entityId;
     this->status=status;
     this->direction=direction;
 }
@@ -114,10 +113,6 @@ float MobileEntity::getArmor(){
 
 float MobileEntity::getMaxHealth(){
     return maxHealth;
-}
-
-EntityId MobileEntity::getEntityId(){
-    return entityId;
 }
 
 Status MobileEntity::getStatus(){
