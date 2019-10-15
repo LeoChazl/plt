@@ -69,14 +69,14 @@ BOOST_AUTO_TEST_CASE(TestStateNamespace)
 
     BOOST_CHECK_EQUAL(troll.getX(), 6);
     BOOST_CHECK_EQUAL(troll.getY(), 6);
-    BOOST_CHECK_EQUAL(troll.getHealth(), 100);
-    BOOST_CHECK_EQUAL(troll.getMovementRange(), 1);
-    BOOST_CHECK_EQUAL(troll.getDamage(), 10);
-    BOOST_CHECK_EQUAL(troll.getArmor(), 1);
-    BOOST_CHECK_EQUAL(troll.getMaxHealth(), 100);
+    BOOST_CHECK_EQUAL(troll.getHealth(), 200);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(), 2);
+    BOOST_CHECK_EQUAL(troll.getDamage(), 20);
+    BOOST_CHECK_EQUAL(troll.getArmor(), 2);
+    BOOST_CHECK_EQUAL(troll.getMaxHealth(), 200);
     BOOST_CHECK_EQUAL(troll.getEntityId(), TROLL);
-    BOOST_CHECK_EQUAL(troll.getStatus(), AVAILABLE);
-    BOOST_CHECK_EQUAL(troll.getDirection(), DOWN);
+    BOOST_CHECK_EQUAL(troll.getStatus(), SELECTED);
+    BOOST_CHECK_EQUAL(troll.getDirection(), UP);
   }
 }
 
@@ -123,7 +123,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     Mage mage1(10,10);
     Mage mage2(12,12);
-    mage1.castSpell(mage2);
+    mage1.castSpell(mage2);// 70-(45-45/9);
+    BOOST_CHECK_EQUAL(mage2.getHealth(),46);
   }
 }
 
