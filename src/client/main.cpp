@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
@@ -17,13 +18,21 @@ using namespace state;
 
 int main(int argc,char* argv[])
 {
+    string testString = argv[1];
+    if(testString=="state"){
+        //execl ("/home/ensea/plt/build","make unittest", (char *)0);
+        system("cd build ;make unittest;sleep 1;make code-coverage");
+    }else{
 
-	
-	string testString = argv[1];
-	
-	cout << testString << endl;
+        
+        cout << testString << endl;
 
-    cout << "It works !" << endl;
+        cout << "It works !" << endl;
+    }
+	
+
+
+
 
     return 0;
 }
