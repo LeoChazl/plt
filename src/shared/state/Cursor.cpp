@@ -5,12 +5,14 @@ using namespace std;
 
 // Constructors
 
-Cursor::Cursor(){
-    Position();
+Cursor::Cursor():Position()
+{
+
 }
 
-Cursor::Cursor(int x, int y){
-    Position(x,y);
+Cursor::Cursor(int x, int y):Position(x,y)
+{
+
 }
 
 // Function

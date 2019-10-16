@@ -97,6 +97,26 @@ BOOST_AUTO_TEST_CASE(Knight_test)
     //Get EntityId
     BOOST_CHECK_EQUAL(knight.getEntityId(), KNIGHT);
   }
+
+  {
+    Knight knight(11,11);
+    //Get EntityId
+    BOOST_CHECK_EQUAL(knight.getX(), 11);
+    BOOST_CHECK_EQUAL(knight.getY(), 11);
+  }
+
+  //Physical Attack
+  {
+    Knight knight1(10,10);
+    Knight knight2(11,11);
+    float health_k2=knight2.getHealth();
+    float damage_k1=knight1.getDamage();
+    float armor_k2=knight2.getArmor();
+    health_k2-=damage_k1-damage_k1/armor_k2;
+    knight1.physicalAttack(knight2);//100-(35-35/15)=67.33
+    BOOST_CHECK_EQUAL(knight2.getHealth(), health_k2);
+
+  }
 }
 
 /*************/
@@ -104,11 +124,14 @@ BOOST_AUTO_TEST_CASE(Knight_test)
 /*************/
 BOOST_AUTO_TEST_CASE(Mage_test)
 {
+  //Constructor 1
   {
     Mage mage;
     //Get EntityId
     BOOST_CHECK_EQUAL(mage.getEntityId(), MAGE);
     //Get and set Mana
+    BOOST_CHECK_EQUAL(mage.getX(), 6);
+    BOOST_CHECK_EQUAL(mage.getY(), 6);
     BOOST_CHECK_EQUAL(mage.getMana(), 100);
     BOOST_CHECK_EQUAL(mage.getManaMax(), 100);
     BOOST_CHECK_EQUAL(mage.getSpellDamage(), 45);
@@ -116,12 +139,10 @@ BOOST_AUTO_TEST_CASE(Mage_test)
 
   }
 
+  //Constructor 2
   {
     Mage mage(10,10);
     //Get and set Mana
-
-    mage.setX(10);
-    mage.setY(10);
 
     BOOST_CHECK_EQUAL(mage.getX(), 10);
     BOOST_CHECK_EQUAL(mage.getY(), 10);
@@ -131,12 +152,125 @@ BOOST_AUTO_TEST_CASE(Mage_test)
     BOOST_CHECK_EQUAL(mage.getSpellAttackRange(), 2);
   }
 
+  //Constructor 3
+  {
+    Mage mage(10,10,50,200,50,100);
+    //Get and set Mana
+
+    BOOST_CHECK_EQUAL(mage.getX(), 10);
+    BOOST_CHECK_EQUAL(mage.getY(), 10);
+    BOOST_CHECK_EQUAL(mage.getMana(), 50);
+    BOOST_CHECK_EQUAL(mage.getManaMax(), 200);
+    BOOST_CHECK_EQUAL(mage.getSpellDamage(), 50);
+    BOOST_CHECK_EQUAL(mage.getSpellAttackRange(), 100);
+
+    mage.setMana(200);
+    BOOST_CHECK_EQUAL(mage.getMana(), 200);
+  }
+
+  //CastSpell
   {
     Mage mage1(10,10);
     Mage mage2(12,12);
     mage1.castSpell(mage2);// 70-(45-45/5) = 34;
     BOOST_CHECK_EQUAL(mage2.getHealth(),34);
+
+    //CastSpell in order to reach helath = 0 condition
+    mage1.castSpell(mage2);// 34-(45-45/5) = 34;
+    BOOST_CHECK_EQUAL(mage2.getHealth(),0);
   }
+
+  //Move UP
+  {
+    State state;
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    Mage mage(10,10);
+    BOOST_CHECK_EQUAL(mage.getX(),10);
+    BOOST_CHECK_EQUAL(mage.getY(),10);
+    mage.move(state,UP);
+    BOOST_CHECK_EQUAL(mage.getX(),9);
+    BOOST_CHECK_EQUAL(mage.getY(),10);
+  }
+
+   //Move RIGHT
+  {
+    State state;
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    Mage mage(10,10);
+    BOOST_CHECK_EQUAL(mage.getX(),10);
+    BOOST_CHECK_EQUAL(mage.getY(),10);
+    mage.move(state,RIGHT);
+    BOOST_CHECK_EQUAL(mage.getX(),10);
+    BOOST_CHECK_EQUAL(mage.getY(),11);
+  }
+
+   //Move DOWN
+  {
+    State state;
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    Mage mage(10,10);
+    BOOST_CHECK_EQUAL(mage.getX(),10);
+    BOOST_CHECK_EQUAL(mage.getY(),10);
+    mage.move(state,DOWN);
+    BOOST_CHECK_EQUAL(mage.getX(),11);
+    BOOST_CHECK_EQUAL(mage.getY(),10);
+  }
+
+   //Move LEFT
+  {
+    State state;
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    Mage mage(10,10);
+    BOOST_CHECK_EQUAL(mage.getX(),10);
+    BOOST_CHECK_EQUAL(mage.getY(),10);
+    mage.move(state,LEFT);
+    BOOST_CHECK_EQUAL(mage.getX(),10);
+    BOOST_CHECK_EQUAL(mage.getY(),9);
+  }
+
+  //MOVE UP OR LEFT WHEN MobileEntity is on the map border TOP (0,0)
+  {
+    State state;
+    BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    Mage mage(0,0); // x=0 ;y=0
+    BOOST_CHECK_EQUAL(mage.getX(),0);
+    BOOST_CHECK_EQUAL(mage.getY(),0);
+
+    mage.move(state,LEFT);
+    BOOST_CHECK_EQUAL(mage.getX(),0);
+    BOOST_CHECK_EQUAL(mage.getY(),0);
+
+    mage.move(state,UP);
+    BOOST_CHECK_EQUAL(mage.getX(),0);
+    BOOST_CHECK_EQUAL(mage.getY(),0);
+  }
+
+  //MOVE DOWN OR RIGHT WHEN MobileEntity is on the map border BOTTOM (25,25)=MAP_SIZE
+  {
+    State state;
+    int mapHeight=state.getEntityMap().getHeight();
+    int mapWidth=state.getEntityMap().getWidth();
+
+    BOOST_CHECK_EQUAL(mapHeight,25);
+    BOOST_CHECK_EQUAL(mapWidth,25);
+    Mage mage(mapHeight-1,mapWidth-1); // x=0 ;y=0
+    BOOST_CHECK_EQUAL(mage.getX(),mapHeight-1);
+    BOOST_CHECK_EQUAL(mage.getY(),mapWidth-1);
+
+    mage.move(state,RIGHT);
+    BOOST_CHECK_EQUAL(mage.getX(),mapHeight-1);
+    BOOST_CHECK_EQUAL(mage.getY(),mapWidth-1);
+
+    mage.move(state,DOWN);
+    BOOST_CHECK_EQUAL(mage.getX(),mapHeight-1);
+    BOOST_CHECK_EQUAL(mage.getY(),mapWidth-1);
+  }
+
 }
 
 /**********/
@@ -163,6 +297,7 @@ BOOST_AUTO_TEST_CASE(Position_test)
 /********/
 BOOST_AUTO_TEST_CASE(Cursor_test)
 {
+  //Constructor 1
   {
     Cursor cursor;
     BOOST_CHECK_EQUAL(cursor.getX(), 0);
@@ -177,6 +312,15 @@ BOOST_AUTO_TEST_CASE(Cursor_test)
     BOOST_CHECK_EQUAL(cursor.getX(), 30);
     BOOST_CHECK_EQUAL(cursor.getY(), 30);
   }
+
+  //Constructor 2
+  {
+    Cursor cursor(10,10);
+    BOOST_CHECK_EQUAL(cursor.getX(), 10);
+    BOOST_CHECK_EQUAL(cursor.getY(), 10);
+
+  }
+
 }
 
 /***************************/
@@ -244,6 +388,40 @@ BOOST_AUTO_TEST_CASE(State_test)
     BOOST_CHECK_EQUAL(state.getRound(),2);
     BOOST_CHECK_EQUAL(state.getLevel(),2);
     BOOST_CHECK_EQUAL(state.getEndGame(),true);
+  }
+}
+
+
+/********/
+/*Player*/
+/********/
+BOOST_AUTO_TEST_CASE(PLayer_test)
+{
+  {
+    //Constructor without arguments
+    Player player1(1,"player1");
+
+  }
+
+  //Getter and Setter
+  {
+    Player player1(1,"player1");
+
+    BOOST_CHECK_EQUAL(player1.getId(),1);
+    BOOST_CHECK_EQUAL(player1.getName(),"player1");
+
+    player1.setId(2);
+    player1.setName("player2");
+    BOOST_CHECK_EQUAL(player1.getId(),2);
+    BOOST_CHECK_EQUAL(player1.getName(),"player2");
+  }
+
+  //Add or Delete MOBILE Entity on Player
+  {
+    Troll troll;
+    Player player1(1,"player1");
+    //player1.addEntity(troll);
+
   }
 }
 

@@ -72,26 +72,38 @@ void MobileEntity::move (State& state, Direction direction){
             if(x>0){
                 x--;
                 this->direction=direction;
-            }else
+                break;
+            }else{
                 x=0;
+                break;
+            }
         case RIGHT:
-            if(y<mapWidth){
+            if(y<mapWidth-1){
                 y++;
                 this->direction=direction;
-            }else
-                y=mapWidth;
+                break;
+            }else{
+                y=mapWidth-1;
+                break;
+            }
         case DOWN:
-            if(x<mapHeight){
+            if(x<mapHeight-1){
                 x++;
                 this->direction=direction;
-            }else
-                x=mapHeight;
+                break;
+            }else{
+                x=mapHeight-1;
+                break;
+            }
         case LEFT:
             if(y>0){
                 y--;
                 this->direction=direction;
-            }else
+                break;
+            }else{
                 y=0;
+                break;
+            }
     }
 }
 
