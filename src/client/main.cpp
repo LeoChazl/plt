@@ -1,38 +1,42 @@
-#include <iostream>
-#include <string>
-#include <unistd.h>
-
-// Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <iostream>
 
-void testSFML() {
-    sf::Texture texture;
-}
 
-// Fin test SFML
-
-#include <state.h>
-
-using namespace std;
-using namespace state;
-
-int main(int argc,char* argv[])
+int main()
 {
-    string testString = argv[1];
-    if(testString=="state"){
-        //execl ("/home/ensea/plt/build","make unittest", (char *)0);
-        system("cd build ;make unittest;sleep 1;make code-coverage");
-    }else{
+    sf::RenderWindow window(sf::VideoMode(1800, 900), "SFML works!");
+    sf::Texture Map;
+    Map.loadFromFile("rsc/Images/level1_completeMap.png");
+    
+    sf::Sprite mapSprite;
+    mapSprite.setTexture(Map);
+    mapSprite.setScale(1.125,1.125);
 
-        
-        cout << testString << endl;
+    sf::Texture perso;
+    perso.setSmooth(true);
+    perso.loadFromFile("rsc/Images/hero1.png", sf::IntRect(64, 128, 64, 64));
+    sf::Sprite spritePerso;
+    spritePerso.setTexture(perso, true);
+    spritePerso.setScale(1.125,1.125);
+    spritePerso.setScale(1,1);
 
-        cout << "It works !" << endl;
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(mapSprite);
+        window.draw(spritePerso);
+        window.display();
     }
-	
-
-
-
 
     return 0;
 }
+
+
