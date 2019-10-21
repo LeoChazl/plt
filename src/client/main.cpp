@@ -6,21 +6,19 @@ using namespace sf;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1800, 900), "Game test");
+    sf::RenderWindow window(sf::VideoMode(1600, 800), "Game test");
     sf::Texture Map;
     Map.loadFromFile("rsc/Images/level1_completeMap.png");
     
     sf::Sprite mapSprite;
     mapSprite.setTexture(Map);
-    mapSprite.setScale(1.125,1.125);
-
+    
     sf::Texture perso;
     perso.setSmooth(true);
     perso.loadFromFile("rsc/Images/hero1.png", sf::IntRect(64, 128, 64, 64));
     sf::Sprite spritePerso;
     spritePerso.setTexture(perso, true);
-    spritePerso.setScale(1.125,1.125);
-    spritePerso.setScale(1,1);
+    spritePerso.setScale(0.5,0.5);
 
     while (window.isOpen())
     {
@@ -34,18 +32,20 @@ int main()
                 case Event::KeyPressed:
                     switch(event.key.code){
                         case Keyboard::Down:
-                            if(spritePerso.getPosition().y+64<=Map.getSize().y){
+                            if(spritePerso.getPosition().y+32<Map.getSize().y)
                                 spritePerso.move(0,32);
-                            }
                             break;
                         case Keyboard::Up:
-                            spritePerso.move(0,-32);
+                            if(spritePerso.getPosition().y>0)
+                                spritePerso.move(0,-32);
                             break;
                         case Keyboard::Left:
-                            spritePerso.move(-32,0);
+                            if(spritePerso.getPosition().x>0)                        
+                                spritePerso.move(-32,0);
                             break;
                         case Keyboard::Right:
-                            spritePerso.move(32,0);
+                            if(spritePerso.getPosition().x+32<Map.getSize().x)
+                                spritePerso.move(32,0);
                             break;
                         default:
                         break;
