@@ -2,10 +2,11 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
+using namespace sf;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1800, 900), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(1800, 900), "Game test");
     sf::Texture Map;
     Map.loadFromFile("rsc/Images/level1_completeMap.png");
     
@@ -26,8 +27,32 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch(event.type){
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case Event::KeyPressed:
+                    switch(event.key.code){
+                        case Keyboard::Down:
+                            if(spritePerso.getPosition().y+64<=Map.getSize().y){
+                                spritePerso.move(0,32);
+                            }
+                            break;
+                        case Keyboard::Up:
+                            spritePerso.move(0,-32);
+                            break;
+                        case Keyboard::Left:
+                            spritePerso.move(-32,0);
+                            break;
+                        case Keyboard::Right:
+                            spritePerso.move(32,0);
+                            break;
+                        default:
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         window.clear();
