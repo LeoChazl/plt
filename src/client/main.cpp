@@ -2,6 +2,7 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 
+using namespace sf;
 
 int main()
 {
@@ -17,6 +18,7 @@ int main()
     perso.loadFromFile("rsc/Images/hero1.png", sf::IntRect(64, 128, 64, 64));
     sf::Sprite spritePerso;
     spritePerso.setTexture(perso, true);
+    spritePerso.setScale(0.5,0.5);
 
     sf::RectangleShape rectangle(sf::Vector2f(350, 800));
     rectangle.setPosition(sf::Vector2f(1600,0));
@@ -55,8 +57,34 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch(event.type){
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case Event::KeyPressed:
+                    switch(event.key.code){
+                        case Keyboard::Down:
+                            if(spritePerso.getPosition().y+32<Map.getSize().y)
+                                spritePerso.move(0,32);
+                            break;
+                        case Keyboard::Up:
+                            if(spritePerso.getPosition().y>0)
+                                spritePerso.move(0,-32);
+                            break;
+                        case Keyboard::Left:
+                            if(spritePerso.getPosition().x>0)                        
+                                spritePerso.move(-32,0);
+                            break;
+                        case Keyboard::Right:
+                            if(spritePerso.getPosition().x+32<Map.getSize().x)
+                                spritePerso.move(32,0);
+                            break;
+                        default:
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         window.clear();
