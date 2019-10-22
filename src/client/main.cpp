@@ -14,7 +14,7 @@ int main()
     mapSprite.setTexture(Map);
 
     sf::Texture perso;
-    perso.setSmooth(true);
+    perso.setSmooth(false);
     perso.loadFromFile("rsc/Images/hero1.png", sf::IntRect(64, 128, 64, 64));
     sf::Sprite spritePerso;
     spritePerso.setTexture(perso, true);
