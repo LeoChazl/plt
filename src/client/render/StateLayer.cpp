@@ -15,7 +15,7 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
 
 	TileSet tileSetTroll(TROLLTILESET);
 	std::unique_ptr<TileSet> ptr_trollTileSet (new TileSet(tileSetTroll));
-	//tilesets.push_back(move(ptr_trollTileSet));
+	//tileSets[0]=ptr_trollTileSet;
 	
 	/*TileSet tilesetPersonnages(PERSONNAGETILESET);
 	std::unique_ptr<TileSet> ptr_tilesetPersonnages (new TileSet(tilesetPersonnages));
