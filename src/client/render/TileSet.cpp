@@ -1,12 +1,23 @@
+#include <string>
 #include "../render.h"
 
 using namespace render;
-using namespace std;
 
 // Constructor
 
 TileSet::TileSet(TileSetID newID){
+    id = newID;
 
+    switch (id){
+        case TROLLTILESET:
+            cellWidth=32;
+            cellHeight=32;
+            imageFile="res/Images/enemy2.png";
+            break;
+    
+        default:
+            break;
+    }
 }
 
 // Getters
@@ -24,5 +35,5 @@ int const TileSet::getTileSetID(){
 }
 
 sf::Texture& TileSet::getTexture(){
-    return 
+    return textureTileSet;
 }
