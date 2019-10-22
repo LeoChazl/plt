@@ -21,11 +21,14 @@ bool TextureArea::loadUnits(state::State& currentState, map<int,TileSet&> textur
         currentPlayer=*currentState.getPlayerList()[i];
         for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
             if(currentPlayer.getMobileEntityList()[j]->getEntityId()==TROLL){
-                texture = textureTileset.at(TROLL).getTexture();
+                texture = textureTileset.at(TROLLTILESET).getTexture();
 
-                quads.resize(textureTileset.at(TROLL).getCellHeight() * textureTileset.at(TROLL).getCellWidth() * 4);
+                quads.resize(quads.getVertexCount() + textureTileset.at(TROLLTILESET).getCellHeight() * textureTileset.at(TROLL).getCellWidth() * 4);
 
+                int tx = 1; //on ne prend que dans la première colonne pour
+                int ty = currentPlayer.getMobileEntityList()[j]->getDirection() * 64;
 
+                sf::Vertex* quad = &quads[i * 4];  
             }
         }
     }
