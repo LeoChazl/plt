@@ -104,6 +104,8 @@ void MobileEntity::move (State& state, Direction direction){
                 y=0;
                 break;
             }
+        default:
+            break;
     }
 }
 
