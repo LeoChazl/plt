@@ -4,7 +4,11 @@
 using namespace state;
 using namespace std;
 
-// Constructor
+// Constructors
+
+Player::Player(){
+    
+}
 
 Player::Player(int id, string name){
     this->id = id;
