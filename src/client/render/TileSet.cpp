@@ -8,16 +8,29 @@ using namespace render;
 TileSet::TileSet(TileSetID newID){
     id = newID;
 
+    cellWidth=32;
+    cellHeight=32;
+
     switch (id){
         case TROLLTILESET:
-            cellWidth=32;
-            cellHeight=32;
             imageFile="res/Images/enemy2.png";
             break;
     
+        case MAGETILESET:
+            imageFile="res/Images/enemy.png";
+            break;
+        
+        case KNIGHTTILESET:
+            imageFile="res/Images/enemy.png";
+
+        case CURSORTILESET:
+            imageFile="res/Images/cursor.png";
+
         default:
             break;
     }
+
+    textureTileSet.loadFromFile(imageFile);
 }
 
 // Getters
