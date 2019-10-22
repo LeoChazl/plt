@@ -1,5 +1,4 @@
 #include "../render.h"
-#include <type_traits>
 
 
 using namespace render;
@@ -36,9 +35,9 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
 }
 
 
-std::vector<std::unique_ptr<TileSet>>& StateLayer::getTileSets(){
-    return tileSets;
-}
+//std::vector<std::unique_ptr<TileSet>>& StateLayer::getTileSets(){
+  //  return tileSets;
+//}
 
  std::vector<std::unique_ptr<TextureArea>>& StateLayer::getTextureAreas(){
      return textureAreas;
