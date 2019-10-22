@@ -6,10 +6,10 @@ using namespace std;
 
 
 //Constructor
-StateLayer::StateLayer(sf::RenderWindows& window, state::Etat& State){
+StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
 
 }
 
-StateLayer::getPolice(){
-    return police;
-}
+//StateLayer::getPolice(){
+  //  return police;
+//}
