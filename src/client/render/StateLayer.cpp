@@ -1,4 +1,5 @@
 #include "../render.h"
+#include <type_traits>
 
 
 using namespace render;
@@ -13,11 +14,11 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
     mapWidth=1600;
     mapHeight=800;
 
-	/*TileSet tilesetGrille(TROLLTILESET);
-	std::unique_ptr<TileSet> ptr_trollTileSet (new TileSet(trollTileSet));
-	tilesets.push_back(move(ptr_trollTileSet));
+	TileSet tileSetTroll(TROLLTILESET);
+	std::unique_ptr<TileSet> ptr_trollTileSet (new TileSet(tileSetTroll));
+	//tilesets.push_back(move(ptr_trollTileSet));
 	
-	TileSet tilesetPersonnages(PERSONNAGETILESET);
+	/*TileSet tilesetPersonnages(PERSONNAGETILESET);
 	std::unique_ptr<TileSet> ptr_tilesetPersonnages (new TileSet(tilesetPersonnages));
 	tilesets.push_back(move(ptr_tilesetPersonnages));
 	
