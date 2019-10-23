@@ -106,13 +106,35 @@ int main(int argc, char* argv[])
         }
         else if(strcmp(argv[1],"render")==0){
             cout << "Affichage d'un état du jeu" << endl;
+
+            // Creation of the state
+            State state;
+
+            state.initPlayers();
+
             sf::RenderWindow window(sf::VideoMode(1950, 900), "SFML works!");
-            //State state;
-            //StateLayer stateLayer(window,state);
-            //stateLayer.draw(window);
 
+            // Creation of the display of the state
+            StateLayer stateLayer(window,state);
+            stateLayer.initTextureAreas(state);
+            stateLayer.draw(window);
 
-            
+            while (window.isOpen()){
+                // Close the window if the close button is pressed
+				sf::Event event;
+				while (window.pollEvent(event)){
+					if (event.type == sf::Event::Closed){
+						window.close();
+					}
+				}
+				
+				window.clear();
+				
+				window.draw(*stateLayer.getTextureAreas()[0]);	// Draw the map			
+				window.draw(*stateLayer.getTextureAreas()[1]);	// Draw the units
+				window.draw(*stateLayer.getTextureAreas()[2]);	// Draw the cursor
+				window.display();
+			}
         }
     }
     return 0;

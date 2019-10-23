@@ -415,15 +415,6 @@ BOOST_AUTO_TEST_CASE(PLayer_test)
     BOOST_CHECK_EQUAL(player1.getId(),2);
     BOOST_CHECK_EQUAL(player1.getName(),"player2");
   }
-
-  //Add or Delete MOBILE Entity on Player
-  {
-    //Troll troll;
-    //auto trollptr=make_shared<Troll>;
-    Player player1(1,"player1");
-    auto trollPtr = make_shared<Troll>();
-    player1.addEntity(trollPtr);
-  }
 }
 
 

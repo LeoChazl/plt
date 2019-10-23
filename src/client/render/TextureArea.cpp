@@ -1,6 +1,4 @@
 #include "../render.h"
-#include "state.h"
-#include <string>
 
 using namespace render;
 using namespace state;
@@ -106,4 +104,15 @@ bool TextureArea::loadCursor(state::State& currentState, TileSet& textureTileset
 	quad[3].texCoords = sf::Vector2f(0, textureTileset.getCellHeight());
 		
 	return true;
+}
+
+void TextureArea::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+        // Apply a transformation
+        states.transform *= getTransform();
+
+        // Apply texture of the tileset
+        states.texture = &texture;
+
+        // Draw the table with the vertex
+        target.draw(quads, states);
 }

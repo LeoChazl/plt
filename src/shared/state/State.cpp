@@ -15,15 +15,6 @@ State::State(){
 
 // Functions
 
-/** Add player to the state
- * 
- * param : 
- * player -> the player to add to the player list
- */
-void State::addPlayer(shared_ptr<Player> player){
-    playerList.push_back(player);
-}
-
 /** Delete the player with the corresponding id
  * 
  * param :
@@ -35,6 +26,18 @@ void State::deletePlayer(Player& player){
             playerList.erase(playerList.begin() + i);
         }
     }
+}
+
+/** Initialize the players for level 1
+ */
+bool State::initPlayers(){
+    shared_ptr<Player> ptrPlayer1(new Player(1));
+    playerList.push_back(ptrPlayer1);
+
+    shared_ptr<Player> ptrPlayer2(new Player(2));
+    playerList.push_back(ptrPlayer2);
+
+    return true;
 }
 
 // Getters
