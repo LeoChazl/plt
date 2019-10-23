@@ -13,22 +13,13 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
     mapWidth=1600;
     mapHeight=800;
 
-	/*TileSet tileSetTroll(TROLLTILESET);
-	std::unique_ptr<TileSet> ptr_trollTileSet (new TileSet(tileSetTroll));
-	tileSets.push_back(move(ptr_trollTileSet));
-	
-	TileSet tileSetMage(MAGETILESET);
-	std::unique_ptr<TileSet> ptr_mageTileSet (new TileSet(tileSetMage));
-	tileSets.push_back(move(ptr_mageTileSet));
-
-    TileSet tileSetKnight(MAGETILESET);
-	std::unique_ptr<TileSet> ptr_knightTileSet (new TileSet(tileSetKnight));
-	tileSets.push_back(move(ptr_knightTileSet));
+	TileSet tileSetCharacters(UNITSTILESET);
+	unique_ptr<TileSet> ptr_charTileSet (new TileSet(tileSetCharacters));
+	tileSets.push_back(move(ptr_charTileSet));
 
     TileSet tileSetCursor(CURSORTILESET);
 	std::unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
-	tileSets.push_back(move(ptr_cursorTileSet));*/
-
+	tileSets.push_back(move(ptr_cursorTileSet));
 }
 
 

@@ -12,7 +12,7 @@ TileSet::TileSet(TileSetID newID){
     cellHeight=32;
 
     switch(id){
-        case CHARTILESET:
+        case UNITSTILESET:
             imageFile="res/Images/characters_tileset.png";
             break;
         case CURSORTILESET:
