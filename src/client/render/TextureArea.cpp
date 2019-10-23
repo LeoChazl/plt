@@ -27,58 +27,58 @@ bool TextureArea::loadUnits(state::State& currentState, vector<unique_ptr<TileSe
             vertexArrayIndex += 1;
 
             if(currentPlayer.getMobileEntityList()[j]->getEntityId()==TROLL){
-                texture = textureTileset[TROLLTILESET]->getTexture();
+                texture = textureTileset[TROLL]->getTexture();
 
-                int tx = 1; //on ne prend que dans la première colonne pour l'instant
+                int tx = TROLL; //on ne prend que dans la première colonne pour l'instant
                 int ty = currentPlayer.getMobileEntityList()[j]->getDirection() * 64;
 
                 //Définition quatres coins du vertex dans la fenêtre
-                quad[0].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[TROLLTILESET]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[TROLLTILESET]->getCellHeight());
-                quad[1].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[TROLLTILESET]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[TROLLTILESET]->getCellHeight());
-                quad[2].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[TROLLTILESET]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[TROLLTILESET]->getCellHeight());
-                quad[3].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[TROLLTILESET]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[TROLLTILESET]->getCellHeight());
+                quad[0].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[TROLL]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[TROLL]->getCellHeight());
+                quad[1].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[TROLL]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[TROLL]->getCellHeight());
+                quad[2].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[TROLL]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[TROLL]->getCellHeight());
+                quad[3].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[TROLL]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[TROLL]->getCellHeight());
 
                 //Définition des coordonnées pour récupérer la bonne texture
-                quad[0].texCoords = sf::Vector2f(tx * textureTileset[TROLLTILESET]->getCellWidth(), ty * textureTileset[TROLLTILESET]->getCellHeight());
-                quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset[TROLLTILESET]->getCellWidth(), ty * textureTileset[TROLLTILESET]->getCellHeight());
-                quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset[TROLLTILESET]->getCellWidth(), (ty+1) * textureTileset[TROLLTILESET]->getCellHeight());
-                quad[3].texCoords = sf::Vector2f(tx * textureTileset[TROLLTILESET]->getCellWidth(), (ty+1) * textureTileset[TROLLTILESET]->getCellHeight());
+                quad[0].texCoords = sf::Vector2f(tx * textureTileset[TROLL]->getCellWidth(), ty * textureTileset[TROLL]->getCellHeight());
+                quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset[TROLL]->getCellWidth(), ty * textureTileset[TROLL]->getCellHeight());
+                quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset[TROLL]->getCellWidth(), (ty+1) * textureTileset[TROLL]->getCellHeight());
+                quad[3].texCoords = sf::Vector2f(tx * textureTileset[TROLL]->getCellWidth(), (ty+1) * textureTileset[TROLL]->getCellHeight());
             } 
             else if(currentPlayer.getMobileEntityList()[j]->getEntityId()==MAGE){
-                texture = textureTileset[MAGETILESET]->getTexture();
+                texture = textureTileset[MAGE]->getTexture();
 
-                int tx = 1; //on ne prend que dans la première colonne pour l'instant
+                int tx = MAGE; //on ne prend que dans la première colonne pour l'instant
                 int ty = currentPlayer.getMobileEntityList()[j]->getDirection() * 64;
 
                 //Définition quatres coins du vertex dans la fenêtre
-                quad[0].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[MAGETILESET]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[MAGETILESET]->getCellHeight());
-                quad[1].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[MAGETILESET]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[MAGETILESET]->getCellHeight());
-                quad[2].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[MAGETILESET]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[MAGETILESET]->getCellHeight());
-                quad[3].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[MAGETILESET]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[MAGETILESET]->getCellHeight());
+                quad[0].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[MAGE]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[MAGE]->getCellHeight());
+                quad[1].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[MAGE]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[MAGE]->getCellHeight());
+                quad[2].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[MAGE]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[MAGE]->getCellHeight());
+                quad[3].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[MAGE]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[MAGE]->getCellHeight());
 
                 //Définition des coordonnées pour récupérer la bonne texture
-                quad[0].texCoords = sf::Vector2f(tx * textureTileset[MAGETILESET]->getCellWidth(), ty * textureTileset[MAGETILESET]->getCellHeight());
-                quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset[MAGETILESET]->getCellWidth(), ty * textureTileset[MAGETILESET]->getCellHeight());
-                quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset[MAGETILESET]->getCellWidth(), (ty+1) * textureTileset[MAGETILESET]->getCellHeight());
-                quad[3].texCoords = sf::Vector2f(tx * textureTileset[MAGETILESET]->getCellWidth(), (ty+1) * textureTileset[MAGETILESET]->getCellHeight());
+                quad[0].texCoords = sf::Vector2f(tx * textureTileset[MAGE]->getCellWidth(), ty * textureTileset[MAGE]->getCellHeight());
+                quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset[MAGE]->getCellWidth(), ty * textureTileset[MAGE]->getCellHeight());
+                quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset[MAGE]->getCellWidth(), (ty+1) * textureTileset[MAGE]->getCellHeight());
+                quad[3].texCoords = sf::Vector2f(tx * textureTileset[MAGE]->getCellWidth(), (ty+1) * textureTileset[MAGE]->getCellHeight());
             }
             else if(currentPlayer.getMobileEntityList()[j]->getEntityId()==KNIGHT){
-                texture = textureTileset[KNIGHTTILESET]->getTexture();
+                texture = textureTileset[KNIGHT]->getTexture();
 
-                int tx = 1; //on ne prend que dans la première colonne pour l'instant
+                int tx = KNIGHT; //on ne prend que dans la première colonne pour l'instant
                 int ty = currentPlayer.getMobileEntityList()[j]->getDirection() * 64;
 
                 //Définition quatres coins du vertex dans la fenêtre
-                quad[0].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[KNIGHTTILESET]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[KNIGHTTILESET]->getCellHeight());
-                quad[1].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[KNIGHTTILESET]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[KNIGHTTILESET]->getCellHeight());
-                quad[2].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[KNIGHTTILESET]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[KNIGHTTILESET]->getCellHeight());
-                quad[3].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[KNIGHTTILESET]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[KNIGHTTILESET]->getCellHeight());
+                quad[0].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[KNIGHT]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[KNIGHT]->getCellHeight());
+                quad[1].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[KNIGHT]->getCellWidth(),currentPlayer.getMobileEntityList()[j]->getY() * textureTileset[KNIGHT]->getCellHeight());
+                quad[2].position = sf::Vector2f((currentPlayer.getMobileEntityList()[j]->getX()+1) * textureTileset[KNIGHT]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[KNIGHT]->getCellHeight());
+                quad[3].position = sf::Vector2f(currentPlayer.getMobileEntityList()[j]->getX() * textureTileset[KNIGHT]->getCellWidth(),(currentPlayer.getMobileEntityList()[j]->getY()+1) * textureTileset[KNIGHT]->getCellHeight());
 
                 //Définition des coordonnées pour récupérer la bonne texture
-                quad[0].texCoords = sf::Vector2f(tx * textureTileset[KNIGHTTILESET]->getCellWidth(), ty * textureTileset[KNIGHTTILESET]->getCellHeight());
-                quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset[KNIGHTTILESET]->getCellWidth(), ty * textureTileset[KNIGHTTILESET]->getCellHeight());
-                quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset[KNIGHTTILESET]->getCellWidth(), (ty+1) * textureTileset[KNIGHTTILESET]->getCellHeight());
-                quad[3].texCoords = sf::Vector2f(tx * textureTileset[KNIGHTTILESET]->getCellWidth(), (ty+1) * textureTileset[KNIGHTTILESET]->getCellHeight());
+                quad[0].texCoords = sf::Vector2f(tx * textureTileset[KNIGHT]->getCellWidth(), ty * textureTileset[KNIGHT]->getCellHeight());
+                quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset[KNIGHT]->getCellWidth(), ty * textureTileset[KNIGHT]->getCellHeight());
+                quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset[KNIGHT]->getCellWidth(), (ty+1) * textureTileset[KNIGHT]->getCellHeight());
+                quad[3].texCoords = sf::Vector2f(tx * textureTileset[KNIGHT]->getCellWidth(), (ty+1) * textureTileset[KNIGHT]->getCellHeight());
             }
         }
     }
