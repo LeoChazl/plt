@@ -14,7 +14,7 @@ EntityMap::EntityMap(int level){
 
         //Create the map array with a corresponding .txt file
         int defineSpace;
-        ifstream level1("level1.txt");
+        ifstream level1("/home/ensea/plt/src/shared/state/level1.txt");
         if(level1){
             for(int i=0;i<width;i++)
                 for(int j=0;j<height;j++){

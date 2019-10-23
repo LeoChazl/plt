@@ -13,7 +13,7 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
     mapWidth=1600;
     mapHeight=800;
 
-	TileSet tileSetTroll(TROLLTILESET);
+	/*TileSet tileSetTroll(TROLLTILESET);
 	std::unique_ptr<TileSet> ptr_trollTileSet (new TileSet(tileSetTroll));
 	tileSets.push_back(move(ptr_trollTileSet));
 	
@@ -27,7 +27,7 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
 
     TileSet tileSetCursor(CURSORTILESET);
 	std::unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
-	tileSets.push_back(move(ptr_cursorTileSet));
+	tileSets.push_back(move(ptr_cursorTileSet));*/
 
 }
 
@@ -72,6 +72,25 @@ void StateLayer::draw (sf::RenderWindow& window){
 	window.draw(*textureAreas[1]);	// Dessin des personnages
 	window.draw(*textureAreas[2]);	// Dessin du curseur
 	window.display();*/
+
+        window.clear();
+
+    	// Rectangle degrade en (0,400) et de taille 400x200
+	sf::VertexArray quad(sf::Quads, 4);
+	quad[0].position = sf::Vector2f(0.f, 400.f);
+	quad[1].position = sf::Vector2f(400.f, 400.f);
+	quad[2].position = sf::Vector2f(400.f, 600.f);
+	quad[3].position = sf::Vector2f(0.f, 600.f);
+	quad[0].color = sf::Color::Blue;
+	quad[1].color = sf::Color::Red;
+	quad[2].color = sf::Color::Black;
+	quad[3].color = sf::Color::Black;
+    window.draw(quad);
+    //window.draw(*textureAreas[0]);	// Dessin de la grille				
+	//window.draw(*textureAreas[1]);	// Dessin des personnages
+	//window.draw(*textureAreas[2]);	// Dessin du curseur
+    
+	window.display();
 }
 
 

@@ -3,8 +3,12 @@
 #include <iostream>
 #include <string.h>
 
+#include </home/ensea/plt/src/client/render.h>
+
 using namespace sf;
 using namespace std;
+using namespace state;
+using namespace render;
 
 int main(int argc, char* argv[])
 {
@@ -102,6 +106,13 @@ int main(int argc, char* argv[])
         }
         else if(strcmp(argv[1],"render")==0){
             cout << "Affichage d'un état du jeu" << endl;
+            sf::RenderWindow window(sf::VideoMode(1950, 900), "SFML works!");
+            //State state;
+            //StateLayer stateLayer(window,state);
+            //stateLayer.draw(window);
+
+
+            
         }
     }
     return 0;
