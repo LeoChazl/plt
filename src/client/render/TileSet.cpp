@@ -12,14 +12,8 @@ TileSet::TileSet(TileSetID newID){
     cellHeight=32;
 
     switch(id){
-        case TROLLTILESET:
-            imageFile="res/Images/enemy2.png";
-            break;
-        case MAGETILESET:
-            imageFile="res/Images/enemy.png";
-            break;
-        case KNIGHTTILESET:
-            imageFile="res/Images/hero1.png";
+        case UNITSTILESET:
+            imageFile="res/Images/characters_tileset.png";
             break;
         case CURSORTILESET:
             imageFile="res/Images/cursor.png";
