@@ -12,8 +12,12 @@ using namespace render;
 
 int main(int argc, char* argv[])
 {
+                sf::RenderWindow window(sf::VideoMode(1950, 900), "SFML works!");
+            sf::Texture Map;
+            Map.loadFromFile("rsc/Images/level1_completeMap.png");
+
     if(argc>1){
-        if(strcmp(argv[1],"test")==0){
+        /*if(strcmp(argv[1],"test")==0){
             sf::RenderWindow window(sf::VideoMode(1950, 900), "SFML works!");
             sf::Texture Map;
             Map.loadFromFile("rsc/Images/level1_completeMap.png");
@@ -44,23 +48,23 @@ int main(int argc, char* argv[])
             text.setCharacterSize(24); // exprimée en pixels, pas en points !
             text.setPosition(sf::Vector2f(1600,0));
             //text.setColor(sf::Color::Red);
-            text.setFillColor(sf::Color::Blue);
+            text.setFillColor(sf::Color::Blue);*/
 
 
 
 
             /**********************************/
-            sf::Vertex line[] =
+            /*sf::Vertex line[] =
             {
                 sf::Vertex(sf::Vector2f(0, 10)),
                 sf::Vertex(sf::Vector2f(0, 150)),
                 sf::Vertex(sf::Vector2f(10, 150))
 
-            };
+            };*/
 
             /**********************************/
 
-            while (window.isOpen())
+            /*while (window.isOpen())
             {
                 sf::Event event;
                 while (window.pollEvent(event))
@@ -113,7 +117,7 @@ int main(int argc, char* argv[])
 
 
             
-        }
+        }*/
     }
     return 0;
 }
