@@ -10,12 +10,16 @@ TileSet::TileSet(TileSetID newID){
     
     cellWidth=32;
     cellHeight=32;
+    
     switch(id){
         case UNITSTILESET:
             imageFile="rsc/Images/characters_tileset_32.png";
             break;
         case CURSORTILESET:
             imageFile="rsc/Images/cursor_32.png";
+            break;
+        case MAPTILESET:
+            imageFile="rsc/Images/map_tiles.png";
             break;
         default:
             break;

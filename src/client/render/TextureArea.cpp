@@ -7,7 +7,7 @@ using namespace std;
 
 // Functions
 
-bool TextureArea::loadBattleField(int mapWidth, int mapHeight , string mapImageDirectory){
+bool TextureArea::loadMap(int mapWidth, int mapHeight , string mapImageDirectory){
     texture.loadFromFile(mapImageDirectory);
 
 	quads.setPrimitiveType(sf::Quads);
@@ -26,6 +26,62 @@ bool TextureArea::loadBattleField(int mapWidth, int mapHeight , string mapImageD
 	quad[1].texCoords = sf::Vector2f(mapWidth, 0);
 	quad[2].texCoords = sf::Vector2f(mapWidth, mapHeight);
 	quad[3].texCoords = sf::Vector2f(0, mapHeight);
+		
+	return true;
+}
+
+bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentState, render::TileSet& textureTileSet){
+    texture = textureTileSet.getTexture();
+    quads.setPrimitiveType(sf::Quads);
+
+    /********************************/
+    int mapArray[4][10]={{0,1,1,1,1,1,1,1,1,0},
+                      {1,1,0,0,0,0,0,0,0,0},
+                      {1,1,1,1,1,1,1,1,1,1},
+                      {0,0,0,0,0,0,0,0,0,1}
+                     };
+    
+    
+    /********************************/
+    int vertexArrayIndex = 0;
+
+    for(int i=0;i<sizeof(mapArray);i++){
+        for(int j=0;j<sizeof(mapArray[i]);j++){
+            quads.resize(quads.getVertexCount() + 4);
+            sf::Vertex* quad = &quads[vertexArrayIndex * 4];  
+            vertexArrayIndex += 1;
+
+            if(mapArray[i][j]==1){
+ 
+                //Définition quatres coins du vertex dans la fenêtre
+	            quad[0].position = sf::Vector2f(i*32, j*32);
+            	quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	            quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	            quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+		
+                 //Définition des coordonnées pour récupérer la première texture
+                quad[0].texCoords = sf::Vector2f(0, 0);
+                quad[1].texCoords = sf::Vector2f(0, 32);
+                quad[2].texCoords = sf::Vector2f(32, 32);
+                quad[3].texCoords = sf::Vector2f(32, 0);
+
+            }else{
+
+                //Définition quatres coins du vertex dans la fenêtre
+	            quad[0].position = sf::Vector2f(i*32, j*32);
+            	quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	            quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	            quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+		
+                 //Définition des coordonnées pour récupérer la première texture
+                quad[0].texCoords = sf::Vector2f(32, 32);
+                quad[1].texCoords = sf::Vector2f(32, 64);
+                quad[2].texCoords = sf::Vector2f(64, 64);
+                quad[3].texCoords = sf::Vector2f(64, 32);
+            }
+        }
+    }
+		
 		
 	return true;
 }

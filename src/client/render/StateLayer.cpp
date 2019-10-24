@@ -21,6 +21,10 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
     TileSet tileSetCursor(CURSORTILESET);
 	std::unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
 	tileSets.push_back(move(ptr_cursorTileSet));
+
+    TileSet tileSetMap(MAPTILESET);
+	std::unique_ptr<TileSet> ptr_mapTileSet (new TileSet(tileSetMap));
+	tileSets.push_back(move(ptr_mapTileSet));
 }
 
 
@@ -40,7 +44,9 @@ void StateLayer::initTextureAreas (state::State state){
 
     //Chargement des Tiles dans Texture
     string directory="rsc/Images/level1_completeMap.png";
-    map.loadBattleField(mapWidth,mapHeight,directory);
+    //map.loadMap(mapWidth,mapHeight,directory);
+    map.loadMap(mapWidth,mapHeight,state,*tileSets[2]);
+
     units.loadUnits(state,*tileSets[0]);
     cursor.loadCursor(state,*tileSets[1]);
 
