@@ -7,16 +7,15 @@ using namespace render;
 
 TileSet::TileSet(TileSetID newID){
     id = newID;
-
+    
     cellWidth=32;
     cellHeight=32;
-
     switch(id){
         case UNITSTILESET:
-            imageFile="res/Images/characters_tileset.png";
+            imageFile="rsc/Images/characters_tileset_32.png";
             break;
         case CURSORTILESET:
-            imageFile="res/Images/cursor.png";
+            imageFile="rsc/Images/cursor_32.png";
             break;
         default:
             break;

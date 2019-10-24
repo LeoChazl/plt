@@ -4,7 +4,7 @@ using namespace state;
 using namespace std;
 
 // Constructors
-Mage::Mage() : MobileEntity(){
+Mage::Mage() : MobileEntity(20,18,70,3,45,5,100,AVAILABLE,DOWN){
     mana=100;
     manaMax=100;
     spellDamage=45;

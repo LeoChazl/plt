@@ -8,7 +8,7 @@ using namespace std;
 // Constructor
 
 EntityMap::EntityMap(int level){
-    if(level == 1){
+    /*if(level == 1){
         width = 25;
         height = 25;
 
@@ -27,7 +27,7 @@ EntityMap::EntityMap(int level){
                 }
         }else
             cout << "Error : file for level 1 is not found" << endl;
-    }
+    }*/
 }
 
 // Getters
