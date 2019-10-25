@@ -30,15 +30,14 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , string mapImageDirectory
 	return true;
 }
 
-bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentState, render::TileSet& textureTileSet){
+/*bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentState, render::TileSet& textureTileSet){
     texture = textureTileSet.getTexture();
-    quads.setPrimitiveType(sf::Quads);
 
-    /********************************/
+    quads.setPrimitiveType(sf::Quads);
+    mapHeight=11;
+    mapWidth=7;
+    //quads.resize(mapHeight*mapWidth*4);
     int mapArray[7][11]={
-                      {0,1,1,1,1,1,1,1,1,1,0},
-                      {0,1,1,1,1,1,1,1,1,1,0},
-                      {0,1,1,1,1,1,1,1,1,1,0},
                       {0,1,1,1,1,1,1,1,1,1,0},
                       {0,1,1,1,1,1,1,1,1,1,0},
                       {0,1,1,1,1,1,1,1,1,1,0},
@@ -46,14 +45,13 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
                   
                      };
     
-    
-    /********************************/
     int vertexArrayIndex = 0;
 
-    for(int i=0;i<sizeof(mapArray);i++){
-        for(int j=0;j<sizeof(mapArray[i]);j++){
+    for(unsigned int i=0;i<sizeof(mapArray);i++){
+        for(unsigned int j=0;j<sizeof(mapArray[i]);j++){
             quads.resize(quads.getVertexCount() + 4);
-            sf::Vertex* quad = &quads[vertexArrayIndex * 4];  
+            sf::Vertex* quad = &quads[vertexArrayIndex * 4];
+              
             vertexArrayIndex += 1;
 
             if(mapArray[i][j]==1){
@@ -89,6 +87,48 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
 		
 		
 	return true;
+}*/
+
+bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentState, render::TileSet& textureTileSet){
+
+
+		texture = textureTileSet.getTexture();
+		
+      	// on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau
+	   	quads.setPrimitiveType(sf::Quads);
+       	quads.resize(int(mapWidth * mapHeight * 4/32/32));
+
+        // on remplit le tableau de vertex, avec un quad par tuile
+        for (unsigned int i = 0; i < int(mapWidth/32); i++){
+            for (unsigned int j = 0; j < int(mapHeight/32); j++){
+
+            	// on récupère le numéro de tuile courant
+				/*int tileNumber=currentState.getGrille()[i][j]->getCodeTuile();
+				
+                // on en déduit sa position dans la texture du tileset
+                int tu = tileNumber % (texture.getSize().x / tileSize.x);
+                int tv = tileNumber / (texture.getSize().x / tileSize.x);*/
+
+                // on récupère un pointeur vers le quad à définir dans le tableau de vertex
+                sf::Vertex* quad = &quads[(i + j * int(mapWidth/32)) * 4];
+				
+				// on définit ses quatre coins
+                //Définition quatres coins du vertex dans la fenêtre
+	            quad[0].position = sf::Vector2f(i*32, j*32);
+            	quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	            quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	            quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+		
+                 //Définition des coordonnées pour récupérer la première texture
+                quad[0].texCoords = sf::Vector2f(0, 0);
+                quad[1].texCoords = sf::Vector2f(0, 32);
+                quad[2].texCoords = sf::Vector2f(32, 32);
+                quad[3].texCoords = sf::Vector2f(32, 0);
+							
+           }
+		}
+		return true;	
+
 }
 
 bool TextureArea::loadUnits(state::State& currentState, TileSet& textureTileset){
