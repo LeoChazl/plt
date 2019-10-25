@@ -53,8 +53,8 @@ void StateLayer::initTextureAreas (state::State state){
 
     //Chargement des Tiles dans Texture
     string directory="rsc/Images/level1_completeMap.png";
-    //map.loadMap(mapWidth,mapHeight,directory);
-    map.loadMap(mapWidth,mapHeight,state,*tileSets[2]);
+    map.loadMap(mapWidth,mapHeight,directory);
+    //map.loadMap(mapWidth,mapHeight,state,*tileSets[2]);
 
     units.loadUnits(state,*tileSets[0]);
     cursor.loadCursor(state,*tileSets[1]);
@@ -86,24 +86,25 @@ void StateLayer::draw (sf::RenderWindow& window){
     //Initialize rectangle Texture in the Window-->LAYER
     // Rectangle degrade en (0,400) et de taille 400x200
 	sf::VertexArray quad(sf::Quads, 4);
-	quad[0].position = sf::Vector2f(1600.f, 0.f);
-	quad[1].position = sf::Vector2f(1950.f, 0.f);
-	quad[2].position = sf::Vector2f(1950.f, 800.f);
-	quad[3].position = sf::Vector2f(1600.f, 800.f);
-	quad[0].color = sf::Color::Blue;
-	quad[1].color = sf::Color::Red;
-	quad[2].color = sf::Color::Black;
-	quad[3].color = sf::Color::Black;
+	quad[0].position = sf::Vector2f(1600.f, 800.f);
+	quad[1].position = sf::Vector2f(1950.f, 800.f);
+	quad[2].position = sf::Vector2f(1950.f, 900.f);
+	quad[3].position = sf::Vector2f(1600.f, 900.f);
+	quad[0].color = sf::Color::Red;
+	quad[1].color = sf::Color::Yellow;
+	quad[2].color = sf::Color::Red;
+	quad[3].color = sf::Color::Yellow;
 
     //Initialise a logo Texture in the Window-->LAYER
     sf::Texture logo;
     logo.loadFromFile("rsc/Images/fire_emblem_logo.png");
     sf::Sprite spriteLogo;
     spriteLogo.setPosition(1600,800);
+    spriteLogo.scale(0.8,1);
     spriteLogo.setTexture(logo, true);
 
-    window.draw(spriteLogo); //DRaw the logo layer
     window.draw(quad); //Draw the rectangle layer
+    window.draw(spriteLogo); //Draw the logo layer
 	window.draw(*textureAreas[0]);	// Draw the map layer--> With the TextureArea type object as Target --> 			
 	window.draw(*textureAreas[1]);	// Draw the units layer
 	window.draw(*textureAreas[2]);	// Draw the cursor layer

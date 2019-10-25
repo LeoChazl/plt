@@ -4,11 +4,16 @@ using namespace state;
 using namespace std;
 
 // Constructors
-Mage::Mage() : MobileEntity(20,18,70,3,45,5,100,AVAILABLE,DOWN){
+Mage::Mage() : MobileEntity(19,16,70,3,45,5,100,AVAILABLE,DOWN){
     mana=100;
     manaMax=100;
     spellDamage=45;
     spellAttackRange=2;
+    srand(time(0));
+    int x = rand() % 3;
+    int y = rand() % 4;
+    this->setX(this->getX() + x);
+    this->setY(this->getY() + y);
 }
 
 Mage::Mage(int x, int y) : MobileEntity(x,y,70,3,45,5,100,AVAILABLE,DOWN){
