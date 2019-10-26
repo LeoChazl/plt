@@ -19,7 +19,7 @@ TileSet::TileSet(TileSetID newID){
             imageFile="rsc/Images/cursor_32.png";
             break;
         case MAPTILESET:
-            imageFile="rsc/Images/map_tiles.png";
+            imageFile="rsc/Images/BaseChip_pipo.png";
             break;
         default:
             break;

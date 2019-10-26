@@ -33,9 +33,7 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , string mapImageDirectory
 
 
 bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentState, render::TileSet& textureTileSet){
-         std::ifstream file("rsc/Images/csvMap.csv", ios::in);
-
-
+         //std::ifstream file("rsc/Images/csvMap.csv", ios::in);
 		texture = textureTileSet.getTexture();
 		
       	// on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau
@@ -46,6 +44,8 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
         for (unsigned int i = 0; i < int(mapWidth/32); i++){
             for (unsigned int j = 0; j < int(mapHeight/32); j++){
 
+                std::vector<std::vector<shared_ptr<StaticEntity>>> map;
+                map=currentState.getEntityMap().getMapArray();
             	// on récupère le numéro de tuile courant
 				/*int tileNumber=currentState.getGrille()[i][j]->getCodeTuile();
 				
@@ -64,11 +64,19 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
 	            quad[3].position = sf::Vector2f(i*32, (j+1)*32);
 		
                  //Définition des coordonnées pour récupérer la première texture
-                quad[0].texCoords = sf::Vector2f(0, 0);
-                quad[1].texCoords = sf::Vector2f(0, 32);
-                quad[2].texCoords = sf::Vector2f(32, 32);
-                quad[3].texCoords = sf::Vector2f(32, 0);
-							
+                //StaticEntity *map[i][j];
+                //SpaceTypeID spaceID=map[0][0]->getSpaceTypeID();
+                //cout<<map[0][0]<<endl;
+                /*quad[0].texCoords = sf::Vector2f(map[i][j]->getSpaceTypeID()*32, map[i][j]->getSpaceTypeID()*32);
+                quad[1].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, map[i][j]->getSpaceTypeID()*32);
+                quad[2].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, (map[i][j]->getSpaceTypeID()+1)*32);
+                quad[3].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, map[i][j]->getSpaceTypeID()*32);*/
+		
+                quad[0].texCoords = sf::Vector2f(0, map[i][j]->getSpaceTypeID()*32);
+                quad[1].texCoords = sf::Vector2f(0, (map[i][j]->getSpaceTypeID()+1)*32);
+                quad[2].texCoords = sf::Vector2f(32, (map[i][j]->getSpaceTypeID()+1)*32);
+                quad[3].texCoords = sf::Vector2f(32, map[i][j]->getSpaceTypeID()*32);
+		
            }
 		}
 		return true;	
