@@ -76,6 +76,53 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
                 quad[1].texCoords = sf::Vector2f(0, (map[i][j]->getSpaceTypeID()+1)*32);
                 quad[2].texCoords = sf::Vector2f(32, (map[i][j]->getSpaceTypeID()+1)*32);
                 quad[3].texCoords = sf::Vector2f(32, map[i][j]->getSpaceTypeID()*32);
+
+                /*if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE0){
+                    quad[0].position = sf::Vector2f(i*32, j*32);
+            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+
+                    quad[0].texCoords = sf::Vector2f(0, 0);
+                    quad[1].texCoords = sf::Vector2f(0, 32);
+                    quad[2].texCoords = sf::Vector2f(32, 32);
+                    quad[3].texCoords = sf::Vector2f(32, 0);
+
+                }else if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE1){
+                    quad[0].position = sf::Vector2f(i*32, j*32);
+            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+
+                    quad[0].texCoords = sf::Vector2f(0, 32);
+                    quad[1].texCoords = sf::Vector2f(0, 64);
+                    quad[2].texCoords = sf::Vector2f(32, 64);
+                    quad[3].texCoords = sf::Vector2f(32, 32);
+
+                }else if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE2){
+                    quad[0].position = sf::Vector2f(i*32, j*32);
+            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+
+                    quad[0].texCoords = sf::Vector2f(0, 64);
+                    quad[1].texCoords = sf::Vector2f(0, 96);
+                    quad[2].texCoords = sf::Vector2f(32, 96);
+                    quad[3].texCoords = sf::Vector2f(32, 64);
+
+                }else{
+                    quad[0].position = sf::Vector2f(i*32, j*32);
+            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
+	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
+	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+
+                    quad[0].texCoords = sf::Vector2f(0, 96);
+                    quad[1].texCoords = sf::Vector2f(0, 128);
+                    quad[2].texCoords = sf::Vector2f(32, 128);
+                    quad[3].texCoords = sf::Vector2f(32, 96);
+
+                }*/
+                
 		
            }
 		}
