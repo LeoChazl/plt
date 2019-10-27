@@ -100,7 +100,6 @@ void StateLayer::draw (sf::RenderWindow& window){
     logo.loadFromFile("rsc/Images/fire_emblem_logo.png");
     sf::Sprite spriteLogo;
     spriteLogo.setPosition(1600,800);
-    spriteLogo.scale(0.8,1);
     spriteLogo.setTexture(logo, true);
 
     window.draw(quad); //Draw the rectangle layer
