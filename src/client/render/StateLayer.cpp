@@ -53,8 +53,8 @@ void StateLayer::initTextureAreas (state::State state){
 
     //Chargement des Tiles dans Texture
     string directory="rsc/Images/level1_completeMap.png";
-    map.loadMap(mapWidth,mapHeight,directory);
-    //map.loadMap(mapWidth,mapHeight,state,*tileSets[2]);
+    //map.loadMap(mapWidth,mapHeight,directory);
+    map.loadMap(mapWidth,mapHeight,state,*tileSets[2]);
 
     units.loadUnits(state,*tileSets[0]);
     cursor.loadCursor(state,*tileSets[1]);

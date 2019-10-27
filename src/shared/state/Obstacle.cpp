@@ -14,3 +14,7 @@ Obstacle::Obstacle(){
 bool const Obstacle::isSpace(){
     return false;
 }
+
+SpaceTypeID Obstacle::getSpaceTypeID (){
+    return SpaceID;
+}

@@ -10,6 +10,7 @@ State::State(){
     round=1;
     level=1;
     EntityMap entityMap(1);
+    map=entityMap;
     Cursor cursor;
     endGame=false;
 }

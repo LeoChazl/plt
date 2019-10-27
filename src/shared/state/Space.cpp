@@ -9,8 +9,16 @@ Space::Space(){
 
 }
 
+Space::Space (SpaceTypeID SpaceID){
+    this->SpaceID=SpaceID;
+}
+
 // Function
 
 bool const Space::isSpace(){
     return true;
+}
+
+SpaceTypeID Space::getSpaceTypeID(){
+    return SpaceID;
 }
