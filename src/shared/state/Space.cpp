@@ -9,8 +9,8 @@ Space::Space(){
 
 }
 
-Space::Space (SpaceTypeID SpaceID){
-    this->SpaceID=SpaceID;
+Space::Space (int codeTuile){
+    this->codeTuile=codeTuile;
 }
 
 // Function
@@ -19,6 +19,6 @@ bool const Space::isSpace(){
     return true;
 }
 
-SpaceTypeID Space::getSpaceTypeID(){
-    return SpaceID;
+int Space::getCodeTuile(){
+    return codeTuile;
 }

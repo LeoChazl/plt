@@ -9,12 +9,16 @@ Obstacle::Obstacle(){
 
 }
 
+Obstacle::Obstacle(int codeTuile){
+    this->codeTuile=codeTuile;
+}
+
 // Function
 
 bool const Obstacle::isSpace(){
     return false;
 }
 
-SpaceTypeID Obstacle::getSpaceTypeID (){
-    return SpaceID;
+int Obstacle::getCodeTuile (){
+    return codeTuile;
 }
