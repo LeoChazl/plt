@@ -47,11 +47,17 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
                 std::vector<std::vector<shared_ptr<StaticEntity>>> map;
                 map=currentState.getEntityMap().getMapArray();
             	// on récupère le numéro de tuile courant
-				/*int tileNumber=currentState.getGrille()[i][j]->getCodeTuile();
+				int tileNumber=map[i][j]->getSpaceTypeID();
 				
                 // on en déduit sa position dans la texture du tileset
-                int tu = tileNumber % (texture.getSize().x / tileSize.x);
-                int tv = tileNumber / (texture.getSize().x / tileSize.x);*/
+                int tu = tileNumber % ( 320/ 32);
+                int tv = tileNumber / (320 / 32);
+
+                //cout<<"/***************************/"<<endl;
+                /*cout<<"i= "<<i<<" j= "<<j<<endl;
+                cout<<"tileNumber= "<<tileNumber<<endl;
+                cout<<"tu ="<<tu<<" tv= "<<tv<<endl;*/
+                //cout<<"/***************************/"<<endl;
 
                 // on récupère un pointeur vers le quad à définir dans le tableau de vertex
                 sf::Vertex* quad = &quads[(i + j * int(mapWidth/32)) * 4];
@@ -59,9 +65,19 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
 				// on définit ses quatre coins
                 //Définition quatres coins du vertex dans la fenêtre
 	            quad[0].position = sf::Vector2f(i*32, j*32);
-            	quad[1].position = sf::Vector2f((i+1)*32, j*32);
+            	quad[1].position = sf::Vector2f(i*32, (j+1)*32);
 	            quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
-	            quad[3].position = sf::Vector2f(i*32, (j+1)*32);
+	            quad[3].position = sf::Vector2f((i+1)*32, j*32);
+
+                quad[0].texCoords = sf::Vector2f(tu * 32, tv * 32);
+				quad[1].texCoords = sf::Vector2f((tu + 1) * 32, tv * 32);
+				quad[2].texCoords = sf::Vector2f((tu + 1) * 32, (tv + 1) * 32);
+				quad[3].texCoords = sf::Vector2f(tu * 32, (tv + 1) * 32);
+
+                /*quad[0].texCoords = sf::Vector2f(32,0);
+				quad[1].texCoords = sf::Vector2f(64,0);
+				quad[2].texCoords = sf::Vector2f(64,32);
+				quad[3].texCoords = sf::Vector2f(32,32);*/
 		
                  //Définition des coordonnées pour récupérer la première texture
                 //StaticEntity *map[i][j];
@@ -72,10 +88,10 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
                 quad[2].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, (map[i][j]->getSpaceTypeID()+1)*32);
                 quad[3].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, map[i][j]->getSpaceTypeID()*32);*/
 		
-                quad[0].texCoords = sf::Vector2f(0, map[i][j]->getSpaceTypeID()*32);
+                /*quad[0].texCoords = sf::Vector2f(0, map[i][j]->getSpaceTypeID()*32);
                 quad[1].texCoords = sf::Vector2f(0, (map[i][j]->getSpaceTypeID()+1)*32);
                 quad[2].texCoords = sf::Vector2f(32, (map[i][j]->getSpaceTypeID()+1)*32);
-                quad[3].texCoords = sf::Vector2f(32, map[i][j]->getSpaceTypeID()*32);
+                quad[3].texCoords = sf::Vector2f(32, map[i][j]->getSpaceTypeID()*32);*/
 
                 /*if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE0){
                     quad[0].position = sf::Vector2f(i*32, j*32);
