@@ -40,14 +40,42 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
 	   	quads.setPrimitiveType(sf::Quads);
        	quads.resize(int(mapWidth * mapHeight * 4/32/32));
 
+       int map_code_tuile[25][50]={{1,1,1,1,1,1,1,1,1,1,1,19,19,19,0,0,0,0,2,2,2,5,2,2,2,2,2,4,2,2,2,2,0,0,0,0,19,19,19,1,1,1,1,1,1,1,1,1,1,1},
+{1,18,1,1,1,1,1,1,1,1,19,19,19,19,0,0,0,0,2,2,4,2,2,2,2,5,2,2,2,2,2,2,0,0,0,0,19,19,19,19,1,1,17,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,1,1,19,20,19,0,0,0,0,0,2,2,24,27,27,27,27,30,30,30,30,33,2,4,0,0,0,0,0,19,20,19,1,1,1,1,1,1,16,1,1,1},
+{1,1,1,1,1,1,15,1,1,1,19,19,19,0,0,0,0,0,5,2,25,28,28,28,28,31,31,31,31,34,2,2,0,0,0,0,0,19,19,19,1,1,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,1,1,19,19,19,0,0,0,0,0,2,2,26,29,29,29,29,32,32,32,32,35,2,2,0,0,0,0,0,19,19,19,1,1,17,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,1,19,19,19,19,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,19,19,19,1,1,11,1,1,1,1,1,17,1},
+{1,15,1,1,1,1,1,1,19,20,19,19,0,0,0,0,0,0,0,2,2,5,2,2,2,2,2,2,4,2,2,0,0,0,0,0,0,0,19,19,20,19,1,1,16,1,1,1,1,1},
+{1,1,1,1,1,1,1,19,19,19,19,0,0,0,23,0,0,0,0,0,2,2,2,2,4,2,2,5,2,2,0,0,0,0,0,23,0,0,0,19,19,19,19,1,1,1,1,1,1,1},
+{1,1,1,1,1,18,9,11,11,11,11,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,10,11,11,11,11,9,1,1,1,1,1,1},
+{1,1,1,1,1,1,6,8,8,8,8,7,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,7,8,8,8,8,6,1,1,1,1,1,1},
+{1,1,1,1,1,1,6,8,8,8,8,7,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,22,0,0,0,0,0,7,8,8,8,8,6,1,1,1,1,1,1},
+{1,1,1,1,1,1,6,8,8,8,8,7,0,0,0,22,0,0,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,7,8,8,8,8,6,1,1,1,1,1,1},
+{1,1,1,1,1,1,6,8,8,8,8,7,0,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,8,8,8,8,6,1,1,1,1,1,1},
+{1,1,1,1,1,1,12,14,14,14,14,13,0,0,0,0,0,0,3,3,49,50,50,50,50,50,50,50,50,51,3,3,0,0,0,0,0,0,7,8,8,8,8,6,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,19,19,19,19,23,0,0,0,0,0,46,3,3,45,45,45,3,3,45,45,45,3,3,46,0,0,0,0,0,23,19,19,19,19,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,19,19,20,19,0,0,0,0,0,0,47,3,3,3,3,3,3,3,3,3,3,3,3,47,0,0,22,0,0,0,19,20,19,19,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,1,19,19,19,19,0,0,0,0,0,47,3,3,3,3,3,3,3,3,3,3,3,3,47,0,0,0,0,0,19,19,19,19,1,1,1,1,1,1,18,1,1},
+{1,1,1,1,16,1,1,1,1,1,19,19,19,19,0,0,22,0,48,36,3,3,3,3,3,3,3,3,3,3,37,48,0,0,0,0,19,19,19,19,1,1,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,17,1,1,1,19,19,19,0,0,0,3,3,3,3,3,40,43,43,38,3,3,3,3,3,0,0,0,0,19,19,19,1,1,15,1,1,1,1,1,1,1,1},
+{1,1,17,1,1,1,1,1,1,1,1,19,19,19,0,0,0,0,3,3,3,3,3,43,3,3,43,3,3,3,3,3,0,0,0,0,19,19,19,1,1,1,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,1,1,1,19,19,19,0,0,0,0,46,3,3,3,3,3,3,3,3,3,3,3,3,46,0,0,0,0,19,20,19,1,1,1,1,1,1,1,1,1,1,1},
+{1,1,1,1,16,1,1,1,1,1,1,19,20,19,0,0,0,0,47,3,3,3,3,41,42,41,42,3,3,3,3,47,0,0,0,0,19,19,19,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,17,1,1,19,19,19,0,0,0,0,47,3,3,3,3,3,3,3,3,3,3,3,3,47,0,0,0,0,19,19,19,1,1,1,18,1,1,1,1,1,15,1},
+{1,1,1,1,1,1,1,1,1,1,1,19,19,19,19,0,0,0,47,39,39,39,3,3,3,3,3,3,44,44,44,47,0,0,0,19,19,19,19,1,1,1,1,1,1,1,1,1,1,1},
+{1,1,1,1,1,1,1,1,1,1,1,1,19,19,19,19,0,47,39,39,39,3,3,3,3,3,3,44,44,44,47,0,0,19,19,19,19,1,1,1,1,1,1,1,1,1,1,1,1}};
+
+        int vertexArrayIndex=0;
         // on remplit le tableau de vertex, avec un quad par tuile
-        for (unsigned int i = 0; i < int(mapWidth/32); i++){
-            for (unsigned int j = 0; j < int(mapHeight/32); j++){
+        for (unsigned int i = 0; i < int(25); i++){
+            for (unsigned int j = 0; j < int(50); j++){
 
                 std::vector<std::vector<shared_ptr<StaticEntity>>> map;
                 map=currentState.getEntityMap().getMapArray();
             	// on récupère le numéro de tuile courant
-				int tileNumber=map[i][j]->getSpaceTypeID();
+				//int tileNumber=map[i][j]->getSpaceTypeID();
+                int tileNumber= map_code_tuile[i][j];
 				
                 // on en déduit sa position dans la texture du tileset
                 int tu = tileNumber % ( 320/ 32);
@@ -60,84 +88,21 @@ bool TextureArea::loadMap(int mapWidth, int mapHeight , state::State& currentSta
                 //cout<<"/***************************/"<<endl;
 
                 // on récupère un pointeur vers le quad à définir dans le tableau de vertex
-                sf::Vertex* quad = &quads[(i + j * int(mapWidth/32)) * 4];
-				
+                sf::Vertex* quad = &quads[vertexArrayIndex* 4];
+				vertexArrayIndex++;
 				// on définit ses quatre coins
                 //Définition quatres coins du vertex dans la fenêtre
-	            quad[0].position = sf::Vector2f(i*32, j*32);
-            	quad[1].position = sf::Vector2f(i*32, (j+1)*32);
-	            quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
-	            quad[3].position = sf::Vector2f((i+1)*32, j*32);
+	            quad[0].position = sf::Vector2f(j*32, i*32);
+            	quad[1].position = sf::Vector2f(j*32, (i+1)*32);
+	            quad[2].position = sf::Vector2f((j+1)*32, (i+1)*32);
+	            quad[3].position = sf::Vector2f((j+1)*32, i*32);
 
                 quad[0].texCoords = sf::Vector2f(tu * 32, tv * 32);
 				quad[1].texCoords = sf::Vector2f((tu + 1) * 32, tv * 32);
 				quad[2].texCoords = sf::Vector2f((tu + 1) * 32, (tv + 1) * 32);
 				quad[3].texCoords = sf::Vector2f(tu * 32, (tv + 1) * 32);
 
-                /*quad[0].texCoords = sf::Vector2f(32,0);
-				quad[1].texCoords = sf::Vector2f(64,0);
-				quad[2].texCoords = sf::Vector2f(64,32);
-				quad[3].texCoords = sf::Vector2f(32,32);*/
-		
-                 //Définition des coordonnées pour récupérer la première texture
-                //StaticEntity *map[i][j];
-                //SpaceTypeID spaceID=map[0][0]->getSpaceTypeID();
-                //cout<<map[0][0]<<endl;
-                /*quad[0].texCoords = sf::Vector2f(map[i][j]->getSpaceTypeID()*32, map[i][j]->getSpaceTypeID()*32);
-                quad[1].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, map[i][j]->getSpaceTypeID()*32);
-                quad[2].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, (map[i][j]->getSpaceTypeID()+1)*32);
-                quad[3].texCoords = sf::Vector2f((map[i][j]->getSpaceTypeID()+1)*32, map[i][j]->getSpaceTypeID()*32);*/
-		
-                /*quad[0].texCoords = sf::Vector2f(0, map[i][j]->getSpaceTypeID()*32);
-                quad[1].texCoords = sf::Vector2f(0, (map[i][j]->getSpaceTypeID()+1)*32);
-                quad[2].texCoords = sf::Vector2f(32, (map[i][j]->getSpaceTypeID()+1)*32);
-                quad[3].texCoords = sf::Vector2f(32, map[i][j]->getSpaceTypeID()*32);*/
-
-                /*if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE0){
-                    quad[0].position = sf::Vector2f(i*32, j*32);
-            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
-	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
-	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
-
-                    quad[0].texCoords = sf::Vector2f(0, 0);
-                    quad[1].texCoords = sf::Vector2f(0, 32);
-                    quad[2].texCoords = sf::Vector2f(32, 32);
-                    quad[3].texCoords = sf::Vector2f(32, 0);
-
-                }else if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE1){
-                    quad[0].position = sf::Vector2f(i*32, j*32);
-            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
-	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
-	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
-
-                    quad[0].texCoords = sf::Vector2f(0, 32);
-                    quad[1].texCoords = sf::Vector2f(0, 64);
-                    quad[2].texCoords = sf::Vector2f(32, 64);
-                    quad[3].texCoords = sf::Vector2f(32, 32);
-
-                }else if(map[i][j]->getSpaceTypeID()==GREENSPACETYPE2){
-                    quad[0].position = sf::Vector2f(i*32, j*32);
-            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
-	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
-	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
-
-                    quad[0].texCoords = sf::Vector2f(0, 64);
-                    quad[1].texCoords = sf::Vector2f(0, 96);
-                    quad[2].texCoords = sf::Vector2f(32, 96);
-                    quad[3].texCoords = sf::Vector2f(32, 64);
-
-                }else{
-                    quad[0].position = sf::Vector2f(i*32, j*32);
-            	    quad[1].position = sf::Vector2f((i+1)*32, j*32);
-	                quad[2].position = sf::Vector2f((i+1)*32, (j+1)*32);
-	                quad[3].position = sf::Vector2f(i*32, (j+1)*32);
-
-                    quad[0].texCoords = sf::Vector2f(0, 96);
-                    quad[1].texCoords = sf::Vector2f(0, 128);
-                    quad[2].texCoords = sf::Vector2f(32, 128);
-                    quad[3].texCoords = sf::Vector2f(32, 96);
-
-                }*/
+               
                 
 		
            }

@@ -13,7 +13,7 @@ EntityMap::EntityMap(int level){
         width=1600/32;
         height=800/32;
 
-        ifstream input("rsc/Images/level1.txt");
+        ifstream input("rsc/Images/map.txt");
         
         int level1Map_tile[width*height];
         char data;
@@ -22,7 +22,7 @@ EntityMap::EntityMap(int level){
             if(data!=','){
                 level1Map_tile[k]=int(data);
                 
-                cout<<data;
+                cout<<data<<' ';
             }
         }
 
@@ -49,7 +49,7 @@ EntityMap::EntityMap(int level){
                 }else{
                     std::shared_ptr<StaticEntity> ptr_space(new Space(YELLOWSPACETYPE));
                     mapLine.push_back(move(ptr_space));
-                }                */
+                }         */       
 
                 k++;
             }
