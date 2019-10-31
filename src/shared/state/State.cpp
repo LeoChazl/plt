@@ -33,10 +33,44 @@ void State::deletePlayer(Player& player){
 /** Initialize the players for level 1
  */
 bool State::initPlayers(){
+    // To randomize units starting position
+    srand(time(0));
+    int x = 0;
+    int y = 0;
+
+    // Initialization of the first player
+    shared_ptr<MobileEntity> ptrMage(new Mage);
+    do{
+        x = rand() % 13;
+        y = rand() % 11;
+    }while(!getEntityMap().getMapArray()[ptrMage->getY() + y][ptrMage->getX() + x]->isSpace());
+    ptrMage->setX(ptrMage->getX() + x);
+    ptrMage->setY(ptrMage->getY() + y);
+
+    shared_ptr<MobileEntity> ptrKnight(new Knight);
+    do{
+        x = rand() % 7;
+        y = rand() % 8;
+    }while(!getEntityMap().getMapArray()[ptrKnight->getY() + y][ptrKnight->getX() + x]->isSpace());
+    ptrKnight->setX(ptrKnight->getX() + x);
+    ptrKnight->setY(ptrKnight->getY() + y);
+
     shared_ptr<Player> ptrPlayer1(new Player(1));
+    ptrPlayer1->getMobileEntityList().push_back(ptrMage);
+    ptrPlayer1->getMobileEntityList().push_back(ptrKnight);
     playerList.push_back(ptrPlayer1);
 
+    // Initialization of the second player
+    shared_ptr<MobileEntity> ptrTroll(new Troll);
+    do{
+        x = rand() % 5;
+        y = rand() % 10;
+    }while(!getEntityMap().getMapArray()[ptrTroll->getY() + y][ptrTroll->getX() + x]->isSpace());
+    ptrTroll->setX(ptrTroll->getX() + x);
+    ptrTroll->setY(ptrTroll->getY() + y);
+
     shared_ptr<Player> ptrPlayer2(new Player(2));
+    ptrPlayer2->getMobileEntityList().push_back(ptrTroll);
     playerList.push_back(ptrPlayer2);
 
     return true;

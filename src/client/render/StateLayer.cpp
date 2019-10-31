@@ -7,7 +7,7 @@ using namespace std;
 
 /*Constructor
 *
-*store in a TileSet pointor array all the TIleset type object pointor
+*store in a TileSet pointor array all the Tileset type object pointor
 *this TileSet object containt a sf::Texture object with the specific image loaded on it
 **/
 StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
