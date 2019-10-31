@@ -7,6 +7,7 @@ using namespace std;
 // Constructor
 
 State::State(){
+    // We are initializing a state for the first level for now
     round=1;
     level=1;
     EntityMap entityMap(1);
@@ -40,6 +41,7 @@ bool State::initPlayers(){
 
     // Initialization of the first player
     shared_ptr<MobileEntity> ptrMage(new Mage);
+    // Unit starting position is randomized in a certain area
     do{
         x = rand() % 13;
         y = rand() % 11;

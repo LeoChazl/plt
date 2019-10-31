@@ -9,77 +9,53 @@ using namespace std;
 // Constructor
 
 EntityMap::EntityMap(int level){
-    cout<<"ENTITY MAP"<<endl;
-        width=1600/32;
-        height=800/32;
+    if (level == 1){
+        width=50;
+        height=25;
 
-       /* ifstream input("rsc/Images/map.txt");
-        
-        int level1Map_tile[width*height];
-        char data;
-        for(int k=0;k<width*height;k++){
-            input>>data;
-            if(data!=','){
-                level1Map_tile[k]=int(data);
-                
-                cout<<data<<' ';
+        // Open the corresponding csv with the map code tile 
+        std::ifstream file("rsc/Images/map.csv", ios::in);    
+        std::string content, line, tile_code;
+        int map_tile_code[this->width * this->height];
+
+        // Read the file by storing all the data into one string -> content
+        if (file){
+            while (getline(file,line)){
+                line = line + ",";
+                content = content + line;
             }
-        }*/
-	/**************************************/
-	/*Step 1 : open the map tile code file*/
-	/**************************************/	
-    std::ifstream fichier("rsc/Images/map.csv", ios::in);    
-    std::string contenu, ligne, code_tuile;
-    int map_code_tuile[25*50];
-
-
-	/***********************************************************/
-	/*Step 2 : Store all file elemet into one string -> contenu*/
-	/**********************************************************/	
-    // Lecture Fichier
-    if (fichier){
-    	while (getline(fichier,ligne)){
-			ligne = ligne + ",";
-			contenu = contenu + ligne;
-		}
-		fichier.close();
-    }
-
-
-    
-	/***********************************************************************************/
-	/*Step 3 : Convert all string code tuile into "int" element and store it in ana array*/
-	/***********************************************************************************/	
-    // Conversion des codes des tuiles en int
-    std::stringstream contenuStream(contenu); // convert into stringStream element in order to use it into getline function
-    int i=0;
-    
-    while(std::getline(contenuStream, code_tuile, ',')){// ',' is a delimiter of the line
-    	map_code_tuile[i] = (int) std::stoi(code_tuile);//convert string into "int" value and store it in an array
-    	i++;
-    }
-    
-    /***********************************************************************************/
-	/*Step 4 : Associate a Space or Obstacle object to the code Tuile and store it in an StaticELement matrix*/
-	/***********************************************************************************/	
-    int k=0;
-    for(int i=0;i<25;i++){
-        std::vector<std::shared_ptr<StaticEntity>> mapLine;
-        for(int j=0;j<50;j++){
-            int var=map_code_tuile[k];
-
-            if(var<5){
-                std::shared_ptr<StaticEntity> ptr_space (new Space(var));
-                mapLine.push_back(move(ptr_space));
-            }else{
-                std::shared_ptr<StaticEntity> ptr_obstacle(new Obstacle(var));
-                mapLine.push_back(move(ptr_obstacle));
-            }   
-            k++;
+            file.close();
         }
-        mapArray.push_back(move(mapLine));
+
+        // Convert into stringStream element in order to use it into getline function
+        std::stringstream contentStream(content); 
+        int i=0;
+        
+        while(std::getline(contentStream, tile_code, ',')){ // ',' is a delimiter of a line
+            // Convert string tile codes into integers and store it in an array
+            map_tile_code[i] = (int) std::stoi(tile_code);
+            i++;
+        }
+        
+        // Associate a Space or Obstacle object depending on the tile code and store it in the StaticElement matrix with is the mapArray of the state
+        int k=0;
+        for(int i=0;i<this->height;i++){
+            std::vector<std::shared_ptr<StaticEntity>> mapLine;
+            for(int j=0;j<this->width;j++){
+                int var=map_tile_code[k];
+                
+                if(var<5){ // In the map tileset only the first six tiles are not obstacles
+                    std::shared_ptr<StaticEntity> ptr_space (new Space(var));
+                    mapLine.push_back(move(ptr_space));
+                }else{
+                    std::shared_ptr<StaticEntity> ptr_obstacle(new Obstacle(var));
+                    mapLine.push_back(move(ptr_obstacle));
+                }   
+                k++;
+            }
+            mapArray.push_back(move(mapLine));
+        }
     }
-    
 }
 
 // Getters

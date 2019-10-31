@@ -3,7 +3,7 @@
 using namespace state;
 using namespace std;
 
-// Constructor
+// Constructors
 
 Obstacle::Obstacle(){
 
@@ -17,8 +17,4 @@ Obstacle::Obstacle(int codeTuile){
 
 bool const Obstacle::isSpace(){
     return false;
-}
-
-int Obstacle::getCodeTuile (){
-    return codeTuile;
 }

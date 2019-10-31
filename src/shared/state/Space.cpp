@@ -3,7 +3,7 @@
 using namespace state;
 using namespace std;
 
-// Constructor
+// Constructors
 
 Space::Space(){
 
@@ -17,8 +17,4 @@ Space::Space (int codeTuile){
 
 bool const Space::isSpace(){
     return true;
-}
-
-int Space::getCodeTuile(){
-    return codeTuile;
 }
