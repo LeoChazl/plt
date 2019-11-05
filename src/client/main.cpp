@@ -153,13 +153,17 @@ int main(int argc, char* argv[])
             StateLayer* ptr_stateLayer=&stateLayer;
 			engine.getState().registerObserver(ptr_stateLayer);
 
-            cout << "Press a key to launch a command" << endl;
+            bool booting = true;
 
             while (window.isOpen()){
 				sf::Event event;
 
-                // Draw all the display on the screen
-                stateLayer.draw();
+                if(booting){
+                    // Draw all the display on the screen
+                    stateLayer.draw();
+                    cout << "Press a key to launch a command" << endl;
+                    booting = false;
+                }
 
                 // Close the window if the close button is pressed
 				while (window.pollEvent(event)){
@@ -167,7 +171,7 @@ int main(int argc, char* argv[])
 						window.close();
 					} else if(event.type==sf::Event::KeyPressed){
                         cout << "Hey" << endl;
-                        
+
                         // Mage move down
                         Position destinationMage(2,0);
                         Move moveMage(engine.getState().getMobileEntity(1,0), destinationMage);
@@ -180,6 +184,8 @@ int main(int argc, char* argv[])
                         engine.addCommand(1, move(ptr_attack));
                     
                         engine.update();
+
+                        cout << "Done" << endl;
                     }
 				}
 			}
