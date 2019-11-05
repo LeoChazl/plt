@@ -4,11 +4,14 @@
 #include <string.h>
 
 #include </home/ensea/plt/src/client/render.h>
+#include </home/ensea/plt/src/shared/engine.h>
+
 
 using namespace sf;
 using namespace std;
 using namespace state;
 using namespace render;
+using namespace engine;
 
 int main(int argc, char* argv[])
 {
@@ -104,6 +107,7 @@ int main(int argc, char* argv[])
                 window.display();
             }
         }
+
         else if(strcmp(argv[1],"render")==0){
             cout << "Displaying a state of the game" << endl;
 
@@ -131,6 +135,15 @@ int main(int argc, char* argv[])
                 // Draw all the display on the screen
                 stateLayer.draw();
 			}
+        }
+
+        else if(strcmp(argv[1],"engine")==0){
+            cout<<"---- ENGINE TEST ----"<<endl;
+
+            //Initialize the window
+            sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
+
+
         }
     }
     return 0;
