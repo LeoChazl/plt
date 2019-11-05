@@ -29,14 +29,18 @@ void Attack::execute (state::State& state){
 				break;
 			}
 		}
-
+        attackIsPossible=true;
         //If the attack is possible 
         if(attackIsPossible){
             //Target
+            cout<<"Attack is possible"<<endl;
+            //target.setHealth(50);
             float oldTargetHealth=target.getHealth();
+            
 
             //Attack
-            attacker.attack(target);
+            //attacker.attack(target);
+            target.setHealth(oldTargetHealth-attacker.getDamage());
 
             //Display on console : State 
             cout<<"Le target avait "<<oldTargetHealth<<" points de vie."<<endl;
