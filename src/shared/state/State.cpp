@@ -148,6 +148,17 @@ MobileEntity& State::getMobileEntity(int x, int y){
     return *currentPlayer.getMobileEntityList()[mobileEntityIndex];
 }
 
+Player& State::getPlayer(int playerId){
+    int wantedPlayerIndex;
+
+    for(unsigned int i=0;i<playerList.size();i++){
+        if(playerList[i]->getId()==playerId)
+            wantedPlayerIndex = i;
+    }
+
+    return *playerList[wantedPlayerIndex];
+}
+
 // Setters
 
 void State::setRound(int round){

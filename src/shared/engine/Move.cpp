@@ -1,6 +1,7 @@
 #include "../engine.h"
 #include "../state.h"
 #include <stdio.h>
+#include <iostream>
 
 using namespace engine;
 using namespace state;
@@ -35,8 +36,17 @@ void Move::execute(state::State& state){
                 selectedUnit.setY(destination.getY());
                 selectedUnit.setMovementLeft(selectedUnit.getMovementLeft()-1);
 
-                //cout << "The unit " << selectedUnit.getEntityId() << " of " << 
+                Player ownerPlayer = state.getPlayer(selectedUnit.getPlayerId());
+
+                cout << "The unit " << selectedUnit.getEntityId() << " of " << ownerPlayer.getName() << " moved to " << destination.getX() << ", " << destination.getY() << endl
+                << " and has " << selectedUnit.getMovementLeft() << " left." << endl;
+            } else {
+                cout << "The unit cannot move to the destination." << endl;
             }
+        } else {
+            cout << "The unit doesn't have any movement left." << endl;
         }
+    } else {
+        cout << "The unit is not allowed to move." << endl;
     }
 }
