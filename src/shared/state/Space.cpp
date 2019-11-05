@@ -3,10 +3,14 @@
 using namespace state;
 using namespace std;
 
-// Constructor
+// Constructors
 
 Space::Space(){
 
+}
+
+Space::Space (int codeTuile){
+    this->codeTuile=codeTuile;
 }
 
 // Function

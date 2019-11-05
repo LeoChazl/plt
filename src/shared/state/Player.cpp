@@ -11,16 +11,7 @@ Player::Player(){
 
 Player::Player(int id){
     this->id = id;
-    if(id==1){
-        shared_ptr<MobileEntity> ptrMage(new Mage);
-        shared_ptr<MobileEntity> ptrKnight(new Knight);
-        mobileEntityList.push_back(ptrMage);
-        mobileEntityList.push_back(ptrKnight);
-    }
-    else if(id==2){
-        shared_ptr<MobileEntity> ptrTroll(new Troll);
-        mobileEntityList.push_back(ptrTroll);
-    }
+    this->name = "Player " + id;
 }
 
 Player::Player(int id, string name){

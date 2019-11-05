@@ -3,10 +3,14 @@
 using namespace state;
 using namespace std;
 
-// Constructor
+// Constructors
 
 Obstacle::Obstacle(){
 
+}
+
+Obstacle::Obstacle(int codeTuile){
+    this->codeTuile=codeTuile;
 }
 
 // Function
