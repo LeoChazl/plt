@@ -26,7 +26,7 @@ bool TextureArea::loadMap(state::State& currentState, render::TileSet& textureTi
     // Index to browse the vertex table
     int vertexArrayIndex=0;
 
-    std::vector<std::vector<shared_ptr<StaticEntity>>> map;
+    vector<vector<shared_ptr<StaticEntity>>> map;
     map = currentState.getEntityMap().getMapArray();
 
     // Fill the vertex table for every tile in the map
@@ -70,7 +70,7 @@ bool TextureArea::loadMap(state::State& currentState, render::TileSet& textureTi
  * 
  * return : boolean when loading was successful
  */
-bool TextureArea::loadUnits(state::State& currentState, TileSet& textureTileset){
+bool TextureArea::loadUnits(state::State& currentState, render::TileSet& textureTileset){
     texture = textureTileset.getTexture(); 
 
     quads.setPrimitiveType(sf::Quads);
@@ -121,7 +121,7 @@ bool TextureArea::loadUnits(state::State& currentState, TileSet& textureTileset)
  * 
  * return : boolean when loading was successful
  */
-bool TextureArea::loadCursor(state::State& currentState, TileSet& textureTileset){ 			
+bool TextureArea::loadCursor(state::State& currentState, render::TileSet& textureTileset){ 			
 	texture = textureTileset.getTexture(); 
 
     quads.setPrimitiveType(sf::Quads);

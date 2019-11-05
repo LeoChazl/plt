@@ -3,13 +3,14 @@
 
 using namespace render;
 using namespace std;
+using namespace state;
 
 /** Constructor 
  * Store in a TileSet pointer array all the Tileset type object pointers
  * A TileSet object contains an sf::Texture object with the specific image loaded in it
  * 
  */
-StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
+StateLayer::StateLayer (state::State& State, sf::RenderWindow& window): window(window){
     // Font will be used to draw statistics in the left and bottom space later on
     font.loadFromFile("rsc/Font/Game_Played.otf");
 
@@ -24,11 +25,11 @@ StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
 	tileSets.push_back(move(ptr_charTileSet));
 
     TileSet tileSetCursor(CURSORTILESET);//Load Cursor tileset image
-	std::unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
+	unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
 	tileSets.push_back(move(ptr_cursorTileSet));
 
     TileSet tileSetMap(MAPTILESET);
-	std::unique_ptr<TileSet> ptr_mapTileSet (new TileSet(tileSetMap));
+	unique_ptr<TileSet> ptr_mapTileSet (new TileSet(tileSetMap));
 	tileSets.push_back(move(ptr_mapTileSet));
 }
 
@@ -52,9 +53,9 @@ void StateLayer::initTextureAreas (state::State state){
     map.loadMap(state,*tileSets[2]);
 
     // Declaration of pointers to store them in the global array for all the layers
-	std::unique_ptr<TextureArea> ptr_map (new TextureArea(map));
-    std::unique_ptr<TextureArea> ptr_units (new TextureArea(units));
-    std::unique_ptr<TextureArea> ptr_cursor(new TextureArea(cursor));
+	unique_ptr<TextureArea> ptr_map (new TextureArea(map));
+    unique_ptr<TextureArea> ptr_units (new TextureArea(units));
+    unique_ptr<TextureArea> ptr_cursor(new TextureArea(cursor));
 
     // Empty the table of all the elements in case we want to refresh the display
     if(textureAreas.size()!=0){
@@ -74,7 +75,7 @@ void StateLayer::initTextureAreas (state::State state){
  * param : 
  * window -> SFML window
  */
-void StateLayer::draw (sf::RenderWindow& window){
+void StateLayer::draw (){
     // Clear all the previous display in the window
     window.clear();
 
@@ -129,12 +130,20 @@ void StateLayer::draw (sf::RenderWindow& window){
 	window.display();
 }
 
+/**
+ * 
+ */
+void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State& state){
+    initTextureAreas(state);
+    draw();
+}
+
 // Getters
 
-std::vector<std::unique_ptr<TileSet>>& StateLayer::getTileSets(){
+vector<unique_ptr<TileSet>>& StateLayer::getTileSets(){
      return tileSets;
 }
 
-std::vector<std::unique_ptr<TextureArea>>& StateLayer::getTextureAreas(){
+vector<unique_ptr<TextureArea>>& StateLayer::getTextureAreas(){
      return textureAreas;
  }

@@ -1,5 +1,6 @@
 #include "../state.h"
 #include <iostream>
+#include <exception>
 
 using namespace state;
 using namespace std;
@@ -127,15 +128,18 @@ bool State::getEndGame(){
 
 MobileEntity& State::getMobileEntity(int x, int y){
     Player currentPlayer;
+    int mobileEntityIndex;
 
     for(unsigned int i=0;i<playerList.size();i++){
         currentPlayer=*playerList[i];
         for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
             if(currentPlayer.getMobileEntityList()[j]->getX()==x && currentPlayer.getMobileEntityList()[j]->getY()){
-                return *currentPlayer.getMobileEntityList()[j];
+                mobileEntityIndex=j;
             }
         }
     }
+    
+    return *currentPlayer.getMobileEntityList()[mobileEntityIndex];
 }
 
 // Setters

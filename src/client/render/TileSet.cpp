@@ -5,7 +5,7 @@ using namespace render;
 
 // Constructor
 
-TileSet::TileSet(TileSetID newID){
+TileSet::TileSet(render::TileSetID newID){
     id = newID;
     
     cellWidth=32;

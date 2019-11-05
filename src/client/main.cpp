@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
             sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
             // Creation of the display of the state
-            StateLayer stateLayer(window,state);
+            StateLayer stateLayer(state,window);
             stateLayer.initTextureAreas(state);
 
             while (window.isOpen()){
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 				}
 
                 // Draw all the display on the screen
-                stateLayer.draw(window);
+                stateLayer.draw();
 			}
         }
     }
