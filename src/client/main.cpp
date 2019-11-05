@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
                         engine.addCommand(0, move(ptr_mageMove));
 
                         // Knight attack troll
-                        Attack attack(engine.getState().getMobileEntity(0,0), engine.getState().getMobileEntity(1,0));
+                        Attack attack(*engine.getState().getPlayerList()[0]->getMobileEntityList()[0], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
                         unique_ptr<Command> ptr_attack (new Attack(attack));
                         engine.addCommand(1, move(ptr_attack));
                     
