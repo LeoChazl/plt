@@ -143,6 +143,35 @@ int main(int argc, char* argv[])
             //Initialize the window
             sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
+            Engine engine;
+            engine.getState().initPlayers();
+
+            StateLayer stateLayer(engine.getState(),window);
+            stateLayer.initTextureAreas(engine.getState());
+
+            StateLayer* ptr_stateLayer=&stateLayer;
+			engine.getState().registerObserver(ptr_stateLayer);
+
+            while (window.isOpen()){
+                // Close the window if the close button is pressed
+				sf::Event event;
+				while (window.pollEvent(event)){
+					if (event.type == sf::Event::Closed){
+						window.close();
+					}
+				}
+
+                // Draw all the display on the screen
+                stateLayer.draw();
+
+                // Tentative d'attaque archer rouge contre chevalier bleu
+                Attack attack(engine.getState().getMobileEntity(0,0), engine.getState().getMobileEntity(1,0));
+                unique_ptr<Command> ptr_attack (new Attack(attack));
+                engine.addCommand(1, move(ptr_attack));
+            
+               /* engine.update();*/
+			}
+
 
         }
     }
