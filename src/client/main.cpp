@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
                 unique_ptr<Command> ptr_attack (new Attack(attack));
                 engine.addCommand(1, move(ptr_attack));
             
-               /* engine.update();*/
+               engine.update();
 			}
 
 
