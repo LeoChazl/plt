@@ -3,120 +3,147 @@
 
 using namespace render;
 using namespace std;
+using namespace state;
 
-
-/*Constructor
-*
-*store in a TileSet pointor array all the TIleset type object pointor
-*this TileSet object containt a sf::Texture object with the specific image loaded on it
-**/
-StateLayer::StateLayer (sf::RenderWindow& window, state::State& State){
+/** Constructor 
+ * Store in a TileSet pointer array all the Tileset type object pointers
+ * A TileSet object contains an sf::Texture object with the specific image loaded in it
+ * 
+ */
+StateLayer::StateLayer (state::State& State, sf::RenderWindow& window): window(window){
+    // Font will be used to draw statistics in the left and bottom space later on
     font.loadFromFile("rsc/Font/Game_Played.otf");
+
+    // SFML window size
     screenWidth=1950;
     screenHeight=900;
 
-    mapWidth=1600;
-    mapHeight=800;
-
-	TileSet tileSetCharacters(UNITSTILESET);//Load units tileset image
+    // Load units tileset image
+	TileSet tileSetCharacters(UNITSTILESET);
 	unique_ptr<TileSet> ptr_charTileSet (new TileSet(tileSetCharacters));
-	tileSets.push_back(move(ptr_charTileSet));//Store pointor of the TileSet object
+    // Store pointer of the TileSet object
+	tileSets.push_back(move(ptr_charTileSet));
 
     TileSet tileSetCursor(CURSORTILESET);//Load Cursor tileset image
-	std::unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
+	unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
 	tileSets.push_back(move(ptr_cursorTileSet));
 
     TileSet tileSetMap(MAPTILESET);
-	std::unique_ptr<TileSet> ptr_mapTileSet (new TileSet(tileSetMap));
+	unique_ptr<TileSet> ptr_mapTileSet (new TileSet(tileSetMap));
 	tileSets.push_back(move(ptr_mapTileSet));
 }
 
+// Functions
 
- std::vector<std::unique_ptr<TileSet>>& StateLayer::getTileSets(){
-     return tileSets;
-}
-
- std::vector<std::unique_ptr<TextureArea>>& StateLayer::getTextureAreas(){
-     return textureAreas;
- }
-
-/*initTextureAreas
-*
-*create different layer: one for map,one for units,one for cursor
-*store this layer in a array--> type TextureAreas
-**/
+/** Initialize all the textures to display them in the window
+ * Creates different layers : one for the map, one for the units and one for the cursor
+ * 
+ * param : 
+ * state -> current game state
+ */
 void StateLayer::initTextureAreas (state::State state){
-    //Déclaration des textures
+    // Declaration of the different textures
     TextureArea map;
     TextureArea units;
     TextureArea cursor;
 
-    //Chargement des Tiles dans Texture
-    string directory="rsc/Images/level1_completeMap.png";
-    map.loadMap(mapWidth,mapHeight,directory);
-    //map.loadMap(mapWidth,mapHeight,state,*tileSets[2]);
-
+    // Loading the tiles in TextureArea objects
     units.loadUnits(state,*tileSets[0]);
     cursor.loadCursor(state,*tileSets[1]);
+    map.loadMap(state,*tileSets[2]);
 
-    //Déclaration des pointeurs sur des pbjets de types Texture
-	std::unique_ptr<TextureArea> ptr_map (new TextureArea(map));
-    std::unique_ptr<TextureArea> ptr_units (new TextureArea(units));
-    std::unique_ptr<TextureArea> ptr_cursor(new TextureArea(cursor));
+    // Declaration of pointers to store them in the global array for all the layers
+	unique_ptr<TextureArea> ptr_map (new TextureArea(map));
+    unique_ptr<TextureArea> ptr_units (new TextureArea(units));
+    unique_ptr<TextureArea> ptr_cursor(new TextureArea(cursor));
 
-    //Vider la table des éléments de type Texture
+    // Empty the table of all the elements in case we want to refresh the display
     if(textureAreas.size()!=0){
 		while(textureAreas.size()!=0){
 			textureAreas.pop_back();
 		}
 	}
 
+    // Inserting all the textures data in one array
     textureAreas.push_back(move(ptr_map));
     textureAreas.push_back(move(ptr_units));
     textureAreas.push_back(move(ptr_cursor));
 }
 
-/*draw
-*
-*Display each of the TextureArea layer in screen--> initialized in textureArea array with the "initTextureAreas(state)" function
-**/
-void StateLayer::draw (sf::RenderWindow& window){
+/** Display each of the TextureArea layer in screen--> initialized in textureArea array with the "initTextureAreas(state)" function
+ * 
+ * param : 
+ * window -> SFML window
+ */
+void StateLayer::draw (){
+    // Clear all the previous display in the window
     window.clear();
 
-    //Initialize rectangle Texture in the Window-->LAYER
-    // Rectangle degrade en (0,400) et de taille 400x200
-	sf::VertexArray quad(sf::Quads, 4);
-	quad[0].position = sf::Vector2f(1600.f, 800.f);
-	quad[1].position = sf::Vector2f(1950.f, 800.f);
-	quad[2].position = sf::Vector2f(1950.f, 900.f);
-	quad[3].position = sf::Vector2f(1600.f, 900.f);
-	quad[0].color = sf::Color::Red;
-	quad[1].color = sf::Color::Yellow;
-	quad[2].color = sf::Color::Red;
-	quad[3].color = sf::Color::Yellow;
+    // Rectangle shading at coordinates (1600,800) and size 350x100
+	sf::VertexArray bottom_right_rectangle(sf::Quads, 4);
+	bottom_right_rectangle[0].position = sf::Vector2f(1600.f, 800.f);
+	bottom_right_rectangle[1].position = sf::Vector2f(1950.f, 800.f);
+	bottom_right_rectangle[2].position = sf::Vector2f(1950.f, 900.f);
+	bottom_right_rectangle[3].position = sf::Vector2f(1600.f, 900.f);
+	bottom_right_rectangle[0].color = sf::Color::Red;
+	bottom_right_rectangle[1].color = sf::Color::Yellow;
+	bottom_right_rectangle[2].color = sf::Color::Red;
+	bottom_right_rectangle[3].color = sf::Color::Yellow;
 
-    //Initialise a logo Texture in the Window-->LAYER
+    // Rectangle shading at coordinates (1600,0) and size 350x800
+	sf::VertexArray right_rectangle(sf::Quads, 4);
+	right_rectangle[0].position = sf::Vector2f(1600.f, 0.f);
+	right_rectangle[1].position = sf::Vector2f(1950.f, 0.f);
+	right_rectangle[2].position = sf::Vector2f(1950.f, 800.f);
+	right_rectangle[3].position = sf::Vector2f(1600.f, 800.f);
+	right_rectangle[0].color = sf::Color::Yellow;
+	right_rectangle[1].color = sf::Color::Red;
+	right_rectangle[2].color = sf::Color::Yellow;
+	right_rectangle[3].color = sf::Color::Red;
+
+    // Rectangle shading at coordinates (0,800) and size 1600x100
+	sf::VertexArray bottom_rectangle(sf::Quads, 4);
+	bottom_rectangle[0].position = sf::Vector2f(0.f, 800.f);
+	bottom_rectangle[1].position = sf::Vector2f(1600.f, 800.f);
+	bottom_rectangle[2].position = sf::Vector2f(1600.f, 900.f);
+	bottom_rectangle[3].position = sf::Vector2f(0.f, 900.f);
+	bottom_rectangle[0].color = sf::Color::Yellow;
+	bottom_rectangle[1].color = sf::Color::Red;
+	bottom_rectangle[2].color = sf::Color::Yellow;
+	bottom_rectangle[3].color = sf::Color::Red;
+
+    // Fire Emblem logo put over the rectangle shading
     sf::Texture logo;
     logo.loadFromFile("rsc/Images/fire_emblem_logo.png");
     sf::Sprite spriteLogo;
     spriteLogo.setPosition(1600,800);
-    spriteLogo.scale(0.8,1);
     spriteLogo.setTexture(logo, true);
 
-    window.draw(quad); //Draw the rectangle layer
-    window.draw(spriteLogo); //Draw the logo layer
-	window.draw(*textureAreas[0]);	// Draw the map layer--> With the TextureArea type object as Target --> 			
+    window.draw(bottom_right_rectangle); // Draw the colored rectangle in the bottom right
+    window.draw(right_rectangle); // Draw the colored rectangle on the right
+    window.draw(bottom_rectangle); // Draw the colored rectangle at the bottom
+    window.draw(spriteLogo); // Draw the logo 
+	window.draw(*textureAreas[0]);	// Draw the map layer with the TextureArea type object as Target		
 	window.draw(*textureAreas[1]);	// Draw the units layer
 	window.draw(*textureAreas[2]);	// Draw the cursor layer
     
 	window.display();
 }
 
-
-int StateLayer::getMapHeight() const{
-    return mapHeight;
+/**
+ * 
+ */
+void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State& state){
+    initTextureAreas(state);
+    draw();
 }
 
-int StateLayer::getMapWidth() const{
-    return mapWidth;
+// Getters
+
+vector<unique_ptr<TileSet>>& StateLayer::getTileSets(){
+     return tileSets;
 }
+
+vector<unique_ptr<TextureArea>>& StateLayer::getTextureAreas(){
+     return textureAreas;
+ }

@@ -5,7 +5,7 @@ using namespace render;
 
 // Constructor
 
-TileSet::TileSet(TileSetID newID){
+TileSet::TileSet(render::TileSetID newID){
     id = newID;
     
     cellWidth=32;
@@ -19,7 +19,7 @@ TileSet::TileSet(TileSetID newID){
             imageFile="rsc/Images/cursor_32.png";
             break;
         case MAPTILESET:
-            imageFile="rsc/Images/map_tiles.png";
+            imageFile="rsc/Images/map_tileset.png";
             break;
         default:
             break;

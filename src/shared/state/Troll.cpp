@@ -7,15 +7,15 @@ using namespace state;
 using namespace std;
 
 // Constructors
-Troll::Troll() : MobileEntity(0,8,100,2,35,15,100,AVAILABLE,DOWN){
-    srand(time(0));
-    int x = rand() % 5;
-    int y = rand() % 12;
-    this->setX(this->getX() + x);
-    this->setY(this->getY() + y);
+Troll::Troll() : MobileEntity(0,7,0,100,2,35,1,15,100,AVAILABLE,DOWN){
+
 }
 
-Troll::Troll(int x, int y) : MobileEntity(x,y,100,2,35,15,100,AVAILABLE,DOWN){
+Troll::Troll(int playerId) : MobileEntity(0,7,playerId,100,2,35,1,15,100,AVAILABLE,DOWN){
+    
+}
+
+Troll::Troll(int x, int y, int playerId) : MobileEntity(x,y,playerId,100,2,35,1,15,100,AVAILABLE,DOWN){
     
 }
 

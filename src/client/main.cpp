@@ -105,17 +105,18 @@ int main(int argc, char* argv[])
             }
         }
         else if(strcmp(argv[1],"render")==0){
-            cout << "Affichage d'un état du jeu" << endl;
+            cout << "Displaying a state of the game" << endl;
 
             // Creation of the state
             State state;
-
+            
+            // Initialize the state notably the players
             state.initPlayers();
 
             sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
             // Creation of the display of the state
-            StateLayer stateLayer(window,state);
+            StateLayer stateLayer(state,window);
             stateLayer.initTextureAreas(state);
 
             while (window.isOpen()){
@@ -126,14 +127,9 @@ int main(int argc, char* argv[])
 						window.close();
 					}
 				}
-                stateLayer.draw(window);
-				/*
-				window.clear();
-				
-				window.draw(*stateLayer.getTextureAreas()[0]);	// Draw the map			
-				window.draw(*stateLayer.getTextureAreas()[1]);	// Draw the units
-				window.draw(*stateLayer.getTextureAreas()[2]);	// Draw the cursor*/
-				window.display();
+
+                // Draw all the display on the screen
+                stateLayer.draw();
 			}
         }
     }
