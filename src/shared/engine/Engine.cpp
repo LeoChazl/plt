@@ -9,37 +9,40 @@ using namespace engine;
 using namespace render;
 using namespace std;
 
-//Constructor
+//	Constructor
+
 Engine::Engine () : currentState(){
 	changeRound = false;
-
 }
 
-//Return a pointor on the state attribut initialized in the Engine
-state::State& Engine::getState (){
-	state::State& ptrState=currentState;
-	return ptrState;
-}
+// Functions
 
-//Add all the command POINTOR in a associative list
+/** Add command pointors in an associative list
+ * 
+ * params :
+ * priority -> index in the list 
+ * ptr_cmd -> pointor on the command
+ */ 
 void Engine::addCommand (int priority, std::unique_ptr<Command> ptr_cmd){
 	currentCommands[priority]=move(ptr_cmd);
 }
 
-//Update : Exécute all the currentCommands tabs elements
+/** Executes all the commands in the associative list
+ * 
+ */
 void Engine::update (){
 	StateEvent stateEvent(PLAYERCHANGE);
 
 	map<int, std::unique_ptr<Command>>::iterator it;
 
-    //execute each commands of the currentCommands tab
+    // Execute each command of the currentCommands table
 	for(size_t i=0; i<currentCommands.size();i++){
 			//currentCommands[i]->execute(currentState);
-			currentState.notifyObservers(stateEvent, currentState); //notify the state which will notify render
+			currentState.notifyObservers(stateEvent, currentState); // Notify the state which will notify render
 			sleep(2);
 	}
 
-    //Erase all the commands which were executed
+    // Erase all the commands which were executed
 	for(it=currentCommands.begin(); it!=currentCommands.end(); it++){
 		currentCommands.erase(it);
 	}
@@ -99,8 +102,18 @@ void Engine::update (){
 }*/
 
 
+//	Getters
 
-//Destructor
+State& Engine::getState (){
+	return currentState;
+}
+
+map<int, unique_ptr<Command>>& Engine::getCurrentCommands(){
+	return currentCommands;
+}
+
+
+//	Destructor
 Engine::~Engine (){
 }
 

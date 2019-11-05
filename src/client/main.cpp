@@ -124,8 +124,9 @@ int main(int argc, char* argv[])
             stateLayer.initTextureAreas(state);
 
             while (window.isOpen()){
-                // Close the window if the close button is pressed
 				sf::Event event;
+
+                // Close the window if the close button is pressed
 				while (window.pollEvent(event)){
 					if (event.type == sf::Event::Closed){
 						window.close();
@@ -152,27 +153,36 @@ int main(int argc, char* argv[])
             StateLayer* ptr_stateLayer=&stateLayer;
 			engine.getState().registerObserver(ptr_stateLayer);
 
+            cout << "Press a key to launch a command" << endl;
+
             while (window.isOpen()){
-                // Close the window if the close button is pressed
 				sf::Event event;
-				while (window.pollEvent(event)){
-					if (event.type == sf::Event::Closed){
-						window.close();
-					}
-				}
 
                 // Draw all the display on the screen
                 stateLayer.draw();
 
-                // Tentative d'attaque archer rouge contre chevalier bleu
-                Attack attack(engine.getState().getMobileEntity(0,0), engine.getState().getMobileEntity(1,0));
-                unique_ptr<Command> ptr_attack (new Attack(attack));
-                engine.addCommand(1, move(ptr_attack));
-            
-               engine.update();
+                // Close the window if the close button is pressed
+				while (window.pollEvent(event)){
+					if (event.type == sf::Event::Closed){
+						window.close();
+					} else if(event.type==sf::Event::KeyPressed){
+                        cout << "Hey" << endl;
+                        
+                        // Mage move down
+                        Position destinationMage(2,0);
+                        Move moveMage(engine.getState().getMobileEntity(1,0), destinationMage);
+                        unique_ptr<Command> ptr_mageMove(new Move(moveMage));
+                        engine.addCommand(0, move(ptr_mageMove));
+
+                        // Knight attack troll
+                        Attack attack(engine.getState().getMobileEntity(0,0), engine.getState().getMobileEntity(1,0));
+                        unique_ptr<Command> ptr_attack (new Attack(attack));
+                        engine.addCommand(1, move(ptr_attack));
+                    
+                        engine.update();
+                    }
+				}
 			}
-
-
         }
     }
     return 0;

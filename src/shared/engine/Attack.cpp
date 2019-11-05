@@ -8,11 +8,13 @@ using namespace engine;
 using namespace state;
 using namespace std;
 
+// Constructor
 
-Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): attacker(attacker),target(target)//define the two attributs with the arguments value give on the constructor
-{
+Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): attacker(attacker),target(target){
+
 }
 
+// Function
 
 void Attack::execute (state::State& state){
     bool attackIsPossible=false;
