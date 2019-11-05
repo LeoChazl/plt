@@ -46,16 +46,20 @@ bool State::initPlayers(){
     shared_ptr<MobileEntity> ptrMage(new Mage(ptrPlayer1->getId()));
     // Unit starting position is randomized in a certain area
     do{
-        x = rand() % 13;
-        y = rand() % 11;
+        //x = rand() % 13;
+        //y = rand() % 11;
+        x=0;
+        y=0;
     }while(!getEntityMap().getMapArray()[ptrMage->getY() + y][ptrMage->getX() + x]->isSpace());
     ptrMage->setX(ptrMage->getX() + x);
     ptrMage->setY(ptrMage->getY() + y);
 
     shared_ptr<MobileEntity> ptrKnight(new Knight(ptrPlayer1->getId()));
     do{
-        x = rand() % 7;
-        y = rand() % 8;
+        //x = rand() % 7;
+        //y = rand() % 8;
+        x=0;
+        y=1;
     }while(!getEntityMap().getMapArray()[ptrKnight->getY() + y][ptrKnight->getX() + x]->isSpace());
     ptrKnight->setX(ptrKnight->getX() + x);
     ptrKnight->setY(ptrKnight->getY() + y);
@@ -69,8 +73,10 @@ bool State::initPlayers(){
 
     shared_ptr<MobileEntity> ptrTroll(new Troll(ptrPlayer2->getId()));
     do{
-        x = rand() % 5;
-        y = rand() % 10;
+        //x = rand() % 5;
+        //y = rand() % 10;
+        x=1;
+        y=0;
     }while(!getEntityMap().getMapArray()[ptrTroll->getY() + y][ptrTroll->getX() + x]->isSpace());
     ptrTroll->setX(ptrTroll->getX() + x);
     ptrTroll->setY(ptrTroll->getY() + y);

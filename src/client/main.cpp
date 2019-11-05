@@ -4,11 +4,14 @@
 #include <string.h>
 
 #include </home/ensea/plt/src/client/render.h>
+#include </home/ensea/plt/src/shared/engine.h>
+
 
 using namespace sf;
 using namespace std;
 using namespace state;
 using namespace render;
+using namespace engine;
 
 int main(int argc, char* argv[])
 {
@@ -104,6 +107,7 @@ int main(int argc, char* argv[])
                 window.display();
             }
         }
+
         else if(strcmp(argv[1],"render")==0){
             cout << "Displaying a state of the game" << endl;
 
@@ -131,6 +135,44 @@ int main(int argc, char* argv[])
                 // Draw all the display on the screen
                 stateLayer.draw();
 			}
+        }
+
+        else if(strcmp(argv[1],"engine")==0){
+            cout<<"---- ENGINE TEST ----"<<endl;
+
+            //Initialize the window
+            sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
+
+            Engine engine;
+            engine.getState().initPlayers();
+
+            StateLayer stateLayer(engine.getState(),window);
+            stateLayer.initTextureAreas(engine.getState());
+
+            StateLayer* ptr_stateLayer=&stateLayer;
+			engine.getState().registerObserver(ptr_stateLayer);
+
+            while (window.isOpen()){
+                // Close the window if the close button is pressed
+				sf::Event event;
+				while (window.pollEvent(event)){
+					if (event.type == sf::Event::Closed){
+						window.close();
+					}
+				}
+
+                // Draw all the display on the screen
+                stateLayer.draw();
+
+                // Tentative d'attaque archer rouge contre chevalier bleu
+                Attack attack(engine.getState().getMobileEntity(0,0), engine.getState().getMobileEntity(1,0));
+                unique_ptr<Command> ptr_attack (new Attack(attack));
+                engine.addCommand(1, move(ptr_attack));
+            
+               /* engine.update();*/
+			}
+
+
         }
     }
     return 0;
