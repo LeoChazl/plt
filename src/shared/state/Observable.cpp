@@ -6,7 +6,7 @@ using namespace std;
 
 // Constructor
 
-Observer::Observer(){
+Observable::Observable(){
 
 }
 
@@ -17,7 +17,7 @@ Observer::Observer(){
  * param : 
  * obs -> new action to record in the list 
  */
-void Observer::registerObserver(IObserver* obs){
+void Observable::registerObserver(Observer* obs){
     observers.push_back(obs);
 }
 
@@ -26,7 +26,7 @@ void Observer::registerObserver(IObserver* obs){
  * param :
  * obs -> the action that has been processed
  */
-void Observer::unregisterObserver(IObserver* obs){
+void Observable::unregisterObserver(Observer* obs){
     observers.erase(remove(observers.begin(), observers.end(), obs), observers.end());
 }
 
@@ -34,7 +34,7 @@ void Observer::unregisterObserver(IObserver* obs){
 /** Scroll through the list of observers
  * To complete when render part of the code is done
  */
-void const Observer::notifyObservers(const StateEvent& stateEvent, State& state){
+void const Observable::notifyObservers(const StateEvent& stateEvent, State& state){
 	for(auto observer : observers){
 		observer->stateChanged(stateEvent, state);
 	}
@@ -42,6 +42,6 @@ void const Observer::notifyObservers(const StateEvent& stateEvent, State& state)
 
 // Destructor
 
-Observer::~Observer(){
+Observable::~Observable(){
 
 }
