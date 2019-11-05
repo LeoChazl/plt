@@ -15,6 +15,15 @@ Position::Position(int x,int y){
     this->y=y;
 }
 
+// Function
+
+bool Position::equal(Position& position){
+    if(x==position.getX() && y==position.getY()){
+        return true;
+    }
+    return false;
+}
+
 // Getters
 
 int Position::getX(){

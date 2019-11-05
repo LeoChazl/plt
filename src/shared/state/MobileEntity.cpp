@@ -172,8 +172,12 @@ float MobileEntity::getHealth(){
     return health;
 }
 
-float MobileEntity::getMovementRange(){
+int MobileEntity::getMovementRange(){
     return movementRange;
+}
+
+int MobileEntity::getMovementLeft(){
+    return movementLeft;
 }
 
 float MobileEntity::getDamage(){
@@ -213,6 +217,10 @@ void MobileEntity::setHealth(float health){
 
 void MobileEntity::setMovementRange(int movementRange){
     this->movementRange=movementRange;
+}
+
+void MobileEntity::setMovementLeft(int movementLeft){
+    this->movementLeft=movementLeft;
 }
 
 void MobileEntity::setDamage(float damage){
