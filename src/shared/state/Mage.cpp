@@ -4,12 +4,12 @@ using namespace state;
 using namespace std;
 
 // Constructors
-Mage::Mage() : MobileEntity(18,13,0,70,4,45,2,5,100,AVAILABLE,DOWN){
+Mage::Mage() : MobileEntity(0,0,0,70,4,45,2,5,100,AVAILABLE,DOWN){
     mana=100;
     manaMax=100;
 }
 
-Mage::Mage(int playerId) : MobileEntity(18,13,playerId,70,4,45,2,5,100,AVAILABLE,DOWN){
+Mage::Mage(int playerId) : MobileEntity(0,0,playerId,70,4,45,2,5,100,AVAILABLE,DOWN){
     mana=100;
     manaMax=100;
 }

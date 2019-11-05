@@ -7,11 +7,11 @@ using namespace state;
 using namespace std;
 
 // Constructors
-Troll::Troll() : MobileEntity(0,7,0,100,3,35,1,15,100,AVAILABLE,DOWN){
+Troll::Troll() : MobileEntity(0,0,0,100,3,35,1,15,100,AVAILABLE,DOWN){
 
 }
 
-Troll::Troll(int playerId) : MobileEntity(0,7,playerId,100,3,35,1,15,100,AVAILABLE,DOWN){
+Troll::Troll(int playerId) : MobileEntity(0,0,playerId,100,3,35,1,15,100,AVAILABLE,DOWN){
     
 }
 
