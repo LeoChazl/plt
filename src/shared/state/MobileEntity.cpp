@@ -149,7 +149,7 @@ vector<Position> MobileEntity::allowedAttack(State& state){
                 // Test in the attack range and unit presence
                 if((abs(i-x)+abs(j-y)<=attackRange) && state.isOccupied(i,j)){
                     // Test if unit is an enemy
-                    if(playerId != state.getMobileEntity(i,j).getPlayerId()){
+                    if(playerId != state.getMobileEntity(i,j)->getPlayerId()){
                         currentPosition.setX(i);
                         currentPosition.setY(j);
                         listAllowedAttack.push_back(currentPosition);

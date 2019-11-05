@@ -126,7 +126,7 @@ bool State::getEndGame(){
     return endGame;
 }
 
-MobileEntity& State::getMobileEntity(int x, int y){
+shared_ptr<MobileEntity> State::getMobileEntity(int x, int y){
     Player currentPlayer;
     int mobileEntityIndex;
 
@@ -139,10 +139,10 @@ MobileEntity& State::getMobileEntity(int x, int y){
         }
     }
     
-    return *currentPlayer.getMobileEntityList()[mobileEntityIndex];
+    return currentPlayer.getMobileEntityList()[mobileEntityIndex];
 }
 
-Player& State::getPlayer(int playerId){
+shared_ptr<Player> State::getPlayer(int playerId){
     int wantedPlayerIndex;
 
     for(unsigned int i=0;i<playerList.size();i++){
@@ -150,7 +150,7 @@ Player& State::getPlayer(int playerId){
             wantedPlayerIndex = i;
     }
 
-    return *playerList[wantedPlayerIndex];
+    return playerList[wantedPlayerIndex];
 }
 
 // Setters

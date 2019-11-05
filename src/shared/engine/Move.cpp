@@ -36,10 +36,9 @@ void Move::execute(state::State& state){
                 selectedUnit.setY(destination.getY());
                 selectedUnit.setMovementLeft(selectedUnit.getMovementLeft()-1);
 
-                Player ownerPlayer = state.getPlayer(selectedUnit.getPlayerId());
+                shared_ptr<Player> ownerPlayer = state.getPlayer(selectedUnit.getPlayerId());
 
-                cout << "The unit " << selectedUnit.getEntityId() << " of " << ownerPlayer.getName() << " moved to " << destination.getX() << ", " << destination.getY() << endl
-                << " and has " << selectedUnit.getMovementLeft() << " left." << endl;
+                cout << "The unit " << selectedUnit.getEntityId() << " of " << ownerPlayer->getName() << " moved to " << destination.getX() << ", " << destination.getY() << " and has " << selectedUnit.getMovementLeft() << " left." << endl;
             } else {
                 cout << "The unit cannot move to the destination." << endl;
             }
