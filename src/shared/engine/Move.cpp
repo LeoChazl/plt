@@ -1,15 +1,16 @@
 #include "../engine.h"
+#include "../state.h"
 
 using namespace engine;
 
 // Constructor
 
-Move::Move(state::MobileEntity& target, state::Position& destination){
+Move::Move(state::MobileEntity& selectedUnit, state::Position& destination): selectedUnit(selectedUnit), destination(destination){
     id=MOVE;
 }
 
 // Function
 
-void Move::Move(state::State& state){
+void Move::execute(state::State& state){
 
 }
