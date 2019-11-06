@@ -170,7 +170,6 @@ int main(int argc, char* argv[])
 					if (event.type == sf::Event::Closed){
 						window.close();
 					} else if(event.type==sf::Event::KeyPressed){
-                        cout << "Hey" << endl;
 
                         // Mage move down
                         Position destinationMage(0,2);
@@ -185,7 +184,6 @@ int main(int argc, char* argv[])
                     
                         engine.update();
 
-                        cout << "Done" << endl;
                     }
 				}
 			}

@@ -38,7 +38,20 @@ void Move::execute(state::State& state){
 
                 shared_ptr<Player> ownerPlayer = state.getPlayer(selectedUnit.getPlayerId());
 
-                cout << "The unit " << selectedUnit.getEntityId() << " of " << ownerPlayer->getName() << " moved to " << destination.getX() << ", " << destination.getY() << " and has " << selectedUnit.getMovementLeft() << " left." << endl;
+                string entityName = "";
+                switch(selectedUnit.getEntityId()){
+                    case TROLL: 
+                        entityName = "troll";
+                        break;
+                    case MAGE:
+                        entityName = "mage";
+                        break;
+                    case KNIGHT:
+                        entityName = "knight";
+                        break;
+                }
+
+                cout << "The unit " << entityName << " of " << ownerPlayer->getName() << " moved to (" << destination.getX() << "," << destination.getY() << ") and has " << selectedUnit.getMovementLeft() << " movements left." << endl;
             } else {
                 cout << "The unit cannot move to the destination." << endl;
             }
