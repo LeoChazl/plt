@@ -39,8 +39,8 @@ void Attack::execute (state::State& state){
             
 
             //Attack
-            //attacker.attack(target);
-            target.setHealth(oldTargetHealth-attacker.getDamage());
+            attacker.attack(target);
+            //target.setHealth(oldTargetHealth-attacker.getDamage());
 
             //Display on console : State 
             cout<<"Le target avait "<<oldTargetHealth<<" points de vie."<<endl;
