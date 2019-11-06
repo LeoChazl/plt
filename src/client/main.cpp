@@ -161,7 +161,8 @@ int main(int argc, char* argv[])
                 if(booting){
                     // Draw all the display on the screen
                     stateLayer.draw();
-                    cout << "Press a key to launch a command" << endl;
+                    cout << "Start of the simulation/commands test.\n" << endl;
+                    cout << "Press a key to launch a command.\n" << endl;
                     booting = false;
                 }
 
@@ -169,18 +170,29 @@ int main(int argc, char* argv[])
 				while (window.pollEvent(event)){
 					if (event.type == sf::Event::Closed){
 						window.close();
-					} else if(event.type==sf::Event::KeyPressed){
-
+					} else if(event.type==sf::Event::KeyPressed && engine.getState().getRound()==1){
                         // Mage move down
-                        Position destinationMage(0,2);
-                        Move moveMage(*engine.getState().getMobileEntity(0,1), destinationMage);
+                        Position destinationMage(10,12);
+                        Move moveMage(*engine.getState().getMobileEntity(10,11), destinationMage);
                         unique_ptr<Command> ptr_mageMove(new Move(moveMage));
                         engine.addCommand(0, move(ptr_mageMove));
+
+                        // Mage move against the wall
+                        Position destinationMage2(10,13);
+                        Move moveMage2(*engine.getState().getMobileEntity(10,11), destinationMage2);
+                        unique_ptr<Command> ptr_mageMove2(new Move(moveMage2));
+                        engine.addCommand(1, move(ptr_mageMove2));
+
+                        // Mage move to the right
+                        Position destinationMage3(10,13);
+                        Move moveMage3(*engine.getState().getMobileEntity(10,11), destinationMage3);
+                        unique_ptr<Command> ptr_mageMove3(new Move(moveMage3));
+                        engine.addCommand(2, move(ptr_mageMove3));
 
                         // Knight attack troll
                         Attack attack(*engine.getState().getPlayerList()[0]->getMobileEntityList()[0], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
                         unique_ptr<Command> ptr_attack (new Attack(attack));
-                        engine.addCommand(1, move(ptr_attack));
+                        engine.addCommand(3, move(ptr_attack));
                     
                         engine.update();
 
