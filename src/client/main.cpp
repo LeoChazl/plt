@@ -170,11 +170,10 @@ int main(int argc, char* argv[])
 					if (event.type == sf::Event::Closed){
 						window.close();
 					} else if(event.type==sf::Event::KeyPressed){
-                        cout << "Hey" << endl;
 
                         // Mage move down
-                        Position destinationMage(2,0);
-                        Move moveMage(*engine.getState().getMobileEntity(1,0), destinationMage);
+                        Position destinationMage(0,2);
+                        Move moveMage(*engine.getState().getMobileEntity(0,1), destinationMage);
                         unique_ptr<Command> ptr_mageMove(new Move(moveMage));
                         engine.addCommand(0, move(ptr_mageMove));
 
@@ -185,7 +184,6 @@ int main(int argc, char* argv[])
                     
                         engine.update();
 
-                        cout << "Done" << endl;
                     }
 				}
 			}
