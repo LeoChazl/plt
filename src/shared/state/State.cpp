@@ -14,6 +14,7 @@ State::State(){
     map=entityMap;
     Cursor cursor;
     endGame=false;
+    currentPlayerID=0;
 }
 
 // Functions
@@ -154,6 +155,10 @@ shared_ptr<Player> State::getPlayer(int playerId){
     return playerList[wantedPlayerIndex];
 }
 
+int State::getCurrentPlayerID(){
+    return currentPlayerID;
+}
+
 // Setters
 
 void State::setRound(int round){
@@ -167,6 +172,11 @@ void State::setLevel(int level){
 void State::setEndGame(bool endGame){
     this->endGame=endGame;
 }
+
+void State::setCurrentPlayerID (int currentPlayerID){
+    this->currentPlayerID=currentPlayerID;
+}
+
 
 // Destructor
 

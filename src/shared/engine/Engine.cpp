@@ -49,57 +49,89 @@ void Engine::update (){
 }
 
 
-/*bool Engine::checkRoundEnd(){
+bool Engine::checkRoundEnd(){
 	bool roundChange = true;
 	bool gameEnd = true;
-    int playerId= currentState.getPlayerList()[0]->getId();
-	
+
+	//for each player
 	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
-        int playerId= currentState.getPlayerList()[i]->getId();
-        for(unsigned int j = 0 )
-		if (currentState.getPlayerList()[i]->getCamp() == joueurActif){
-			//countJoueurActif = countJoueurActif + 1;
-			if (currentState.getPlayerList()[i]->getMobileEntityList->getStatut() != MORT ){
-				if (etatActuel.getPersonnages()[i]->getStatut() != ATTENTE){
-					tourChange = false;
+		//for each MobileEntity beloging to each player
+		for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
+
+			//Until the player has MObileEntity with which he didn't play --> the round is not finished
+			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
+				if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
+					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus() != WAITING){
+						roundChange = false;
+					}
+				}
+			
+			}else{//Until ennemie player have MobileEntity alive the game didn't finished
+				if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
+					gameEnd=false;
 				}
 			}
-	
-		}
-		
-		
-		// Si tous les personnages du joueur non actif ne sont pas morts, la partie n'est pas terminee
-		else{
-			if (etatActuel.getPersonnages()[i]->getStatut() != MORT ){
-				partieFinie = false;
-			}		
 		}
 	}
 
 	
-	if (partieFinie && tourChange){
+	//If the roundChage and the GameEnd --> the actual player win the game because all ennemeies MobileENtity are dead
+	if (roundChange && gameEnd){
 		cout << "\tPartie Terminee !" << endl;
-		etatActuel.setFin(partieFinie);
-		//if (countJoueurActif == 0){							 A MODIFIER}
-		if (joueurActif){
-			cout << "\tL'armee bleue a gagne !" << endl;
-		}
-		else {
-			cout << "\tL'armee rouge a gagne !" << endl;
-		}
-		tourChange = false;
-	}
-		
-	else if (tourChange && !partieFinie){
-		cout << "\t\t--- Tour Terminé. ---\n" << endl;
-		etatActuel.setTour(etatActuel.getTour()+1);
-	}
-	
-	changementTour = tourChange;
-	
-	return tourChange;
+		//currentState.setFin(partieFinie);
 
-}*/
+		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
+			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
+				cout<<"Le joueur "<< currentState.getPlayerList()[i]->getName()<<" a gagné la partie!!!"<<endl;
+			}
+		}
+		roundChange=false;
+	}else if(roundChange && !gameEnd){
+		cout << "\t\t--- Tour Terminé. ---\n" << endl;
+		//etatActuel.setTour(etatActuel.getTour()+1);
+
+	}
+	
+	return roundChange;
+}
+
+void Engine::checkRoundStart(){
+	if (changeRound == true){
+	
+		//change the current player
+		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID() % currentState.getPlayerList().size());
+		cout << "\t-> Changement de joueur <-" << endl;
+		//cout << "\t\t--- Tour " << etatActuel.getTour() << " ---\n" << endl;
+		
+		//for each player
+		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
+			//for each MobileEntity beloging to each player
+			for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
+
+				// For all MobileEntity which are not beloging to the cureentPlayer and which are not DEAD
+				if (currentState.getPlayerList()[i]->getId() != currentState.getCurrentPlayerID() && currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
+					// Reset Status to --> Available
+					currentState.getPlayerList()[i]->getMobileEntityList()[j]->setStatus(AVAILABLE);
+					
+					//Reset movement Points to each units
+					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == KNIGHT){
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(2);
+					}
+					else if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == TROLL) {
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(3);
+
+					}else if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == MAGE) {
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(4);
+
+					}	
+				}
+				
+			}
+		}
+		
+		changeRound = !changeRound;
+	}
+}
 
 
 //	Getters
