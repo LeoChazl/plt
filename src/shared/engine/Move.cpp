@@ -16,6 +16,21 @@ Move::Move(state::MobileEntity& selectedUnit, state::Position& destination): sel
 // Function
 
 void Move::execute(state::State& state){
+    string entityName = "";
+    switch(selectedUnit.getEntityId()){
+        case TROLL: 
+            entityName = "troll";
+            break;
+        case MAGE:
+            entityName = "mage";
+            break;
+        case KNIGHT:
+            entityName = "knight";
+            break;
+    }
+
+    cout << "The unit " << entityName << " will move or try to move." << endl;
+
     bool moveFeasible=false;
     // Unit is ready to move
     if(selectedUnit.getStatus()==AVAILABLE || selectedUnit.getStatus()==SELECTED){
@@ -39,27 +54,14 @@ void Move::execute(state::State& state){
 
                 shared_ptr<Player> ownerPlayer = state.getPlayer(selectedUnit.getPlayerId());
 
-                string entityName = "";
-                switch(selectedUnit.getEntityId()){
-                    case TROLL: 
-                        entityName = "troll";
-                        break;
-                    case MAGE:
-                        entityName = "mage";
-                        break;
-                    case KNIGHT:
-                        entityName = "knight";
-                        break;
-                }
-
-                cout << "The unit " << entityName << " of " << ownerPlayer->getName() << " moved to (" << destination.getX() << "," << destination.getY() << ") and has " << selectedUnit.getMovementLeft() << " movements left." << endl;
+                cout << "The unit " << entityName << " of " << ownerPlayer->getName() << " moved to (" << destination.getX() << "," << destination.getY() << ") and has " << selectedUnit.getMovementLeft() << " movements left.\n" << endl;
             } else {
-                cout << "The unit cannot move to the destination." << endl;
+                cout << "The unit cannot move to the destination.\n" << endl;
             }
         } else {
-            cout << "The unit doesn't have any movement left." << endl;
+            cout << "The unit doesn't have any movement left.\n" << endl;
         }
     } else {
-        cout << "The unit is not allowed to move." << endl;
+        cout << "The unit is not allowed to move.\n" << endl;
     }
 }
