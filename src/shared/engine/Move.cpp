@@ -10,6 +10,7 @@ using namespace std;
 // Constructor
 
 Move::Move(state::MobileEntity& selectedUnit, state::Position& destination): selectedUnit(selectedUnit), destination(destination){
+    
 }
 
 // Function
