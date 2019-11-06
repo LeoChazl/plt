@@ -173,11 +173,11 @@ int main(int argc, char* argv[])
                         cout << "Hey" << endl;
 
                         // Mage move down
-                        Position destinationMage(0,2);
-                        Move moveMage(*engine.getState().getMobileEntity(0,1), destinationMage);
+                        Position destinationMage(2,0);
+                        Move moveMage(*engine.getState().getMobileEntity(1,0), destinationMage);
                         unique_ptr<Command> ptr_mageMove(new Move(moveMage));
                         engine.addCommand(0, move(ptr_mageMove));
-                        
+
                         // Knight attack troll
                         Attack attack(*engine.getState().getPlayerList()[0]->getMobileEntityList()[0], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
                         unique_ptr<Command> ptr_attack (new Attack(attack));
