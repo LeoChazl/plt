@@ -95,46 +95,43 @@ bool Engine::checkRoundEnd(){
 	return roundChange;
 }
 
-/*void Engine::checkRoundStart(){
-	if (changementTour == true){
+void Engine::checkRoundStart(){
+	if (changeRound == true){
 	
-		joueurActif = !joueurActif;
+		//change the current player
+		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID() % currentState.getPlayerList().size());
 		cout << "\t-> Changement de joueur <-" << endl;
-		cout << "\t\t--- Tour " << etatActuel.getTour() << " ---\n" << endl;
+		//cout << "\t\t--- Tour " << etatActuel.getTour() << " ---\n" << endl;
 		
-		for (unsigned int i = 0; i < etatActuel.getPersonnages().size(); i++){
-		
-			// Personnages du joueur qui termine son tour et qui ne sont pas morts
-			if (etatActuel.getPersonnages()[i]->getCamp() != joueurActif && etatActuel.getPersonnages()[i]->getStatut() != MORT){
-				// Reinitialisation du statut
-				etatActuel.getPersonnages()[i]->setStatut(DISPONIBLE);
-				
-				//Reinitialisation des points de mouvement
-				if (etatActuel.getPersonnages()[i]->getType() != CHEVALIER){
-					etatActuel.getPersonnages()[i]->setChampMove(3);
+		//for each player
+		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
+			//for each MobileEntity beloging to each player
+			for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
+
+				// For all MobileEntity which are not beloging to the cureentPlayer and which are not DEAD
+				if (currentState.getPlayerList()[i]->getId() != currentState.getCurrentPlayerID() && currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
+					// Reset Status to --> Available
+					currentState.getPlayerList()[i]->getMobileEntityList()[j]->setStatus(AVAILABLE);
+					
+					//Reset movement Points to each units
+					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == KNIGHT){
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(2);
+					}
+					else if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == TROLL) {
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(3);
+
+					}else if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == MAGE) {
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(4);
+
+					}	
 				}
-				else {
-					etatActuel.getPersonnages()[i]->setChampMove(5);
-				}	
-			}
-			
-			// Regain de PV pour les personnages sur des maisons et fortersse en debut de tour
-			else if (etatActuel.getPersonnages()[i]->getCamp() == joueurActif) {
-				TerrainPraticable& refTerrainP = static_cast<TerrainPraticable&>(*etatActuel.getGrille()[etatActuel.getPersonnages()[i]->getPosition().getY()][etatActuel.getPersonnages()[i]->getPosition().getX()]);
 				
-				if(refTerrainP.getTerrainPraticableID() == MAISON || refTerrainP.getTerrainPraticableID() == FORTERESSE){
-					etatActuel.getPersonnages()[i]->getStatistiques().setPV(etatActuel.getPersonnages()[i]->getStatistiques().getPV() + refTerrainP.getStatistiques().getPV());
-					// Affichage
-					cout << "+ " << etatActuel.getPersonnages()[i]->getNom() << " récupère " ;
-					cout << refTerrainP.getStatistiques().getPV() << " PV.";
-					cout << " (" << etatActuel.getPersonnages()[i]->getStatistiques().getPV() << " PV au total). +" << endl;
-				}
 			}
 		}
 		
-		changementTour = !changementTour;
+		changeRound = !changeRound;
 	}
-}*/
+}
 
 
 //	Getters

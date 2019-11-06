@@ -173,6 +173,11 @@ void State::setEndGame(bool endGame){
     this->endGame=endGame;
 }
 
+void State::setCurrentPlayerID (int currentPlayerID){
+    this->currentPlayerID=currentPlayerID;
+}
+
+
 // Destructor
 
 State::~State(){
