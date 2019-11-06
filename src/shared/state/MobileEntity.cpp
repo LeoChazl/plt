@@ -9,6 +9,7 @@ MobileEntity::MobileEntity():Position(0,6)
 {
     health=100;
     movementRange=1;
+    movementLeft=1;
     damage=30;
     attackRange=1;
     armor=10;
@@ -17,11 +18,12 @@ MobileEntity::MobileEntity():Position(0,6)
     direction=DOWN;
 }
 
-MobileEntity::MobileEntity (int x, int y, int playerId, float health, int movementRange, float damage, int attackRange, float armor, float maxHealth, Status status, Direction direction):Position(x,y)
+MobileEntity::MobileEntity (int x, int y, int playerId, float health, int movementRange, int movementLeft, float damage, int attackRange, float armor, float maxHealth, Status status, Direction direction):Position(x,y)
 {
     this->playerId=playerId;
     this->health=health;
     this->movementRange=movementRange;
+    this->movementLeft=movementLeft;
     this->damage=damage;
     this->attackRange=attackRange;
     this->armor=armor;
