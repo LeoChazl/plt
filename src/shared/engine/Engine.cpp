@@ -49,56 +49,91 @@ void Engine::update (){
 }
 
 
-/*bool Engine::checkRoundEnd(){
+bool Engine::checkRoundEnd(){
 	bool roundChange = true;
 	bool gameEnd = true;
-    int playerId= currentState.getPlayerList()[0]->getId();
-	
+
+	//for each player
 	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
-        int playerId= currentState.getPlayerList()[i]->getId();
-        for(unsigned int j = 0 )
-		if (currentState.getPlayerList()[i]->getCamp() == joueurActif){
-			//countJoueurActif = countJoueurActif + 1;
-			if (currentState.getPlayerList()[i]->getMobileEntityList->getStatut() != MORT ){
-				if (etatActuel.getPersonnages()[i]->getStatut() != ATTENTE){
-					tourChange = false;
+		//for each MobileEntity beloging to each player
+		for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
+
+			//Until the player has MObileEntity with which he didn't play --> the round is not finished
+			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
+				if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
+					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus() != WAITING){
+						roundChange = false;
+					}
+				}
+			
+			}else{//Until ennemie player have MobileEntity alive the game didn't finished
+				if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
+					gameEnd=false;
 				}
 			}
-	
-		}
-		
-		
-		// Si tous les personnages du joueur non actif ne sont pas morts, la partie n'est pas terminee
-		else{
-			if (etatActuel.getPersonnages()[i]->getStatut() != MORT ){
-				partieFinie = false;
-			}		
 		}
 	}
 
 	
-	if (partieFinie && tourChange){
+	//If the roundChage and the GameEnd --> the actual player win the game because all ennemeies MobileENtity are dead
+	if (roundChange && gameEnd){
 		cout << "\tPartie Terminee !" << endl;
-		etatActuel.setFin(partieFinie);
-		//if (countJoueurActif == 0){							 A MODIFIER}
-		if (joueurActif){
-			cout << "\tL'armee bleue a gagne !" << endl;
-		}
-		else {
-			cout << "\tL'armee rouge a gagne !" << endl;
-		}
-		tourChange = false;
-	}
-		
-	else if (tourChange && !partieFinie){
-		cout << "\t\t--- Tour Terminé. ---\n" << endl;
-		etatActuel.setTour(etatActuel.getTour()+1);
-	}
-	
-	changementTour = tourChange;
-	
-	return tourChange;
+		//currentState.setFin(partieFinie);
 
+		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
+			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
+				cout<<"Le joueur "<< currentState.getPlayerList()[i]->getName()<<" a gagné la partie!!!"<<endl;
+			}
+		}
+		roundChange=false;
+	}else if(roundChange && !gameEnd){
+		cout << "\t\t--- Tour Terminé. ---\n" << endl;
+		//etatActuel.setTour(etatActuel.getTour()+1);
+
+	}
+	
+	return roundChange;
+}
+
+/*void Engine::checkRoundStart(){
+	if (changementTour == true){
+	
+		joueurActif = !joueurActif;
+		cout << "\t-> Changement de joueur <-" << endl;
+		cout << "\t\t--- Tour " << etatActuel.getTour() << " ---\n" << endl;
+		
+		for (unsigned int i = 0; i < etatActuel.getPersonnages().size(); i++){
+		
+			// Personnages du joueur qui termine son tour et qui ne sont pas morts
+			if (etatActuel.getPersonnages()[i]->getCamp() != joueurActif && etatActuel.getPersonnages()[i]->getStatut() != MORT){
+				// Reinitialisation du statut
+				etatActuel.getPersonnages()[i]->setStatut(DISPONIBLE);
+				
+				//Reinitialisation des points de mouvement
+				if (etatActuel.getPersonnages()[i]->getType() != CHEVALIER){
+					etatActuel.getPersonnages()[i]->setChampMove(3);
+				}
+				else {
+					etatActuel.getPersonnages()[i]->setChampMove(5);
+				}	
+			}
+			
+			// Regain de PV pour les personnages sur des maisons et fortersse en debut de tour
+			else if (etatActuel.getPersonnages()[i]->getCamp() == joueurActif) {
+				TerrainPraticable& refTerrainP = static_cast<TerrainPraticable&>(*etatActuel.getGrille()[etatActuel.getPersonnages()[i]->getPosition().getY()][etatActuel.getPersonnages()[i]->getPosition().getX()]);
+				
+				if(refTerrainP.getTerrainPraticableID() == MAISON || refTerrainP.getTerrainPraticableID() == FORTERESSE){
+					etatActuel.getPersonnages()[i]->getStatistiques().setPV(etatActuel.getPersonnages()[i]->getStatistiques().getPV() + refTerrainP.getStatistiques().getPV());
+					// Affichage
+					cout << "+ " << etatActuel.getPersonnages()[i]->getNom() << " récupère " ;
+					cout << refTerrainP.getStatistiques().getPV() << " PV.";
+					cout << " (" << etatActuel.getPersonnages()[i]->getStatistiques().getPV() << " PV au total). +" << endl;
+				}
+			}
+		}
+		
+		changementTour = !changementTour;
+	}
 }*/
 
 

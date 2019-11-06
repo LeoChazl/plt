@@ -14,6 +14,7 @@ State::State(){
     map=entityMap;
     Cursor cursor;
     endGame=false;
+    currentPlayerID=0;
 }
 
 // Functions
@@ -152,6 +153,10 @@ shared_ptr<Player> State::getPlayer(int playerId){
     }
 
     return playerList[wantedPlayerIndex];
+}
+
+int State::getCurrentPlayerID(){
+    return currentPlayerID;
 }
 
 // Setters
