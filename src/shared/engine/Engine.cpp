@@ -1,5 +1,5 @@
 #include "../engine.h"
-#include </home/ensea/plt/src/client/render.h>
+#include "../../client/render.h"
 #include "../state.h"
 #include <iostream>
 #include <unistd.h>
