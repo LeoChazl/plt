@@ -35,24 +35,19 @@ void Move::execute(state::State& state){
     // Unit is ready to move
     if(selectedUnit.getStatus()==AVAILABLE || selectedUnit.getStatus()==SELECTED){
         // Check if unit has still movement left
-        cout<<"e1"<<endl;
         if(selectedUnit.getMovementLeft()>0){
-            cout<<"e2"<<endl;
             vector<Position> allowedMoveList = selectedUnit.allowedMove(state);
 
             // Check if the destination is allowed
-            cout<<allowedMoveList.size()<<endl;
             for(unsigned int i=0;i<allowedMoveList.size();i++){
                 if(allowedMoveList[i].equal(destination)){
                     moveFeasible=true;
                     break;
                 }
             }
-            cout<<"e3"<<endl;
 
             // Change the state
             if(moveFeasible){
-                cout<<"e5"<<endl;
                 selectedUnit.setX(destination.getX());
                 selectedUnit.setY(destination.getY());
                 selectedUnit.setMovementLeft(selectedUnit.getMovementLeft()-1);

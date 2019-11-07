@@ -154,7 +154,7 @@ int main(int argc, char* argv[])
 			engine.getState().registerObserver(ptr_stateLayer);
 
             bool booting = true;
-            int i=0;
+        
 
             while (window.isOpen()){
 				sf::Event event;
@@ -225,14 +225,26 @@ int main(int argc, char* argv[])
                         engine.addCommand(1, move(ptr_deplacement2));
 
                         // Troll attack knight
-                        Attack attack(*engine.getState().getPlayerList()[1]->getMobileEntityList()[0], *engine.getState().getPlayerList()[0]->getMobileEntityList()[0]);
+                        cout<<"Attaque: 3 coups critique"<<endl;
+                        Attack attack(*engine.getState().getPlayerList()[0]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
                         unique_ptr<Command> ptr_attack (new Attack(attack));
                         engine.addCommand(2, move(ptr_attack));
+
+                        Attack attack2(*engine.getState().getPlayerList()[0]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
+                        unique_ptr<Command> ptr_attack2 (new Attack(attack2));
+                        engine.addCommand(3, move(ptr_attack2));
+
+                        Attack attack3(*engine.getState().getPlayerList()[0]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
+                        unique_ptr<Command> ptr_attack3 (new Attack(attack3));
+                        engine.addCommand(4, move(ptr_attack3));
 
                         engine.getState().setRound(4);
                         engine.update();
                         cout<<"Troll a attaqué knight!!"<<endl;
                         engine.checkRoundEnd();
+                        cout<<"\t--FIN--"<<endl;
+                        window.close();
+
 
                     }
 				}
