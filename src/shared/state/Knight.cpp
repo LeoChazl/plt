@@ -4,11 +4,11 @@ using namespace state;
 using namespace std;
 
 // Constructors
-Knight::Knight() : MobileEntity(25,8,0,100,2,2,35,1,15,100,AVAILABLE,LEFT){
+Knight::Knight() : MobileEntity(2,4,0,100,2,2,35,1,15,100,AVAILABLE,LEFT){
 
 }
 
-Knight::Knight(int playerId) : MobileEntity(25,8,playerId,100,2,2,35,1,15,100,AVAILABLE,LEFT){
+Knight::Knight(int playerId) : MobileEntity(2,4,playerId,100,2,2,35,1,15,100,AVAILABLE,LEFT){
 
 }
 
