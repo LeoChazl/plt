@@ -18,6 +18,7 @@ Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): att
 
 void Attack::execute (state::State& state){
     bool attackIsPossible=false;
+    //Store all the possible coordinates for the attack
     std::vector<state::Position> listeCoordAtq=attacker.allowedAttack(state);
 
     if(attacker.getStatus()!=WAITING &&attacker.getStatus()!=DEAD){

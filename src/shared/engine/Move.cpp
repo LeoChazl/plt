@@ -39,12 +39,17 @@ void Move::execute(state::State& state){
             vector<Position> allowedMoveList = selectedUnit.allowedMove(state);
 
             // Check if the destination is allowed
+            cout<<"/*------------------*/"<<endl;
+            cout<<"Allowed Move: "<<endl;
             for(unsigned int i=0;i<allowedMoveList.size();i++){
+                cout<<" x--> "<<allowedMoveList[i].getX()<<" // y-->" <<allowedMoveList[i].getY()<<endl;
                 if(allowedMoveList[i].equal(destination)){
                     moveFeasible=true;
                     break;
                 }
             }
+            cout<<"/*------------------*/"<<endl;
+
 
             // Change the state
             if(moveFeasible){
@@ -56,7 +61,7 @@ void Move::execute(state::State& state){
 
                 cout << "The unit " << entityName << " of " << ownerPlayer->getName() << " moved to (" << destination.getX() << "," << destination.getY() << ") and has " << selectedUnit.getMovementLeft() << " movements left.\n" << endl;
             } else {
-                cout << "The unit cannot move to the destination.\n" << endl;
+                cout << "The unit cannot move to the destination :(" << destination.getX()<< " , "<<destination.getY()<<endl;
             }
         } else {
             cout << "The unit doesn't have any movement left.\n" << endl;
