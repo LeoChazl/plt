@@ -112,16 +112,75 @@ void StateLayer::draw (){
 	bottom_rectangle[2].color = sf::Color::Yellow;
 	bottom_rectangle[3].color = sf::Color::Red;
 
+    // Current player rectangle at the bottm
+    sf::RectangleShape currentPlayerRectangle(sf::Vector2f(600.f, 30.f));
+	currentPlayerRectangle.setPosition(500.f, 810.f);
+    sf::Color colorCurrentPlayerRectangle(0,0,0,200);
+	currentPlayerRectangle.setFillColor(colorCurrentPlayerRectangle);
+
+    // Control panel
+    sf::RectangleShape controlPanel(sf::Vector2f(350.f,100.f));
+    controlPanel.setPosition(sf::Vector2f(1600.f,800.f));
+    sf::Color colorControlPanel(0,0,0,250);
+    controlPanel.setFillColor(colorControlPanel);
+
+    string title = "Controls";
+    sf::Text text;
+    text.setFont(font);
+    text.setString(title);
+    text.setCharacterSize(12);
+    text.setFillColor(sf::Color::Cyan);
+    text.setPosition(1725.f,805.f);
+
+    string controlString1 = "Arrow  keys\n\nEnter\n\nA";
+    sf::Text controlText1;
+    controlText1.setFont(font);
+    controlText1.setString(controlString1);
+    controlText1.setCharacterSize(10);
+    controlText1.setFillColor(sf::Color::Red);
+    controlText1.setPosition(1645.f, 825.f);
+
+    string actionString1 = "Move\n\nSelect\n\nAttack";
+    sf::Text actionText1;
+    actionText1.setFont(font);
+    actionText1.setString(actionString1);
+    actionText1.setCharacterSize(10);
+    actionText1.setFillColor(sf::Color::White);
+    actionText1.setPosition(1715.f, 825.f);
+
+    string controlString2 = "Z\n\nE";
+    sf::Text controlText2;
+    controlText2.setFont(font);
+    controlText2.setString(controlString2);
+    controlText2.setCharacterSize(10);
+    controlText2.setFillColor(sf::Color::Red);
+    controlText2.setPosition(1780.f, 825.f);
+
+    string actionString2 = "Cancel  attack\n\nEnd  unit  round";
+    sf::Text actionText2;
+    actionText2.setFont(font);
+    actionText2.setString(actionString2);
+    actionText2.setCharacterSize(10);
+    actionText2.setFillColor(sf::Color::White);
+    actionText2.setPosition(1800.f, 825.f);
+
     // Fire Emblem logo put over the rectangle shading
     sf::Texture logo;
     logo.loadFromFile("rsc/Images/fire_emblem_logo.png");
     sf::Sprite spriteLogo;
-    spriteLogo.setPosition(1600,800);
+    spriteLogo.setPosition(1600.f,0.f);
     spriteLogo.setTexture(logo, true);
 
     window.draw(bottom_right_rectangle); // Draw the colored rectangle in the bottom right
     window.draw(right_rectangle); // Draw the colored rectangle on the right
     window.draw(bottom_rectangle); // Draw the colored rectangle at the bottom
+    window.draw(currentPlayerRectangle);
+    window.draw(controlPanel);
+    window.draw(text);
+    window.draw(controlText1);
+    window.draw(actionText1);
+    window.draw(controlText2);
+    window.draw(actionText2);
     window.draw(spriteLogo); // Draw the logo 
 	window.draw(*textureAreas[0]);	// Draw the map layer with the TextureArea type object as Target		
 	window.draw(*textureAreas[1]);	// Draw the units layer

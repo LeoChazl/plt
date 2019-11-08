@@ -1,5 +1,6 @@
 #include "../state.h"
 #include <iostream>
+#include <tgmath.h>
 
 using namespace state;
 using namespace std;
@@ -45,7 +46,7 @@ MobileEntity::MobileEntity (int x, int y, int playerId, float health, int moveme
 float MobileEntity::receiveDamage (float damage){
     //Damage dealt = damage - reduction from armor
     //health-=damage - (damage/armor);
-    health=health-(damage-damage/armor);
+    health=roundf(health-(damage-damage/armor));
 
     // If health is less than "0" after the attack
     if(health<0){
