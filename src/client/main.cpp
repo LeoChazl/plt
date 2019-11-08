@@ -3,8 +3,8 @@
 #include <iostream>
 #include <string.h>
 
-#include </home/ensea/plt/src/client/render.h>
-#include </home/ensea/plt/src/shared/engine.h>
+#include "render.h"
+#include "../shared/engine.h"
 
 
 using namespace sf;
