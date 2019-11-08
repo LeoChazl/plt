@@ -17,12 +17,40 @@ Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): att
 // Function
 
 void Attack::execute (state::State& state){
+    string entityNameAttacker = "";
+    switch(attacker.getEntityId()){
+        case TROLL: 
+            entityNameAttacker = "troll";
+            break;
+        case MAGE:
+            entityNameAttacker = "mage";
+            break;
+        case KNIGHT:
+            entityNameAttacker = "knight";
+            break;
+    }
+
+    string entityNameTarget = "";
+    switch(target.getEntityId()){
+        case TROLL: 
+            entityNameTarget = "troll";
+            break;
+        case MAGE:
+            entityNameTarget = "mage";
+            break;
+        case KNIGHT:
+            entityNameTarget = "knight";
+            break;
+    }
+
+    cout << "The " << entityNameAttacker << " will attack or try to attack the " << entityNameTarget << "." << endl;
+
     bool attackIsPossible=false;
     std::vector<state::Position> listeCoordAtq=attacker.allowedAttack(state);
 
     if(attacker.getStatus()!=WAITING &&attacker.getStatus()!=DEAD){
 
-        //for each open to attack coordinate we tested if tha target possible coorespond to one of the possible attack position
+        // For each coordinate open to attack we tested if a possible target corresponds to one of the possible attack position
 		for(size_t j=0; j<listeCoordAtq.size(); j++){
 			if((listeCoordAtq[j].getX()==target.getX()) && (listeCoordAtq[j].getY()==target.getY()) ){
 				attackIsPossible=true;
@@ -30,36 +58,34 @@ void Attack::execute (state::State& state){
 			}
 		}
         attackIsPossible=true;
-        //If the attack is possible 
+        // If the attack is possible 
         if(attackIsPossible){
-            //Target
-            cout<<"Attack is possible"<<endl;
-            //target.setHealth(50);
+            // Target
+            cout<<"The attack is possible !"<<endl;
+
             float oldTargetHealth=target.getHealth();
             
-
-            //Attack
+            // Attack
             attacker.attack(target);
-            //target.setHealth(oldTargetHealth-attacker.getDamage());
 
-            //Display on console : State 
-            cout<<"Le target avait "<<oldTargetHealth<<" points de vie."<<endl;
-            cout<<"Le target a "<<target.getHealth()<<" de points de vie restant."<<endl;
+            // Display on console : State 
+            cout<<"The " << entityNameTarget << " had " << oldTargetHealth << " health points." << endl;
+            cout<<"The " << entityNameTarget << " has now " << target.getHealth() << " health points left.\n" << endl;
 
-            //If the target unit don't have a positif health value after the attack
+            // If the target unit don't have a positif health value after the attack
             if(target.getHealth()==0){
                 target.setStatus(DEAD);
                 target.setX(-1);
                 target.setY(-1);
-                cout << "Le target est mort." << endl;
+                cout << "The " << entityNameTarget << " is dead.\n" << endl;
                 sleep(2);
             }
         }else{
-            cout<<"Aucun ennemie dans la zone d'attaque"<<endl;
+            cout<<"The " << entityNameTarget << " is not in " << entityNameAttacker << " range.\n" << endl;
         }
 
     }else if(attacker.getStatus()==WAITING){
-        cout<<"Ce personnage ne peut plus attaquer-->raison: Son tour d'actions est terminé "<<endl;
+        cout<< "The " << entityNameAttacker << " cannot attack because his turn already ended.\n" << endl;
     }
 }
 

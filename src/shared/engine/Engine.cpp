@@ -1,12 +1,10 @@
 #include "../engine.h"
-#include </home/ensea/plt/src/client/render.h>
 #include "../state.h"
 #include <iostream>
 #include <unistd.h>
 
 using namespace state;
 using namespace engine;
-using namespace render;
 using namespace std;
 
 //	Constructor
@@ -48,17 +46,19 @@ void Engine::update (){
 	}
 }
 
-
+/** Check state to see if a round has ended
+ * 
+ */
 bool Engine::checkRoundEnd(){
 	bool roundChange = true;
 	bool gameEnd = true;
 
-	//for each player
+	// For each player
 	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
-		//for each MobileEntity beloging to each player
+		// For each MobileEntity belonging to each player
 		for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
 
-			//Until the player has MObileEntity with which he didn't play --> the round is not finished
+			// As long as the player has a MobileEntity with which he didn't play --> the round is not finished
 			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
 				if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
 					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus() != WAITING){
@@ -66,7 +66,7 @@ bool Engine::checkRoundEnd(){
 					}
 				}
 			
-			}else{//Until ennemie player have MobileEntity alive the game didn't finished
+			}else{ // As long as another player has a MobileEntity alive the game isn't finished
 				if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
 					gameEnd=false;
 				}
@@ -75,10 +75,9 @@ bool Engine::checkRoundEnd(){
 	}
 
 	
-	//If the roundChage and the GameEnd --> the actual player win the game because all ennemeies MobileENtity are dead
+	// If the round changes and the game has ended --> the actual player win the game because all ennemeies MobileENtity are dead
 	if (roundChange && gameEnd){
-		cout << "\tPartie Terminee !" << endl;
-		//currentState.setFin(partieFinie);
+		cout << "\tEnd of the game !" << endl;
 
 		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
 			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
@@ -87,33 +86,35 @@ bool Engine::checkRoundEnd(){
 		}
 		roundChange=false;
 	}else if(roundChange && !gameEnd){
-		cout << "\t\t--- Tour Terminé. ---\n" << endl;
-		//etatActuel.setTour(etatActuel.getTour()+1);
-
+		cout << "\t\t--- Round has ended. ---\n" << endl;
+		currentState.setRound(currentState.getRound() + 1);
 	}
 	
 	return roundChange;
 }
 
+/** Sets or resets data to start a new round
+ * 
+ */
 void Engine::checkRoundStart(){
 	if (changeRound == true){
 	
-		//change the current player
+		// Change the current player
 		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID() % currentState.getPlayerList().size());
-		cout << "\t-> Changement de joueur <-" << endl;
-		//cout << "\t\t--- Tour " << etatActuel.getTour() << " ---\n" << endl;
+		cout << "\tCurrent player change" << endl;
+		cout << "\t\t--- Round " << currentState.getRound() << " ---\n" << endl;
 		
-		//for each player
+		// For each player
 		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
-			//for each MobileEntity beloging to each player
+			// For each MobileEntity belonging to each player
 			for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
 
-				// For all MobileEntity which are not beloging to the cureentPlayer and which are not DEAD
+				// For all MobileEntity which do not belong to the currentPlayer and which are not DEAD
 				if (currentState.getPlayerList()[i]->getId() != currentState.getCurrentPlayerID() && currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
-					// Reset Status to --> Available
+					// Reset Status to Available
 					currentState.getPlayerList()[i]->getMobileEntityList()[j]->setStatus(AVAILABLE);
 					
-					//Reset movement Points to each units
+					// Reset movement points for each units
 					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == KNIGHT){
 						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(2);
 					}
@@ -128,7 +129,6 @@ void Engine::checkRoundStart(){
 				
 			}
 		}
-		
 		changeRound = !changeRound;
 	}
 }
@@ -146,6 +146,8 @@ map<int, unique_ptr<Command>>& Engine::getCurrentCommands(){
 
 
 //	Destructor
+
 Engine::~Engine (){
+
 }
 

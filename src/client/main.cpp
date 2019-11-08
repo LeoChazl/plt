@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
                     // Draw all the display on the screen
                     stateLayer.draw();
                     cout << "Start of the simulation/commands test.\n" << endl;
-                    cout << "Press a key to launch a command.\n" << endl;
+                    cout << "Press a key to execute a round.\n" << endl;
                     booting = false;
                 }
                 // Close the window if the close button is pressed
@@ -171,61 +171,56 @@ int main(int argc, char* argv[])
 					if (event.type == sf::Event::Closed){
 						window.close();
 					} else if(event.type==sf::Event::KeyPressed && engine.getState().getRound()==1){
-    
+                        cout << "\t\t--- Round 1 ---\n" << endl;
+
+                        // Mage moves
                         Position destination1(5,6);
                         Move deplacement1(*engine.getState().getMobileEntity(6,6), destination1);
                         unique_ptr<Command> ptr_deplacement1 (new Move(deplacement1));
                         engine.addCommand(0, move(ptr_deplacement1));
                         
-                        
+                        // Mage moves
                         Position destination2(4,6);
                         Move deplacement2(*engine.getState().getMobileEntity(6,6), destination2);
                         unique_ptr<Command> ptr_deplacement2 (new Move(deplacement2));
                         engine.addCommand(1, move(ptr_deplacement2));
 
-
-                        // Mage attack Troll
+                        // Mage attacks Troll
                         Attack attack(*engine.getState().getPlayerList()[0]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
                         unique_ptr<Command> ptr_attack (new Attack(attack));
                         engine.addCommand(2, move(ptr_attack));
 
-                        /*Position destination3(26,10);
-                        Move deplacement3(*engine.getState().getMobileEntity(25,10), destination3);
-                        unique_ptr<Command> ptr_deplacement3 (new Move(deplacement3));
-                        engine.addCommand(2, move(ptr_deplacement3));*/
-                        engine.getState().setRound(2);
                         engine.update();
                         engine.checkRoundEnd();
 
                     }else if(event.type==sf::Event::KeyPressed && engine.getState().getRound()==2){
                         engine.checkRoundStart();
-                        cout<<"round 2"<<endl;
 
+                        // Troll moves
                         Position destination3(4,5);
                         Move deplacement3(*engine.getState().getMobileEntity(4,4), destination3);
                         unique_ptr<Command> ptr_deplacement3 (new Move(deplacement3));
                         engine.addCommand(0, move(ptr_deplacement3));
 
-                        engine.getState().setRound(3);
                         engine.update();
                         engine.checkRoundEnd();
 
                     }else if(event.type==sf::Event::KeyPressed && engine.getState().getRound()==3){
                         engine.checkRoundStart();
-                        cout<<"round 3"<<endl;
 
+                        // Knight moves
                         Position destination(3,4);
                         Move deplacement(*engine.getState().getMobileEntity(2,4), destination);
                         unique_ptr<Command> ptr_deplacement (new Move(deplacement));
                         engine.addCommand(0, move(ptr_deplacement));
 
+                        // Troll moves
                         Position destination2(3,5);
                         Move deplacement2(*engine.getState().getMobileEntity(4,5), destination2);
                         unique_ptr<Command> ptr_deplacement2 (new Move(deplacement2));
                         engine.addCommand(1, move(ptr_deplacement2));
 
-                        // Troll attack knight
-                        cout<<"Attaque: 3 coups critique"<<endl;
+                        // Knight attacks troll until he dies
                         Attack attack(*engine.getState().getPlayerList()[0]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
                         unique_ptr<Command> ptr_attack (new Attack(attack));
                         engine.addCommand(2, move(ptr_attack));
@@ -238,11 +233,9 @@ int main(int argc, char* argv[])
                         unique_ptr<Command> ptr_attack3 (new Attack(attack3));
                         engine.addCommand(4, move(ptr_attack3));
 
-                        engine.getState().setRound(4);
                         engine.update();
-                        cout<<"Troll a attaqué knight!!"<<endl;
                         engine.checkRoundEnd();
-                        cout<<"\t--FIN--"<<endl;
+                        cout<<"\t\t-- End of the simulation. --"<<endl;
                         window.close();
 
 
