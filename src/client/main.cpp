@@ -195,7 +195,7 @@ int main(int argc, char* argv[])
 				while (window.pollEvent(event)){
 					if (event.type == sf::Event::Closed){
 						window.close();
-					} else if(event.type==sf::Event::KeyPressed && engine.getState().getRound()==1){
+					}/* else if(event.type==sf::Event::KeyPressed && engine.getState().getRound()==1){
                         cout << "\t\t--- Round 1 ---\n" << endl;
 
                         // Mage moves
@@ -277,7 +277,8 @@ int main(int argc, char* argv[])
                         window.close();
 
 
-                    }
+                    }*/
+                    stateLayer.inputManager(event, engine.getState());
 				}
 			}
         }

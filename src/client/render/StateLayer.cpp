@@ -1,4 +1,5 @@
 #include "../render.h"
+#include <iostream>
 
 
 using namespace render;
@@ -75,7 +76,7 @@ void StateLayer::initTextureAreas (state::State state){
  * param : 
  * window -> SFML window
  */
-void StateLayer::draw (){
+void StateLayer::draw (){ 
     // Clear all the previous display in the window
     window.clear();
 
@@ -113,10 +114,18 @@ void StateLayer::draw (){
 	bottom_rectangle[3].color = sf::Color::Red;
 
     // Current player rectangle at the bottm
-    sf::RectangleShape currentPlayerRectangle(sf::Vector2f(600.f, 30.f));
-	currentPlayerRectangle.setPosition(500.f, 810.f);
+    sf::RectangleShape currentPlayerRectangle(sf::Vector2f(300.f, 30.f));
+	currentPlayerRectangle.setPosition(700.f, 810.f);
     sf::Color colorCurrentPlayerRectangle(0,0,0,200);
 	currentPlayerRectangle.setFillColor(colorCurrentPlayerRectangle);
+
+    string currentString = "Player 1 is playing";
+    sf::Text currentText;
+    currentText.setFont(font);
+    currentText.setString(currentString);
+    currentText.setCharacterSize(14);
+    currentText.setFillColor(sf::Color::White);
+    currentText.setPosition(725.f ,815.f);
 
     // Control panel
     sf::RectangleShape controlPanel(sf::Vector2f(350.f,100.f));
@@ -125,12 +134,12 @@ void StateLayer::draw (){
     controlPanel.setFillColor(colorControlPanel);
 
     string title = "Controls";
-    sf::Text text;
-    text.setFont(font);
-    text.setString(title);
-    text.setCharacterSize(12);
-    text.setFillColor(sf::Color::Cyan);
-    text.setPosition(1725.f,805.f);
+    sf::Text titleText;
+    titleText.setFont(font);
+    titleText.setString(title);
+    titleText.setCharacterSize(12);
+    titleText.setFillColor(sf::Color::Cyan);
+    titleText.setPosition(1725.f,805.f);
 
     string controlString1 = "Arrow  keys\n\nEnter\n\nA";
     sf::Text controlText1;
@@ -175,8 +184,9 @@ void StateLayer::draw (){
     window.draw(right_rectangle); // Draw the colored rectangle on the right
     window.draw(bottom_rectangle); // Draw the colored rectangle at the bottom
     window.draw(currentPlayerRectangle);
+    window.draw(currentText);
     window.draw(controlPanel);
-    window.draw(text);
+    window.draw(titleText);
     window.draw(controlText1);
     window.draw(actionText1);
     window.draw(controlText2);
@@ -189,7 +199,7 @@ void StateLayer::draw (){
 	window.display();
 }
 
-/**
+/** Called when there has been changes in the state and updates the display
  * 
  */
 void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State& state){
@@ -197,12 +207,40 @@ void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State&
     draw();
 }
 
+void StateLayer::inputManager(sf::Event event, state::State& state){
+    // Arrow keys
+    if(event.type==sf::Event::KeyPressed && !state.verifyIsSelected()){
+        int cursor_x = state.getCursor().getX();
+        int cursor_y = state.getCursor().getY();
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            if(cursor_x!=0)
+                cursor_x -= 1;
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+            if(cursor_x!=state.getEntityMap().getWidth()-1)
+                cursor_x += 1;
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+            if(cursor_y!=0)
+                cursor_y -= 1;
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+            if(cursor_y!=state.getEntityMap().getHeight()-1)
+                cursor_y += 1;
+        }
+
+        StateEvent stateEvent(PLAYERCHANGE);
+        state.notifyObservers(stateEvent, state);
+    }
+}
+
 // Getters
 
 vector<unique_ptr<TileSet>>& StateLayer::getTileSets(){
-     return tileSets;
+    return tileSets;
 }
 
 vector<unique_ptr<TextureArea>>& StateLayer::getTextureAreas(){
-     return textureAreas;
+    return textureAreas;
  }

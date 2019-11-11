@@ -100,6 +100,23 @@ bool State::isOccupied(int x, int y){
     return false;
 }
 
+/** Test if a unit is already selected 
+ * 
+ */
+bool State::verifyIsSelected(){
+    Player currentPlayer;
+
+    for(unsigned int i=0;i<playerList.size();i++){
+        currentPlayer = *playerList[i];
+        for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
+            if(currentPlayer.getMobileEntityList()[j]->getStatus() == SELECTED)
+                return true;
+        }
+    }
+
+    return false;
+}
+
 // Getters
 
 int State::getRound(){
