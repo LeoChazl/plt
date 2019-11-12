@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE(TestClient)
   }
 
   {
-    RenderTest renderTest;
-    renderTest.run();
+    //RenderTest renderTest;
+    //renderTest.run();
   }
 
   {
