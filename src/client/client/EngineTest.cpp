@@ -1,6 +1,5 @@
 #include "../client.h"
 #include "../render.h"
-#include "../render.h"
 #include "../../shared/engine.h"
 #include <unistd.h>
 
@@ -70,7 +69,7 @@ void EngineTest::run(){
             // Draw all the display on the screen
             stateLayer.draw();
             cout << "Start of the simulation/commands test.\n" << endl;
-            cout << "Press a key to execute a round.\n" << endl;
+            cout << "Pres a key to execute a round.\n" << endl;
             booting = false;
         }
         // Close the window if the close button is pressed
