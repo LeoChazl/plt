@@ -158,11 +158,10 @@ void EngineTest::run(){
                     cout<<"\t\t-- End of the simulation. --"<<endl;
                     window.close();
 
-
                 }
                 //stateLayer.inputManager(event, engine.getState());
             engine.ScreenRefresh();
             usleep(5);
+        }
     }
-}
 }

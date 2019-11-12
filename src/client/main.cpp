@@ -26,7 +26,6 @@ int main(int argc, char* argv[])
         else if(strcmp(argv[1],"engine")==0){
             EngineTest engineTest;
             engineTest.run();
-                    stateLayer.inputManager(event, engine.getState());
         }
     }
     return 0;
