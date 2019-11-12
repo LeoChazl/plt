@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/ensea/Documents/Système d'exploitation/TP3/client",
+            "program": "/home/ensea/plt/bin/client",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

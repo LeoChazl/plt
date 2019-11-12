@@ -44,12 +44,14 @@ EntityMap::EntityMap(int level){
             for(int j=0;j<this->width;j++){
                 int var=map_tile_code[k];
                 
-                if(var<5){ // In the map tileset only the first six tiles are not obstacles
+                if(var<9){ // In the map tileset only the first nine tiles are not obstacles
                     std::shared_ptr<StaticEntity> ptr_space (new Space(var));
                     mapLine.push_back(move(ptr_space));
+                    cout<<"Space : ("<<i<<" , "<<j<<")"<<endl; 
                 }else{
                     std::shared_ptr<StaticEntity> ptr_obstacle(new Obstacle(var));
                     mapLine.push_back(move(ptr_obstacle));
+                    cout<<"Obstacle : ("<<i<<" , "<<j<<")"<<endl; 
                 }   
                 k++;
             }

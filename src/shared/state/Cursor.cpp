@@ -7,12 +7,12 @@ using namespace std;
 
 Cursor::Cursor():Position()
 {
-
+    this->codeTuile=0;
 }
 
 Cursor::Cursor(int x, int y):Position(x,y)
 {
-
+    this->codeTuile=0;
 }
 
 // Function
@@ -26,4 +26,14 @@ Cursor::Cursor(int x, int y):Position(x,y)
 void Cursor::moveCursor (int x, int y){
     this->x=x;
     this->y=y;
+}
+
+// Getter
+int Cursor::getCodeTuile(){
+    return codeTuile;
+}
+
+// Setter
+void Cursor::setCodeTuile(int newCodeTuile){
+    this->codeTuile=newCodeTuile;
 }

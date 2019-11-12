@@ -1,4 +1,6 @@
 #include "../state.h"
+#include <iostream>
+#include <tgmath.h>
 
 using namespace state;
 using namespace std;
@@ -9,6 +11,7 @@ MobileEntity::MobileEntity():Position(0,6)
 {
     health=100;
     movementRange=1;
+    movementLeft=1;
     damage=30;
     attackRange=1;
     armor=10;
@@ -17,11 +20,12 @@ MobileEntity::MobileEntity():Position(0,6)
     direction=DOWN;
 }
 
-MobileEntity::MobileEntity (int x, int y, int playerId, float health, int movementRange, float damage, int attackRange, float armor, float maxHealth, Status status, Direction direction):Position(x,y)
+MobileEntity::MobileEntity (int x, int y, int playerId, float health, int movementRange, int movementLeft, float damage, int attackRange, float armor, float maxHealth, Status status, Direction direction):Position(x,y)
 {
     this->playerId=playerId;
     this->health=health;
     this->movementRange=movementRange;
+    this->movementLeft=movementLeft;
     this->damage=damage;
     this->attackRange=attackRange;
     this->armor=armor;
@@ -42,7 +46,7 @@ MobileEntity::MobileEntity (int x, int y, int playerId, float health, int moveme
 float MobileEntity::receiveDamage (float damage){
     //Damage dealt = damage - reduction from armor
     //health-=damage - (damage/armor);
-    health=health-(damage-damage/armor);
+    health=roundf(health-(damage-damage/armor));
 
     // If health is less than "0" after the attack
     if(health<0){
@@ -124,7 +128,7 @@ vector<Position> MobileEntity::allowedMove(State& state){
             // Test the border
             if(i>=0 && j>=0 && i<state.getEntityMap().getWidth() && j<state.getEntityMap().getHeight()){
                 // Test the nearby cases (within 1 range) if it's open and not an obstacle
-                if((abs(i-x)+abs(j-y))<=1 && !state.isOccupied(i,j) && state.getEntityMap().getMapArray()[i][j]->isSpace()){
+                if((abs(i-x)+abs(j-y))<=1 && !state.isOccupied(i,j) && state.getEntityMap().getMapArray()[j][i]->isSpace()){
                     currentPosition.setX(i);
                     currentPosition.setY(j);
                     listAllowedMove.push_back(currentPosition);
@@ -136,7 +140,7 @@ vector<Position> MobileEntity::allowedMove(State& state){
     return listAllowedMove;
 }
 
-/**
+/**Create the list of allowed position to attack for a mobileEntity
  * 
  */
 vector<Position> MobileEntity::allowedAttack(State& state){
@@ -149,7 +153,7 @@ vector<Position> MobileEntity::allowedAttack(State& state){
                 // Test in the attack range and unit presence
                 if((abs(i-x)+abs(j-y)<=attackRange) && state.isOccupied(i,j)){
                     // Test if unit is an enemy
-                    if(playerId != state.getMobileEntity(i,j).getPlayerId()){
+                    if(playerId != state.getMobileEntity(i,j)->getPlayerId()){
                         currentPosition.setX(i);
                         currentPosition.setY(j);
                         listAllowedAttack.push_back(currentPosition);
@@ -172,8 +176,12 @@ float MobileEntity::getHealth(){
     return health;
 }
 
-float MobileEntity::getMovementRange(){
+int MobileEntity::getMovementRange(){
     return movementRange;
+}
+
+int MobileEntity::getMovementLeft(){
+    return movementLeft;
 }
 
 float MobileEntity::getDamage(){
@@ -213,6 +221,10 @@ void MobileEntity::setHealth(float health){
 
 void MobileEntity::setMovementRange(int movementRange){
     this->movementRange=movementRange;
+}
+
+void MobileEntity::setMovementLeft(int movementLeft){
+    this->movementLeft=movementLeft;
 }
 
 void MobileEntity::setDamage(float damage){

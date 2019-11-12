@@ -1,6 +1,5 @@
 #include "../state.h"
 #include <iostream>
-#include <exception>
 
 using namespace state;
 using namespace std;
@@ -15,6 +14,7 @@ State::State(){
     map=entityMap;
     Cursor cursor;
     endGame=false;
+    currentPlayerID=1;
 }
 
 // Functions
@@ -45,18 +45,18 @@ bool State::initPlayers(){
 
     shared_ptr<MobileEntity> ptrMage(new Mage(ptrPlayer1->getId()));
     // Unit starting position is randomized in a certain area
-    do{
+    /*do{
         x = rand() % 13;
         y = rand() % 11;
-    }while(!getEntityMap().getMapArray()[ptrMage->getY() + y][ptrMage->getX() + x]->isSpace());
+    }while(!getEntityMap().getMapArray()[ptrMage->getY() + y][ptrMage->getX() + x]->isSpace());*/
     ptrMage->setX(ptrMage->getX() + x);
     ptrMage->setY(ptrMage->getY() + y);
 
     shared_ptr<MobileEntity> ptrKnight(new Knight(ptrPlayer1->getId()));
-    do{
+    /*do{
         x = rand() % 7;
         y = rand() % 8;
-    }while(!getEntityMap().getMapArray()[ptrKnight->getY() + y][ptrKnight->getX() + x]->isSpace());
+    }while(!getEntityMap().getMapArray()[ptrKnight->getY() + y][ptrKnight->getX() + x]->isSpace());*/
     ptrKnight->setX(ptrKnight->getX() + x);
     ptrKnight->setY(ptrKnight->getY() + y);
 
@@ -68,10 +68,10 @@ bool State::initPlayers(){
     shared_ptr<Player> ptrPlayer2(new Player(2));
 
     shared_ptr<MobileEntity> ptrTroll(new Troll(ptrPlayer2->getId()));
-    do{
+    /*do{
         x = rand() % 5;
         y = rand() % 10;
-    }while(!getEntityMap().getMapArray()[ptrTroll->getY() + y][ptrTroll->getX() + x]->isSpace());
+    }while(!getEntityMap().getMapArray()[ptrTroll->getY() + y][ptrTroll->getX() + x]->isSpace());*/
     ptrTroll->setX(ptrTroll->getX() + x);
     ptrTroll->setY(ptrTroll->getY() + y);
 
@@ -93,6 +93,23 @@ bool State::isOccupied(int x, int y){
         currentPlayer = *playerList[i];
         for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
             if(x==(*currentPlayer.getMobileEntityList()[j]).getX() && y==(*currentPlayer.getMobileEntityList()[j]).getY())
+                return true;
+        }
+    }
+
+    return false;
+}
+
+/** Test if a unit is already selected 
+ * 
+ */
+bool State::verifyIsSelected(){
+    Player currentPlayer;
+
+    for(unsigned int i=0;i<playerList.size();i++){
+        currentPlayer = *playerList[i];
+        for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
+            if(currentPlayer.getMobileEntityList()[j]->getStatus() == SELECTED)
                 return true;
         }
     }
@@ -126,20 +143,39 @@ bool State::getEndGame(){
     return endGame;
 }
 
-MobileEntity& State::getMobileEntity(int x, int y){
+shared_ptr<MobileEntity> State::getMobileEntity(int x, int y){
     Player currentPlayer;
-    int mobileEntityIndex;
+    int mobileEntityIndex=-1;
+    int playerIndex;
 
     for(unsigned int i=0;i<playerList.size();i++){
         currentPlayer=*playerList[i];
         for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
-            if(currentPlayer.getMobileEntityList()[j]->getX()==x && currentPlayer.getMobileEntityList()[j]->getY()){
+            if(currentPlayer.getMobileEntityList()[j]->getX()==x && currentPlayer.getMobileEntityList()[j]->getY()==y){
                 mobileEntityIndex=j;
+                playerIndex=i;
             }
         }
     }
+    if(mobileEntityIndex!=-1)
+        return playerList[playerIndex]->getMobileEntityList()[mobileEntityIndex];
     
-    return *currentPlayer.getMobileEntityList()[mobileEntityIndex];
+    return NULL;
+}
+
+shared_ptr<Player> State::getPlayer(int playerId){
+    int wantedPlayerIndex;
+
+    for(unsigned int i=0;i<playerList.size();i++){
+        if(playerList[i]->getId()==playerId)
+            wantedPlayerIndex = i;
+    }
+
+    return playerList[wantedPlayerIndex];
+}
+
+int State::getCurrentPlayerID(){
+    return currentPlayerID;
 }
 
 // Setters
@@ -155,6 +191,11 @@ void State::setLevel(int level){
 void State::setEndGame(bool endGame){
     this->endGame=endGame;
 }
+
+void State::setCurrentPlayerID (int currentPlayerID){
+    this->currentPlayerID=currentPlayerID;
+}
+
 
 // Destructor
 
