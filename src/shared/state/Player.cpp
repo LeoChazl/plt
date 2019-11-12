@@ -1,4 +1,5 @@
 #include "../state.h"
+#include <iostream>
 
 using namespace state;
 using namespace std;
@@ -11,7 +12,7 @@ Player::Player(){
 
 Player::Player(int id){
     this->id = id;
-    this->name = "Player " + id;
+    this->name = "Player " + to_string(id);
 }
 
 Player::Player(int id, string name){

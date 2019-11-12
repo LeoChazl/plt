@@ -81,8 +81,6 @@ bool TextureArea::loadUnits(state::State& currentState, render::TileSet& texture
     // For each player initialized in the state object 
     for(unsigned int i=0;i<currentState.getPlayerList().size();i++){
         currentPlayer=*currentState.getPlayerList()[i];
-        cout << "Player id: " << currentPlayer.getId() << endl;
-        cout << "Number of units: " << currentPlayer.getMobileEntityList().size() << endl;
 
         // For each unit controlled by the current player 
         for(unsigned int j=0;j<currentPlayer.getMobileEntityList().size();j++){
