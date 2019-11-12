@@ -46,6 +46,12 @@ void Engine::update (){
 	}
 }
 
+void Engine::ScreenRefresh(){
+	StateEvent stateEvent(PLAYERCHANGE);
+	currentState.notifyObservers(stateEvent, currentState); // Notify the state which will notify render
+
+}
+
 /** Check state to see if a round has ended
  * 
  */
