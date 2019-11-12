@@ -139,7 +139,7 @@ void Engine::checkRoundStart(){
 	}
 }
 
-void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::State& state, state::Position& position, shared_ptr<state::MobileEntity>& selectedMobileEntity){
+void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::State& state, state::Position& position, shared_ptr<state::MobileEntity>& selectedMobileEntity, shared_ptr<state::MobileEntity>& targetMobileEntity){
 	switch(engineRenderEvent.getEngineRenderEventID()){
 		case ARROW_KEYS:
 		{
@@ -150,11 +150,13 @@ void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::St
 			break;
 		}
 		case ATTACK:
+		{
+			Attack attack(*selectedMobileEntity, *targetMobileEntity);
+			unique_ptr<Command> ptr_attack(new Attack(attack));
+			addCommand(0, move(ptr_attack));
+			update();
 			break;
-
-		case END_ATTACK:
-			break;
-
+		}
 		case END_UNIT_ROUND:
 		{
 			EndEntityRound endEntityRound(*selectedMobileEntity);
