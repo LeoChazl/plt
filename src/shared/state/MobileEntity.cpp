@@ -128,19 +128,10 @@ vector<Position> MobileEntity::allowedMove(State& state){
             // Test the border
             if(i>=0 && j>=0 && i<state.getEntityMap().getWidth() && j<state.getEntityMap().getHeight()){
                 // Test the nearby cases (within 1 range) if it's open and not an obstacle
-                cout<<"vborder-ok"<<endl;
                 if((abs(i-x)+abs(j-y))<=1 && !state.isOccupied(i,j) && state.getEntityMap().getMapArray()[j][i]->isSpace()){
                     currentPosition.setX(i);
                     currentPosition.setY(j);
                     listAllowedMove.push_back(currentPosition);
-                    cout<<"vOccupied + vSpace  -- ok"<<endl;
-                }else if(!state.getEntityMap().getMapArray()[j][i]->isSpace()){
-                    cout<<"----------------"<<endl;
-                    cout<<"Possible Obstacle: "<<endl;
-                    cout<<state.getEntityMap().getMapArray()[j][i]->isSpace()<<endl;
-                    cout<<"i--> "<<i<<"j--> "<<j<<endl;
-                    cout<<"----------------"<<endl;
-
                 }
             }
         }

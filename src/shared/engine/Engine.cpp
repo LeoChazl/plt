@@ -37,7 +37,7 @@ void Engine::update (){
 	for(size_t i=0; i<currentCommands.size();i++){
 			currentCommands[i]->execute(currentState);
 			currentState.notifyObservers(stateEvent, currentState); // Notify the state which will notify render
-			sleep(1);
+			usleep(200);
 	}
 
     // Erase all the commands which were executed
@@ -75,7 +75,7 @@ bool Engine::checkRoundEnd(){
 	}
 
 	
-	// If the round changes and the game has ended --> the actual player win the game because all ennemeies MobileENtity are dead
+	// If the round changes and the game has ended --> the actual player win the game because all ennemies MobileEntity are dead
 	if (roundChange && gameEnd){
 		cout << "\tEnd of the game !" << endl;
 
@@ -133,10 +133,39 @@ void Engine::checkRoundStart(){
 	}
 }
 
+void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::State& state, state::Position& position, shared_ptr<state::MobileEntity>& selectedMobileEntity){
+	switch(engineRenderEvent.getEngineRenderEventID()){
+		case ARROW_KEYS:
+		{
+			Move movement(*selectedMobileEntity, position);
+			unique_ptr<Command> ptr_move(new Move(movement));
+			addCommand(0, move(ptr_move));
+			update();
+			break;
+		}
+		case ATTACK:
+			break;
+
+		case END_ATTACK:
+			break;
+
+		case END_UNIT_ROUND:
+		{
+			EndEntityRound endEntityRound(*selectedMobileEntity);
+			unique_ptr<Command> ptr_endEntityRound(new EndEntityRound(endEntityRound));
+			addCommand(0, move(ptr_endEntityRound));
+			update();
+			break;
+		}
+		default:
+			update();
+	}
+}
+
 
 //	Getters
 
-State& Engine::getState (){
+State& Engine::getState(){
 	return currentState;
 }
 

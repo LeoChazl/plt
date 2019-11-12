@@ -29,6 +29,7 @@ void EndEntityRound::execute(state::State& state){
 
 	if (selectedUnit.getStatus()!=WAITING && selectedUnit.getStatus()!=DEAD){
 		selectedUnit.setStatus(WAITING);
+        state.getCursor().setCodeTuile(0);
 		cout << entityName << " finished his round." << endl;
 	}
 	else if(selectedUnit.getStatus()==WAITING){

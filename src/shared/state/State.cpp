@@ -14,7 +14,7 @@ State::State(){
     map=entityMap;
     Cursor cursor;
     endGame=false;
-    currentPlayerID=0;
+    currentPlayerID=1;
 }
 
 // Functions
@@ -145,7 +145,7 @@ bool State::getEndGame(){
 
 shared_ptr<MobileEntity> State::getMobileEntity(int x, int y){
     Player currentPlayer;
-    int mobileEntityIndex;
+    int mobileEntityIndex=-1;
     int playerIndex;
 
     for(unsigned int i=0;i<playerList.size();i++){
@@ -157,8 +157,10 @@ shared_ptr<MobileEntity> State::getMobileEntity(int x, int y){
             }
         }
     }
+    if(mobileEntityIndex!=-1)
+        return playerList[playerIndex]->getMobileEntityList()[mobileEntityIndex];
     
-    return playerList[playerIndex]->getMobileEntityList()[mobileEntityIndex];
+    return NULL;
 }
 
 shared_ptr<Player> State::getPlayer(int playerId){

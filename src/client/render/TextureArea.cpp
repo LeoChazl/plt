@@ -36,8 +36,8 @@ bool TextureArea::loadMap(state::State& currentState, render::TileSet& textureTi
             int tileNumber = map[i][j]->getCodeTuile();
 				
             // Deducing sprite position in tileset with the tile number
-            int tu = tileNumber % (320 / textureTileSet.getCellWidth());
-            int tv = tileNumber / (320 / textureTileSet.getCellHeight());
+            int tx = tileNumber % (320 / textureTileSet.getCellWidth());
+            int ty = tileNumber / (320 / textureTileSet.getCellHeight());
 
             // Get the pointer to the next quad for the current tile
             sf::Vertex* quad = &quads[vertexArrayIndex* 4];
@@ -54,10 +54,10 @@ bool TextureArea::loadMap(state::State& currentState, render::TileSet& textureTi
 
             // Definition of coordinates in the tileset to retrieve the corresponding sprite
                // Same as quads position
-            quad[0].texCoords = sf::Vector2f(tu * textureTileSet.getCellWidth(), tv * textureTileSet.getCellHeight());
-			quad[1].texCoords = sf::Vector2f((tu + 1) * textureTileSet.getCellWidth(), tv * textureTileSet.getCellHeight());
-			quad[2].texCoords = sf::Vector2f((tu + 1) * textureTileSet.getCellWidth(), (tv + 1) * textureTileSet.getCellHeight());
-			quad[3].texCoords = sf::Vector2f(tu * textureTileSet.getCellWidth(), (tv + 1) * textureTileSet.getCellHeight());
+            quad[0].texCoords = sf::Vector2f(tx * textureTileSet.getCellWidth(), ty * textureTileSet.getCellHeight());
+			quad[1].texCoords = sf::Vector2f((tx + 1) * textureTileSet.getCellWidth(), ty * textureTileSet.getCellHeight());
+			quad[2].texCoords = sf::Vector2f((tx + 1) * textureTileSet.getCellWidth(), (ty + 1) * textureTileSet.getCellHeight());
+			quad[3].texCoords = sf::Vector2f(tx * textureTileSet.getCellWidth(), (ty + 1) * textureTileSet.getCellHeight());
         }
 	}
 	return true;	
@@ -125,6 +125,8 @@ bool TextureArea::loadCursor(state::State& currentState, render::TileSet& textur
     quads.setPrimitiveType(sf::Quads);
     quads.resize(4);
 
+    int tileNumber = currentState.getCursor().getCodeTuile();
+
 	sf::Vertex* quad = &quads[0];
 		
 	quad[0].position = sf::Vector2f(currentState.getCursor().getX() * textureTileset.getCellWidth(), currentState.getCursor().getY() * textureTileset.getCellHeight());
@@ -132,10 +134,10 @@ bool TextureArea::loadCursor(state::State& currentState, render::TileSet& textur
 	quad[2].position = sf::Vector2f((currentState.getCursor().getX() + 1) * textureTileset.getCellWidth(), (currentState.getCursor().getY() + 1) * textureTileset.getCellHeight());
 	quad[3].position = sf::Vector2f(currentState.getCursor().getX() * textureTileset.getCellWidth(), (currentState.getCursor().getY() + 1) * textureTileset.getCellHeight());
 		
-	quad[0].texCoords = sf::Vector2f(0, 0);
-	quad[1].texCoords = sf::Vector2f(textureTileset.getCellWidth(), 0);
-	quad[2].texCoords = sf::Vector2f(textureTileset.getCellWidth(), textureTileset.getCellHeight());
-	quad[3].texCoords = sf::Vector2f(0, textureTileset.getCellHeight());
+	quad[0].texCoords = sf::Vector2f(tileNumber * textureTileset.getCellWidth(), 0);
+	quad[1].texCoords = sf::Vector2f((tileNumber + 1) * textureTileset.getCellWidth(), 0);
+	quad[2].texCoords = sf::Vector2f((tileNumber + 1) * textureTileset.getCellWidth(), textureTileset.getCellHeight());
+	quad[3].texCoords = sf::Vector2f(tileNumber * textureTileset.getCellWidth(), textureTileset.getCellHeight());
 		
 	return true;
 }

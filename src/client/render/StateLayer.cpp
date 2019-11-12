@@ -5,6 +5,7 @@
 using namespace render;
 using namespace std;
 using namespace state;
+using namespace engine;
 
 /** Constructor 
  * Store in a TileSet pointer array all the Tileset type object pointers
@@ -208,7 +209,7 @@ void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State&
 }
 
 void StateLayer::inputManager(sf::Event event, state::State& state){
-    // Arrow keys
+    // Arrow keys and return when no unit is selected
     if(event.type==sf::Event::KeyPressed && !state.verifyIsSelected()){
         int cursor_x = state.getCursor().getX();
         int cursor_y = state.getCursor().getY();
@@ -218,8 +219,9 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                 cursor_x -= 1;
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-            if(cursor_x!=state.getEntityMap().getWidth()-1)
+            if(cursor_x!=state.getEntityMap().getWidth()-1){
                 cursor_x += 1;
+            }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             if(cursor_y!=0)
@@ -229,9 +231,73 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
             if(cursor_y!=state.getEntityMap().getHeight()-1)
                 cursor_y += 1;
         }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
+            auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
+            
+            // Test if a unit is on the case
+            if(currentMobileEntity!=NULL){
+                if(currentMobileEntity->getPlayerId()==state.getCurrentPlayerID() && currentMobileEntity->getStatus()==AVAILABLE){
+                    state.getCursor().setCodeTuile(2);
+
+                    currentMobileEntity->setStatus(SELECTED);
+                }else if(currentMobileEntity->getStatus()==WAITING){
+                    cout << "This unit already finished his round." << endl;
+                }else{
+                    cout << "This unit doesn't belong to the current player." << endl;
+                }
+                
+            }
+        }
+
+        state.getCursor().setX(cursor_x);
+        state.getCursor().setY(cursor_y);
 
         StateEvent stateEvent(PLAYERCHANGE);
         state.notifyObservers(stateEvent, state);
+    
+    // Case a unit is already selected
+    } else if(event.type==sf::Event::KeyPressed && (state.verifyIsSelected())){
+        auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
+        int movement_x=0, movement_y=0;
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            if(currentMobileEntity->getX()!=0){
+                movement_x=-1;
+            }
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+            if(currentMobileEntity->getX()!=state.getEntityMap().getWidth()-1){
+                movement_x=1;
+            }
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+            if(currentMobileEntity->getY()!=0){
+                movement_y=-1;
+            }
+        }
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+            if(currentMobileEntity->getY()!=state.getEntityMap().getHeight()-1){
+                movement_y=+1;
+            }
+        }
+
+        if(movement_x != 0 || movement_y!=0){
+            Position position(currentMobileEntity->getX()+movement_x,currentMobileEntity->getY()+movement_y);
+
+            EngineRenderEvent engineRenderEvent(ARROW_KEYS);
+            notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity);
+
+            movement_x=0;
+            movement_y=0;
+        }
+
+        // End round for the unit
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)){
+            Position position(0,0);
+
+            EngineRenderEvent engineRenderEvent(END_UNIT_ROUND);
+            notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity);
+        }
     }
 }
 

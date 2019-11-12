@@ -39,16 +39,12 @@ void Move::execute(state::State& state){
             vector<Position> allowedMoveList = selectedUnit.allowedMove(state);
 
             // Check if the destination is allowed
-            cout<<"/*------------------*/"<<endl;
-            cout<<"Allowed Move: "<<endl;
             for(unsigned int i=0;i<allowedMoveList.size();i++){
-                cout<<" x--> "<<allowedMoveList[i].getX()<<" // y-->" <<allowedMoveList[i].getY()<<endl;
                 if(allowedMoveList[i].equal(destination)){
                     moveFeasible=true;
                     break;
                 }
             }
-            cout<<"/*------------------*/"<<endl;
 
 
             // Change the state
@@ -56,12 +52,14 @@ void Move::execute(state::State& state){
                 selectedUnit.setX(destination.getX());
                 selectedUnit.setY(destination.getY());
                 selectedUnit.setMovementLeft(selectedUnit.getMovementLeft()-1);
+                state.getCursor().setX(destination.getX());
+                state.getCursor().setY(destination.getY());
 
                 shared_ptr<Player> ownerPlayer = state.getPlayer(selectedUnit.getPlayerId());
 
                 cout << "The " << entityName << " of " << ownerPlayer->getName() << " moved to (" << destination.getX() << "," << destination.getY() << ") and has " << selectedUnit.getMovementLeft() << " movements left.\n" << endl;
             } else {
-                cout << "The unit cannot move to the destination :(" << destination.getX()<< " , "<<destination.getY()<<endl;
+                cout << "The unit cannot move to the destination :(" << destination.getX()<< ", " << destination.getY() << ")" << endl;
             }
         } else {
             cout << "The " << entityName << " doesn't have any movement left.\n" << endl;

@@ -177,6 +177,9 @@ int main(int argc, char* argv[])
             StateLayer* ptr_stateLayer=&stateLayer;
 			engine.getState().registerObserver(ptr_stateLayer);
 
+            Engine* ptr_engine=&engine;
+            stateLayer.registerRenderObserver(ptr_engine);
+
             bool booting = true;
         
 
