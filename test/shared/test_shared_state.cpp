@@ -30,11 +30,11 @@ BOOST_AUTO_TEST_CASE(Troll_test)
 
     //Troll troll();
     //Getter test
-    BOOST_CHECK_EQUAL(troll.getX(), 6);
-    BOOST_CHECK_EQUAL(troll.getY(), 6);
+    BOOST_CHECK_EQUAL(troll.getX(), 4);
+    BOOST_CHECK_EQUAL(troll.getY(), 4);
     BOOST_CHECK_EQUAL(troll.getPlayerId(), 0);
     BOOST_CHECK_EQUAL(troll.getHealth(), 100);
-    BOOST_CHECK_EQUAL(troll.getMovementRange(), 2);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(), 3);
     BOOST_CHECK_EQUAL(troll.getDamage(), 35);
     BOOST_CHECK_EQUAL(troll.getAttackRange(),1);
     BOOST_CHECK_EQUAL(troll.getArmor(), 15);
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(Troll_test)
     BOOST_CHECK_EQUAL(troll.getY(),1);
     BOOST_CHECK_EQUAL(troll.getPlayerId(), 1);
     BOOST_CHECK_EQUAL(troll.getHealth(),100);
-    BOOST_CHECK_EQUAL(troll.getMovementRange(),2);
+    BOOST_CHECK_EQUAL(troll.getMovementRange(),3);
     BOOST_CHECK_EQUAL(troll.getDamage(),35);
     BOOST_CHECK_EQUAL(troll.getAttackRange(),1);
     BOOST_CHECK_EQUAL(troll.getArmor(),15);
@@ -80,8 +80,8 @@ BOOST_AUTO_TEST_CASE(Troll_test)
     troll.setDirection(UP);
 
 
-    BOOST_CHECK_EQUAL(troll.getX(), 6);
-    BOOST_CHECK_EQUAL(troll.getY(), 6);
+    BOOST_CHECK_EQUAL(troll.getX(), 4);
+    BOOST_CHECK_EQUAL(troll.getY(), 4);
     BOOST_CHECK_EQUAL(troll.getPlayerId(), 2);
     BOOST_CHECK_EQUAL(troll.getHealth(), 200);
     BOOST_CHECK_EQUAL(troll.getMovementRange(), 2);
@@ -120,9 +120,9 @@ BOOST_AUTO_TEST_CASE(Knight_test)
     float health_k2=knight2.getHealth();
     float damage_k1=knight1.getDamage();
     float armor_k2=knight2.getArmor();
-    health_k2-=damage_k1-damage_k1/armor_k2;
+    health_k2-= damage_k1-damage_k1/armor_k2;
     knight1.attack(knight2);//100-(35-35/15)=67.33
-    BOOST_CHECK_EQUAL(knight2.getHealth(), health_k2);
+    BOOST_CHECK_EQUAL(knight2.getHealth(), (int) health_k2);
 
   }
 }
@@ -138,8 +138,8 @@ BOOST_AUTO_TEST_CASE(Mage_test)
     //Get EntityId
     BOOST_CHECK_EQUAL(mage.getEntityId(), MAGE);
     //Get and set Mana
-    BOOST_CHECK_EQUAL(mage.getX(), 6);
-    BOOST_CHECK_EQUAL(mage.getY(), 6);
+    BOOST_CHECK_EQUAL(mage.getX(), 12);
+    BOOST_CHECK_EQUAL(mage.getY(), 10);
     BOOST_CHECK_EQUAL(mage.getMana(), 100);
     BOOST_CHECK_EQUAL(mage.getManaMax(), 100);
 
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     State state;
     BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),50);
     Mage mage(10,10,0);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     State state;
     BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),50);
     Mage mage(10,10,0);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -212,7 +212,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     State state;
     BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),50);
     Mage mage(10,10,0);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     State state;
     BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),50);
     Mage mage(10,10,0);
     BOOST_CHECK_EQUAL(mage.getX(),10);
     BOOST_CHECK_EQUAL(mage.getY(),10);
@@ -238,7 +238,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
   {
     State state;
     BOOST_CHECK_EQUAL(state.getEntityMap().getHeight(),25);
-    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),25);
+    BOOST_CHECK_EQUAL(state.getEntityMap().getWidth(),50);
     Mage mage(0,0,0); // x=0 ;y=0
     BOOST_CHECK_EQUAL(mage.getX(),0);
     BOOST_CHECK_EQUAL(mage.getY(),0);
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
     int mapWidth=state.getEntityMap().getWidth();
 
     BOOST_CHECK_EQUAL(mapHeight,25);
-    BOOST_CHECK_EQUAL(mapWidth,25);
+    BOOST_CHECK_EQUAL(mapWidth,50);
     Mage mage(mapHeight-1,mapWidth-1,0); // x=0 ;y=0
     BOOST_CHECK_EQUAL(mage.getX(),mapHeight-1);
     BOOST_CHECK_EQUAL(mage.getY(),mapWidth-1);
@@ -362,8 +362,9 @@ BOOST_AUTO_TEST_CASE(EntityMap_test)
     //Constructor level 1
     EntityMap entityMap(1);
 
-    BOOST_CHECK_EQUAL(entityMap.getWidth(),25);
     BOOST_CHECK_EQUAL(entityMap.getHeight(),25);
+    BOOST_CHECK_EQUAL(entityMap.getWidth(),50);
+    
   }
 }
 
