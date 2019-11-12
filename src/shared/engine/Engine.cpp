@@ -37,7 +37,7 @@ void Engine::update (){
 	for(size_t i=0; i<currentCommands.size();i++){
 			currentCommands[i]->execute(currentState);
 			currentState.notifyObservers(stateEvent, currentState); // Notify the state which will notify render
-			sleep(1);
+			usleep(200);
 	}
 
     // Erase all the commands which were executed
