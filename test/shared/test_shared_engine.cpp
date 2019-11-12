@@ -25,7 +25,7 @@ namespace sf {
 
 BOOST_AUTO_TEST_CASE(TestStaticAssert)
 {
-    /*sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
+    sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
     sf::View view = window.getDefaultView();
     window.setView(view);
 
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 
 
     // Mage moves
-    Position destination1(engine.getState().getPlayerList()[0]->getMobileEntityList()[0]->getX()+1,engine.getState().getPlayerList()[0]->getMobileEntityList()[0]->getY());
+    /*Position destination1(engine.getState().getPlayerList()[0]->getMobileEntityList()[0]->getX()+1,engine.getState().getPlayerList()[0]->getMobileEntityList()[0]->getY());
     Move deplacement1(*engine.getState().getPlayerList()[0]->getMobileEntityList()[0], destination1);
     unique_ptr<Command> ptr_deplacement1 (new Move(deplacement1));
     engine.addCommand(0, move(ptr_deplacement1));
