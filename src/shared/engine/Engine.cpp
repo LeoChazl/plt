@@ -56,8 +56,17 @@ void Engine::ScreenRefresh(){
  * 
  */
 bool Engine::checkRoundEnd(){
+	bool playerChange=true;
 	bool roundChange = true;
 	bool gameEnd = true;
+
+	for(unsigned int k=0; k<currentState.getPlayerList()[currentState.getCurrentPlayerID()]->getMobileEntityList().size();k++){
+		if (currentState.getPlayerList()[currentState.getCurrentPlayerID()]->getMobileEntityList()[k]->getStatus()!= DEAD ){
+			if (currentState.getPlayerList()[currentState.getCurrentPlayerID()]->getMobileEntityList()[k]->getStatus() != WAITING){
+				playerChange = false;
+			}
+		}
+	}
 
 	// For each player
 	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
@@ -81,13 +90,21 @@ bool Engine::checkRoundEnd(){
 	}
 
 	
+	if(playerChange&&!roundChange){
+		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
+			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
+				cout<<"The player "<< currentState.getPlayerList()[i]->getName()<<" end his round!!!"<<endl;
+			}
+		}
+	}
+
 	// If the round changes and the game has ended --> the actual player win the game because all ennemies MobileEntity are dead
 	if (roundChange && gameEnd){
 		cout << "\tEnd of the game !" << endl;
 
 		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
 			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
-				cout<<"Le joueur "<< currentState.getPlayerList()[i]->getName()<<" a gagné la partie!!!"<<endl;
+				cout<<"The player "<< currentState.getPlayerList()[i]->getName()<<" win the game!!!"<<endl;
 			}
 		}
 		roundChange=false;
@@ -96,7 +113,7 @@ bool Engine::checkRoundEnd(){
 		currentState.setRound(currentState.getRound() + 1);
 	}
 	
-	return roundChange;
+	return playerChange;
 }
 
 /** Sets or resets data to start a new round
