@@ -12,6 +12,9 @@
 #include <iostream>
 #include <sstream>
 
+#define WINVER 0x0500
+
+
 
 using namespace std;
 using namespace state;
@@ -28,6 +31,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
     sf::View view = window.getDefaultView();
     window.setView(view);
+    sf::Event event;
 
 
     //Implement Engine Constructor
@@ -74,6 +78,200 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     engine.addCommand(4, move(ptr_attack));
 
     engine.update();
-    engine.checkRoundEnd();
+   BOOST_CHECK_EQUAL(engine.checkRoundEnd(),false);
+   engine.ScreenRefresh();
+   engine.checkRoundStart();
+
+    BOOST_CHECK_EQUAL(engine.getState().verifyIsSelected(),false);
+
+    //Move the cursor without selecting a Unit
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Left;
+    event.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+/********************************************************************/
+    BOOST_CHECK_EQUAL(engine.getState().verifyIsSelected(),false);
+
+    //Move the cursor without selecting a Unit
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Left;
+    event.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    sf::Event event2;
+    event2.type=sf::Event::KeyPressed;
+    event2.key.code=sf::Keyboard::Key::Right;
+    event2.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event2, engine.getState());
+    engine.ScreenRefresh();
+    event2.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Right;
+    event.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Up;
+    event.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Down;
+    event.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    //Select a Unit to move
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Return;
+    event.KeyPressed;
+    window.pollEvent(event);
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    //MOve the unit
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Left;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Right;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Right;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Up;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Down;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    //End round for the unit
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::E;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+
+    //Attack --> move the cursor to choose the target
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::A;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Left;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Right;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Right;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Up;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Down;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    //Select target
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Return;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+    //Cancel the Attack
+    event.type=sf::Event::KeyPressed;
+    event.key.code=sf::Keyboard::Key::Z;
+    event.KeyPressed;
+    stateLayer.inputManager(event, engine.getState());
+    engine.ScreenRefresh();
+    event.KeyReleased;
+    usleep(100);
+
+
 
 }
