@@ -17,6 +17,7 @@ Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): att
 // Function
 
 void Attack::execute (state::State& state){
+    int waitingTime=40000;
     string entityNameAttacker = "";
     switch(attacker.getEntityId()){
         case TROLL: 
@@ -73,20 +74,24 @@ void Attack::execute (state::State& state){
             cout<<"The " << entityNameTarget << " had " << oldTargetHealth << " health points." << endl;
             cout<<"The " << entityNameTarget << " has now " << target.getHealth() << " health points left.\n" << endl;
 
+            attacker.setStatus(WAITING);
+
             // If the target unit don't have a positif health value after the attack
             if(target.getHealth()==0){
                 target.setStatus(DEAD);
                 target.setX(-1);
                 target.setY(-1);
                 cout << "The " << entityNameTarget << " is dead.\n" << endl;
-                sleep(2);
+                usleep(waitingTime);
             }
         }else{
             cout<<"The " << entityNameTarget << " is not in " << entityNameAttacker << " range.\n" << endl;
+            usleep(waitingTime);
         }
 
     }else if(attacker.getStatus()==WAITING){
         cout<< "The " << entityNameAttacker << " cannot attack because his turn already ended.\n" << endl;
+        usleep(waitingTime);
     }
 }
 

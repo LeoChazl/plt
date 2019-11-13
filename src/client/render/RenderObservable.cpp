@@ -1,5 +1,6 @@
 #include "../render.h"
 #include <algorithm>
+#include <iostream>
 
 using namespace render;
 using namespace state;

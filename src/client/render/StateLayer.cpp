@@ -1,5 +1,6 @@
 #include "../render.h"
 #include <iostream>
+#include <unistd.h>
 
 
 using namespace render;
@@ -77,7 +78,7 @@ void StateLayer::initTextureAreas (state::State state){
  * param : 
  * window -> SFML window
  */
-void StateLayer::draw (){ 
+void StateLayer::draw (state::State& state){ 
     // Clear all the previous display in the window
     window.clear();
 
@@ -120,7 +121,7 @@ void StateLayer::draw (){
     sf::Color colorCurrentPlayerRectangle(0,0,0,200);
 	currentPlayerRectangle.setFillColor(colorCurrentPlayerRectangle);
 
-    string currentString = "Player 1 is playing";
+    string currentString = "Player " + to_string(state.getCurrentPlayerID()) + " is playing";
     sf::Text currentText;
     currentText.setFont(font);
     currentText.setString(currentString);
@@ -205,31 +206,43 @@ void StateLayer::draw (){
  */
 void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State& state){
     initTextureAreas(state);
-    draw();
+    draw(state);
 }
 
 void StateLayer::inputManager(sf::Event event, state::State& state){
+    int waitingTime = 60000;
+
+    // To notify the State
+    StateEvent stateEvent(PLAYERCHANGE);
+
     // Arrow keys and return when no unit is selected
     if(event.type==sf::Event::KeyPressed && !state.verifyIsSelected()){
         int cursor_x = state.getCursor().getX();
         int cursor_y = state.getCursor().getY();
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            if(cursor_x!=0)
+            if(cursor_x!=0){
                 cursor_x -= 1;
+                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+            }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             if(cursor_x!=state.getEntityMap().getWidth()-1){
                 cursor_x += 1;
+                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-            if(cursor_y!=0)
+            if(cursor_y!=0){
                 cursor_y -= 1;
+                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+            }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-            if(cursor_y!=state.getEntityMap().getHeight()-1)
+            if(cursor_y!=state.getEntityMap().getHeight()-1){
                 cursor_y += 1;
+                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+            }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
             auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
@@ -240,41 +253,52 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setCodeTuile(2);
 
                     currentMobileEntity->setStatus(SELECTED);
+
+                    cout << "A unit has been selected.\n" << endl;
                 }else if(currentMobileEntity->getStatus()==WAITING){
-                    cout << "This unit already finished his round." << endl;
+                    cout << "This unit already finished his round.\n" << endl;
                 }else{
-                    cout << "This unit doesn't belong to the current player." << endl;
+                    cout << "This unit doesn't belong to the current player.\n" << endl;
                 }
-                
+            }else{
+                cout << "No unit in this case.\n" << endl;
             }
         }
 
         state.getCursor().setX(cursor_x);
         state.getCursor().setY(cursor_y);
 
-        StateEvent stateEvent(PLAYERCHANGE);
         state.notifyObservers(stateEvent, state);
 
+        usleep(waitingTime);
+
     // Case a unit is already selected and attack
-    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)&& (state.verifyIsSelected())){
+    } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (state.verifyIsSelected())){
+        cout << "An attack is in preparation.\n" << endl;
         auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
 
         // Change cursor color
         state.getCursor().setCodeTuile(1);
+        state.notifyObservers(stateEvent, state);
 
         // Set different variables to keep track of the unit attack range
-        int rightRange, leftRange, upRange, downRange=currentMobileEntity->getAttackRange();
+        int rightRange=currentMobileEntity->getAttackRange();
+        int leftRange=currentMobileEntity->getAttackRange();
+        int upRange=currentMobileEntity->getAttackRange();
+        int downRange=currentMobileEntity->getAttackRange();
 
         // Set a target to do a while loop
         auto target = currentMobileEntity;
-        bool cancel = false;
+        bool attackIsOngoing = true;
 
-        while(target==currentMobileEntity || cancel){
+        while(target==currentMobileEntity && attackIsOngoing){
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 if(state.getCursor().getX()!=0 && leftRange!=0){
                     state.getCursor().setX(state.getCursor().getX()-1);
                     rightRange++;
                     leftRange--;
+                    state.notifyObservers(stateEvent, state);
+                    usleep(waitingTime);
                 }
             } 
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
@@ -282,20 +306,26 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setX(state.getCursor().getX()+1);
                     rightRange--;
                     leftRange++;
+                    state.notifyObservers(stateEvent, state);
+                    usleep(waitingTime);
                 }
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
                 if(state.getCursor().getY()!=0 && upRange!=0){
-                    state.getCursor().setX(state.getCursor().getX()+1);
+                    state.getCursor().setY(state.getCursor().getY()-1);
                     upRange--;
                     downRange++;
+                    state.notifyObservers(stateEvent, state);
+                    usleep(waitingTime);
                 }
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-                if(state.getCursor().getX()!=state.getEntityMap().getWidth()-1 && downRange!=0){
-                    state.getCursor().setX(state.getCursor().getX()+1);
+                if(state.getCursor().getY()!=state.getEntityMap().getWidth()-1 && downRange!=0){
+                    state.getCursor().setY(state.getCursor().getY()+1);
                     upRange++;
                     downRange--;
+                    state.notifyObservers(stateEvent, state);
+                    usleep(waitingTime);
                 }
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
@@ -307,23 +337,23 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, target);
                         
                     state.getCursor().setCodeTuile(0);
+                    state.notifyObservers(stateEvent, state);
                 }
-                else
-                    cout << "No enemy to attack here." << endl;
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)){
-                cancel = true;
-                cout << "The attack is canceled." << endl;
+                attackIsOngoing = false;
+                cout << "The attack is canceled.\n" << endl;
 
                 // Cursor back to select color
                 state.getCursor().setCodeTuile(2);
 
                 // If Cursor is not on the selected MobileEntity
-                if(currentMobileEntity->getX()!=state.getCursor().getX()){
+                if(currentMobileEntity->getX()!=state.getCursor().getX() || currentMobileEntity->getY()!=state.getCursor().getY()){
                     state.getCursor().setX(currentMobileEntity->getX());
-                } else if(currentMobileEntity->getY()!=state.getCursor().getY()){
                     state.getCursor().setY(currentMobileEntity->getY());
                 }
+                state.notifyObservers(stateEvent, state);
+                usleep(waitingTime);
             }
         }
     
@@ -356,7 +386,7 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
 
         if(movement_x != 0 || movement_y!=0){
             Position position(currentMobileEntity->getX()+movement_x,currentMobileEntity->getY()+movement_y);
-
+        
             EngineRenderEvent engineRenderEvent(ARROW_KEYS);
 
             // Second MobileEntity not used here but filled so it match the function arguments
@@ -371,6 +401,7 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
             Position position(0,0);
 
             EngineRenderEvent engineRenderEvent(END_UNIT_ROUND);
+
             // Second MobileEntity not used here but filled so it match the function arguments
             notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, currentMobileEntity);
         } 

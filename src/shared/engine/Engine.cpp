@@ -28,7 +28,7 @@ void Engine::addCommand (int priority, std::unique_ptr<Command> ptr_cmd){
 /** Executes all the commands in the associative list
  * 
  */
-void Engine::update (){
+void Engine::update(){
 	StateEvent stateEvent(PLAYERCHANGE);
 
 	map<int, std::unique_ptr<Command>>::iterator it;
@@ -46,7 +46,7 @@ void Engine::update (){
 	}
 }
 
-void Engine::ScreenRefresh(){
+void Engine::screenRefresh(){
 	StateEvent stateEvent(PLAYERCHANGE);
 	currentState.notifyObservers(stateEvent, currentState); // Notify the state which will notify render
 
@@ -56,51 +56,44 @@ void Engine::ScreenRefresh(){
  * 
  */
 bool Engine::checkRoundEnd(){
-	bool playerChange=true;
+	bool playerChange = true;
 	bool roundChange = true;
 	bool gameEnd = true;
-
-	for(unsigned int k=0; k<currentState.getPlayerList()[currentState.getCurrentPlayerID()]->getMobileEntityList().size();k++){
-		if (currentState.getPlayerList()[currentState.getCurrentPlayerID()]->getMobileEntityList()[k]->getStatus()!= DEAD ){
-			if (currentState.getPlayerList()[currentState.getCurrentPlayerID()]->getMobileEntityList()[k]->getStatus() != WAITING){
-				playerChange = false;
-			}
-		}
-	}
 
 	// For each player
 	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
 		// For each MobileEntity belonging to each player
 		for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
 
-			// As long as the player has a MobileEntity with which he didn't play --> the round is not finished
-			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
+			// As long as a player has a MobileEntity with which he didn't play --> the round is not finished
+			if(currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
 				if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
 					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus() != WAITING){
-						roundChange = false;
+						playerChange = false;
 					}
 				}
-			
-			}else{ // As long as another player has a MobileEntity alive the game isn't finished
-				if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
-					gameEnd=false;
+			}
+			if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
+				if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus() != WAITING){
+					roundChange = false;
 				}
+			}
+			// As long as another player has a MobileEntity alive the game isn't finished
+			if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
+				gameEnd=false;
 			}
 		}
 	}
 
 	
-	if(playerChange&&!roundChange){
-		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
-			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
-				cout<<"The player "<< currentState.getPlayerList()[i]->getName()<<" end his round!!!"<<endl;
-			}
-		}
-	}
+	if(playerChange && !roundChange){
+		cout << "The player " << currentState.getCurrentPlayerID() << " ends his round.\n"<< endl;
+		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID()+1);
+		cout << "The player " << currentState.getCurrentPlayerID() << " starts his round.\n" << endl;
 
 	// If the round changes and the game has ended --> the actual player win the game because all ennemies MobileEntity are dead
-	if (roundChange && gameEnd){
-		cout << "\tEnd of the game !" << endl;
+	} else if(roundChange && gameEnd){
+		cout << "End of the game !" << endl;
 
 		for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
 			if (currentState.getPlayerList()[i]->getId() == currentState.getCurrentPlayerID()){
@@ -109,11 +102,12 @@ bool Engine::checkRoundEnd(){
 		}
 		roundChange=false;
 	}else if(roundChange && !gameEnd){
-		cout << "\t\t--- Round has ended. ---\n" << endl;
+		cout << "Round has ended.\n" << endl;
 		currentState.setRound(currentState.getRound() + 1);
+		changeRound=true;
 	}
 	
-	return playerChange;
+	return roundChange;
 }
 
 /** Sets or resets data to start a new round
@@ -123,8 +117,7 @@ void Engine::checkRoundStart(){
 	if (changeRound == true){
 	
 		// Change the current player
-		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID() % currentState.getPlayerList().size());
-		cout << "\tCurrent player change" << endl;
+		currentState.setCurrentPlayerID(1);
 		cout << "\t\t--- Round " << currentState.getRound() << " ---\n" << endl;
 		
 		// For each player
@@ -133,7 +126,7 @@ void Engine::checkRoundStart(){
 			for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
 
 				// For all MobileEntity which do not belong to the currentPlayer and which are not DEAD
-				if (currentState.getPlayerList()[i]->getId() != currentState.getCurrentPlayerID() && currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
+				if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!= DEAD ){
 					// Reset Status to Available
 					currentState.getPlayerList()[i]->getMobileEntityList()[j]->setStatus(AVAILABLE);
 					

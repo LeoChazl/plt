@@ -1,5 +1,6 @@
 #include "../engine.h"
 #include <iostream>
+#include <unistd.h>
 
 using namespace engine;
 using namespace state;
@@ -14,6 +15,7 @@ EndEntityRound::EndEntityRound(state::MobileEntity& selectedUnit): selectedUnit(
 // Function
 
 void EndEntityRound::execute(state::State& state){
+    int waitingTime=40000;
     string entityName = "";
     switch(selectedUnit.getEntityId()){
         case TROLL: 
@@ -30,9 +32,11 @@ void EndEntityRound::execute(state::State& state){
 	if (selectedUnit.getStatus()!=WAITING && selectedUnit.getStatus()!=DEAD){
 		selectedUnit.setStatus(WAITING);
         state.getCursor().setCodeTuile(0);
-		cout << entityName << " finished his round." << endl;
+		cout << "The " << entityName << " finished his round.\n" << endl;
+        usleep(waitingTime);
 	}
 	else if(selectedUnit.getStatus()==WAITING){
-		cout << entityName << " has already finished his round." <<endl; 
+		cout << "The " << entityName << " has already finished his round.\n" <<endl;
+        usleep(waitingTime);
 	}
 }

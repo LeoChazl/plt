@@ -58,22 +58,29 @@ void EngineTest::run(){
     StateLayer* ptr_stateLayer=&stateLayer;
     engine.getState().registerObserver(ptr_stateLayer);
 
+    Engine* ptr_engine=&engine;
+    stateLayer.registerRenderObserver(ptr_engine);
+
     bool booting = true;
 
 
     while (window.isOpen()){
         sf::Event event;
 
-
         if(booting){
             // Draw all the display on the screen
-            stateLayer.draw();
-            cout << "Start of the simulation/commands test.\n" << endl;
-            cout << "Press a key to execute a round.\n" << endl;
+            stateLayer.draw(engine.getState());
+            cout << "Start of the game.\n" << endl;
             booting = false;
         }
         // Close the window if the close button is pressed
         while (1){
+            if(!engine.getState().getEndGame() && engine.checkRoundEnd()){
+                engine.checkRoundStart();
+                StateEvent stateEvent(PLAYERCHANGE);
+                engine.getState().notifyObservers(stateEvent, engine.getState());
+            }
+
             window.pollEvent(event);
             if (event.type == sf::Event::Closed){
                 window.close();
@@ -160,7 +167,7 @@ void EngineTest::run(){
 
             }*/
             stateLayer.inputManager(event, engine.getState());
-            engine.ScreenRefresh();
+            engine.screenRefresh();
             usleep(5);
         }
     }

@@ -43,6 +43,6 @@ void RenderTest::run(){
         }
 
         // Draw all the display on the screen
-        stateLayer.draw();
+        stateLayer.draw(state);
     }
 }
