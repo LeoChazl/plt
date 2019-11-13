@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 
     engine.update();
    BOOST_CHECK_EQUAL(engine.checkRoundEnd(),false);
-   engine.ScreenRefresh();
+   engine.screenRefresh();
    engine.checkRoundStart();
 
     BOOST_CHECK_EQUAL(engine.getState().verifyIsSelected(),false);
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event2.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event2, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event2.KeyReleased;
     usleep(100);
 
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.KeyPressed;
     window.pollEvent(event);
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Left;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -167,7 +167,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Right;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Right;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Up;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Down;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::E;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::A;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -218,7 +218,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Left;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Right;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Right;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -242,7 +242,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Up;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -250,7 +250,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Down;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -259,7 +259,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Return;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
@@ -268,7 +268,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     event.key.code=sf::Keyboard::Key::Z;
     event.KeyPressed;
     stateLayer.inputManager(event, engine.getState());
-    engine.ScreenRefresh();
+    engine.screenRefresh();
     event.KeyReleased;
     usleep(100);
 
