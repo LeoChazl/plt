@@ -217,69 +217,72 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
 
     // Arrow keys and return when no unit is selected
     if(event.type==sf::Event::KeyPressed && !state.verifyIsSelected()){
-        int cursor_x = state.getCursor().getX();
+        //Save curosr position in variables
+        int cursor_x = state.getCursor().getX(); 
         int cursor_y = state.getCursor().getY();
 
+        //According to the user command on keyboard increase the cursor value
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            if(cursor_x!=0){
+            if(cursor_x!=0){ //Keep the cursor inside the screen limits
                 cursor_x -= 1;
                 cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-            if(cursor_x!=state.getEntityMap().getWidth()-1){
+            if(cursor_x!=state.getEntityMap().getWidth()-1){//Keep the cursor inside the screen limits
                 cursor_x += 1;
                 cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-            if(cursor_y!=0){
+            if(cursor_y!=0){//Keep the cursor inside the screen limits
                 cursor_y -= 1;
                 cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-            if(cursor_y!=state.getEntityMap().getHeight()-1){
+            if(cursor_y!=state.getEntityMap().getHeight()-1){//Keep the cursor inside the screen limits
                 cursor_y += 1;
                 cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
             }
         }
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
-            auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
+        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){ //User press the following button:"ENTER"
+            auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());//Try to have access to a MobileEntity at the cursor actal position
             
             // Test if a unit is on the case
-            if(currentMobileEntity!=NULL){
-                if(currentMobileEntity->getPlayerId()==state.getCurrentPlayerID() && currentMobileEntity->getStatus()==AVAILABLE){
-                    state.getCursor().setCodeTuile(2);
+            if(currentMobileEntity!=NULL){ 
+                //Test if the unit is belongs to the actual player and if the player didn't already play with the unit in the current round
+                if(currentMobileEntity->getPlayerId()==state.getCurrentPlayerID() && currentMobileEntity->getStatus()==AVAILABLE){ 
+                    state.getCursor().setCodeTuile(2);//Change the Tile --> set green color cursor tile
 
-                    currentMobileEntity->setStatus(SELECTED);
+                    currentMobileEntity->setStatus(SELECTED);//Change the Selected MobileEntity Status
 
                     cout << "A unit has been selected.\n" << endl;
-                }else if(currentMobileEntity->getStatus()==WAITING){
+                }else if(currentMobileEntity->getStatus()==WAITING){ //the unit is not avaible --> player already play with this unit
                     cout << "This unit already finished his round.\n" << endl;
                 }else{
                     cout << "This unit doesn't belong to the current player.\n" << endl;
                 }
-            }else{
+            }else{ // the currentPLayer pointor is NULL
                 cout << "No unit in this case.\n" << endl;
             }
         }
-
+        //Reset the cursor position in the state
         state.getCursor().setX(cursor_x);
         state.getCursor().setY(cursor_y);
-
+        //Notify all registred Observer in "state Observers" list
         state.notifyObservers(stateEvent, state);
 
         usleep(waitingTime);
 
-    // Case a unit is already selected and attack
+    // Case a unit is already selected and attack (Prss "A" button)
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (state.verifyIsSelected())){
         cout << "An attack is in preparation.\n" << endl;
         auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
 
         // Change cursor color
-        state.getCursor().setCodeTuile(1);
-        state.notifyObservers(stateEvent, state);
+        state.getCursor().setCodeTuile(1); //Change current cursor color to RED
+        state.notifyObservers(stateEvent, state); //Notify state Observers that the tile changed 
 
         // Set different variables to keep track of the unit attack range
         int rightRange=currentMobileEntity->getAttackRange();
@@ -291,13 +294,14 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
         auto target = currentMobileEntity;
         bool attackIsOngoing = true;
 
+        //As long as the target is not choose (i.e the Atttacker is the target) and the Attack is not canceled
         while(target==currentMobileEntity && attackIsOngoing){
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 if(state.getCursor().getX()!=0 && leftRange!=0){
-                    state.getCursor().setX(state.getCursor().getX()-1);
-                    rightRange++;
+                    state.getCursor().setX(state.getCursor().getX()-1);//Set the new cursor position
+                    rightRange++; //update attack range variables
                     leftRange--;
-                    state.notifyObservers(stateEvent, state);
+                    state.notifyObservers(stateEvent, state);//Notify OBserver in order to update the cursor position on the screen
                     usleep(waitingTime);
                 }
             } 
@@ -328,18 +332,20 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     usleep(waitingTime);
                 }
             }
+            //Select the target with  "ENTER" button
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
-                if(state.isOccupied(state.getCursor().getX(),state.getCursor().getY())){
-                    target = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
-                    EngineRenderEvent engineRenderEvent(ATTACK);
+                if(state.isOccupied(state.getCursor().getX(),state.getCursor().getY())){//if there are units in the actual cursor position
+                    target = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());//chage the target to the selected one
+                    EngineRenderEvent engineRenderEvent(ATTACK); //A class to regitrer the type of Engine Event (ATTACK)
                     Position position(0,0);
 
-                    notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, target);
+                    notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, target); //Notify Render Observers that there is an Attack event
                         
-                    state.getCursor().setCodeTuile(0);
-                    state.notifyObservers(stateEvent, state);
+                    state.getCursor().setCodeTuile(0); //Set the cursor to target selected color
+                    state.notifyObservers(stateEvent, state);// Notify State Observers
                 }
             }
+            //Cancel the attack
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)){
                 attackIsOngoing = false;
                 cout << "The attack is canceled.\n" << endl;
@@ -349,10 +355,10 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
 
                 // If Cursor is not on the selected MobileEntity
                 if(currentMobileEntity->getX()!=state.getCursor().getX() || currentMobileEntity->getY()!=state.getCursor().getY()){
-                    state.getCursor().setX(currentMobileEntity->getX());
+                    state.getCursor().setX(currentMobileEntity->getX());//ReSet the cursor on the selected mobileEntity--> Attacker
                     state.getCursor().setY(currentMobileEntity->getY());
                 }
-                state.notifyObservers(stateEvent, state);
+                state.notifyObservers(stateEvent, state); //Notify the state observer in rder to draw the cursor on the Attacker
                 usleep(waitingTime);
             }
         }
@@ -384,13 +390,13 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
             }
         }
 
-        if(movement_x != 0 || movement_y!=0){
+        if(movement_x != 0 || movement_y!=0){//If there are any x or y axe movement asked by the player
             Position position(currentMobileEntity->getX()+movement_x,currentMobileEntity->getY()+movement_y);
         
             EngineRenderEvent engineRenderEvent(ARROW_KEYS);
 
             // Second MobileEntity not used here but filled so it match the function arguments
-            notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, currentMobileEntity);
+            notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, currentMobileEntity);//Update the unit position on the map by updating the render
 
             movement_x=0;
             movement_y=0;

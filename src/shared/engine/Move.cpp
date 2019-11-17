@@ -66,6 +66,7 @@ void Move::execute(state::State& state){
                 usleep(waitingTime);
             }
         } else {
+            cout<<"LEFT MOVEMENT POINTS: "<<selectedUnit.getMovementLeft()<<endl;
             cout << "The " << entityName << " doesn't have any movement left.\n" << endl;
             usleep(waitingTime);
         }

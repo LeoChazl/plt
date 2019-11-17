@@ -133,12 +133,16 @@ void Engine::checkRoundStart(){
 					// Reset movement points for each units
 					if (currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == KNIGHT){
 						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(2);
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementLeft(2);
+
 					}
 					else if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == TROLL) {
 						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(3);
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementLeft(3);
 
 					}else if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getEntityId() == MAGE) {
 						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementRange(4);
+						currentState.getPlayerList()[i]->getMobileEntityList()[j]->setMovementLeft(4);
 
 					}	
 				}
@@ -153,7 +157,7 @@ void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::St
 	switch(engineRenderEvent.getEngineRenderEventID()){
 		case ARROW_KEYS:
 		{
-			Move movement(*selectedMobileEntity, position);
+			Move movement(*selectedMobileEntity, position);//Initialize the movement pointor with the unit to move and the position to reach
 			unique_ptr<Command> ptr_move(new Move(movement));
 			addCommand(0, move(ptr_move));
 			update();
@@ -161,10 +165,10 @@ void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::St
 		}
 		case ATTACK:
 		{
-			Attack attack(*selectedMobileEntity, *targetMobileEntity);
+			Attack attack(*selectedMobileEntity, *targetMobileEntity); //Initialize the Attack constrctor with attacker and target
 			unique_ptr<Command> ptr_attack(new Attack(attack));
-			addCommand(0, move(ptr_attack));
-			update();
+			addCommand(0, move(ptr_attack));//add to engine commands
+			update();// update the engine which will execute the attack and update engine and state
 			break;
 		}
 		case END_UNIT_ROUND:
