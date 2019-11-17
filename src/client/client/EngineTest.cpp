@@ -75,6 +75,12 @@ void EngineTest::run(){
         }
         // Close the window if the close button is pressed
         while (1){
+            if(engine.checkGameEnd()==true){
+                window.close();
+                cout<<"Game END"<<endl;
+                break;
+            }
+
             if(!engine.getState().getEndGame() && engine.checkRoundEnd()){
                 engine.checkRoundStart();
                 StateEvent stateEvent(PLAYERCHANGE);
@@ -169,6 +175,7 @@ void EngineTest::run(){
             stateLayer.inputManager(event, engine.getState());
             engine.screenRefresh();
             usleep(5);
+            //engine.checkRoundEnd();
         }
     }
 }

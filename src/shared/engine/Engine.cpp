@@ -59,6 +59,7 @@ bool Engine::checkRoundEnd(){
 	bool playerChange = true;
 	bool roundChange = true;
 	bool gameEnd = true;
+	int currentPlayerID=currentState.getCurrentPlayerID();
 
 	// For each player
 	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
@@ -79,8 +80,10 @@ bool Engine::checkRoundEnd(){
 				}
 			}
 			// As long as another player has a MobileEntity alive the game isn't finished
-			if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
-				gameEnd=false;
+			if(currentState.getPlayerList()[i]->getId()!=currentPlayerID){
+				if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
+					gameEnd=false;
+				}
 			}
 		}
 	}
@@ -100,6 +103,7 @@ bool Engine::checkRoundEnd(){
 				cout<<"The player "<< currentState.getPlayerList()[i]->getName()<<" win the game!!!"<<endl;
 			}
 		}
+		
 		roundChange=false;
 	}else if(roundChange && !gameEnd){
 		cout << "Round has ended.\n" << endl;
@@ -152,6 +156,32 @@ void Engine::checkRoundStart(){
 		changeRound = !changeRound;
 	}
 }
+
+/** Check if the game end or not
+ * 
+ */
+bool Engine::checkGameEnd(){
+	bool gameEnd = true;
+	int currentPlayerID=currentState.getCurrentPlayerID();
+
+	// For each player
+	for (unsigned int i = 0; i < currentState.getPlayerList().size(); i++){
+		// For each MobileEntity belonging to each player
+		for(unsigned int j = 0;j<currentState.getPlayerList()[i]->getMobileEntityList().size(); j++){
+			// As long as another player has a MobileEntity alive the game isn't finished
+			if(currentState.getPlayerList()[i]->getId()!=currentPlayerID){
+				if(currentState.getPlayerList()[i]->getMobileEntityList()[j]->getStatus()!=DEAD){
+
+					//cout<<"The player "<< currentState.getPlayerList()[i]->getName()<<" win the game!!!"<<endl;
+					gameEnd=false;
+				}
+			}
+		}
+	}
+	return gameEnd;
+
+}
+
 
 void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::State& state, state::Position& position, shared_ptr<state::MobileEntity>& selectedMobileEntity, shared_ptr<state::MobileEntity>& targetMobileEntity){
 	switch(engineRenderEvent.getEngineRenderEventID()){
