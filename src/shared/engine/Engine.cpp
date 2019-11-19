@@ -91,7 +91,7 @@ bool Engine::checkRoundEnd(){
 	
 	if(playerChange && !roundChange){
 		cout << "The player " << currentState.getCurrentPlayerID() << " ends his round.\n"<< endl;
-		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID()+1);
+		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID()+1);//Increase the Player ID
 		cout << "The player " << currentState.getCurrentPlayerID() << " starts his round.\n" << endl;
 
 	// If the round changes and the game has ended --> the actual player win the game because all ennemies MobileEntity are dead
@@ -121,7 +121,7 @@ void Engine::checkRoundStart(){
 	if (changeRound == true){
 	
 		// Change the current player
-		currentState.setCurrentPlayerID(1);
+		currentState.setCurrentPlayerID(1);//Reset player ID to "1"=> first player
 		cout << "\t\t--- Round " << currentState.getRound() << " ---\n" << endl;
 		
 		// For each player
