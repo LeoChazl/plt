@@ -10,6 +10,9 @@ using namespace std;
 using namespace ai;
 
 
+RandomAI::RandomAI(){
+    
+}
 
 void RandomAI::run (engine::Engine& engine){
 

@@ -58,9 +58,7 @@ void AiTest::run(){
     stateLayer.initTextureAreas(engine.getState());
 
     RandomAI randomAi;
-
-    //RandomAI random;
-    
+    randomAi.initAi(1,engine);
 
     StateLayer* ptr_stateLayer=&stateLayer;
     engine.getState().registerObserver(ptr_stateLayer);
@@ -98,7 +96,7 @@ void AiTest::run(){
             }
 
             if(engine.getState().getCurrentPlayerID()==1){
-                //ai.run(engine);
+                randomAi.run(engine);
             }else{
                 window.pollEvent(event);
                 if (event.type == sf::Event::Closed){

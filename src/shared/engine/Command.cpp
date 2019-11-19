@@ -3,5 +3,7 @@
 
 using namespace engine;
 
-
+Command::Command(){
+    
+}
 

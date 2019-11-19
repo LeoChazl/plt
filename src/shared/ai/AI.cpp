@@ -12,6 +12,10 @@ using namespace ai;
 
 
 //constructor
+AI::AI():aiCommandList(aiCommandList),artificialIntelligenceID(artificialIntelligenceID){
+
+}
+
 void AI::initAi(int AiID,engine::Engine& engine ){
 
     //Register all moves
