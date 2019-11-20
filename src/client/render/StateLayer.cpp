@@ -49,16 +49,19 @@ void StateLayer::initTextureAreas (state::State state){
     TextureArea map;
     TextureArea units;
     TextureArea cursor;
+    //TextureArea unitDisplay;
 
     // Loading the tiles in TextureArea objects
     units.loadUnits(state,*tileSets[0]);
     cursor.loadCursor(state,*tileSets[1]);
     map.loadMap(state,*tileSets[2]);
+    //unitDisplay.loadUnitDisplay(state,*tileSets[3]);
 
     // Declaration of pointers to store them in the global array for all the layers
 	unique_ptr<TextureArea> ptr_map (new TextureArea(map));
     unique_ptr<TextureArea> ptr_units (new TextureArea(units));
     unique_ptr<TextureArea> ptr_cursor(new TextureArea(cursor));
+    //unique_ptr<TextureArea> ptr_unitDisplay(new TextureArea(unitDisplay));
 
     // Empty the table of all the elements in case we want to refresh the display
     if(textureAreas.size()!=0){
@@ -71,6 +74,7 @@ void StateLayer::initTextureAreas (state::State state){
     textureAreas.push_back(move(ptr_map));
     textureAreas.push_back(move(ptr_units));
     textureAreas.push_back(move(ptr_cursor));
+    //textureAreas.push_back(move(ptr_unitDisplay));
 }
 
 /** Display each of the TextureArea layer in screen--> initialized in textureArea array with the "initTextureAreas(state)" function
@@ -114,20 +118,6 @@ void StateLayer::draw (state::State& state){
 	bottom_rectangle[1].color = sf::Color::Red;
 	bottom_rectangle[2].color = sf::Color::Yellow;
 	bottom_rectangle[3].color = sf::Color::Red;
-
-    // Current player rectangle at the bottm
-    sf::RectangleShape currentPlayerRectangle(sf::Vector2f(300.f, 30.f));
-	currentPlayerRectangle.setPosition(700.f, 810.f);
-    sf::Color colorCurrentPlayerRectangle(0,0,0,200);
-	currentPlayerRectangle.setFillColor(colorCurrentPlayerRectangle);
-
-    string currentString = "Player " + to_string(state.getCurrentPlayerID()) + " is playing";
-    sf::Text currentText;
-    currentText.setFont(font);
-    currentText.setString(currentString);
-    currentText.setCharacterSize(14);
-    currentText.setFillColor(sf::Color::White);
-    currentText.setPosition(725.f ,815.f);
 
     // Control panel
     sf::RectangleShape controlPanel(sf::Vector2f(350.f,100.f));
@@ -185,8 +175,6 @@ void StateLayer::draw (state::State& state){
     window.draw(bottom_right_rectangle); // Draw the colored rectangle in the bottom right
     window.draw(right_rectangle); // Draw the colored rectangle on the right
     window.draw(bottom_rectangle); // Draw the colored rectangle at the bottom
-    window.draw(currentPlayerRectangle);
-    window.draw(currentText);
     window.draw(controlPanel);
     window.draw(titleText);
     window.draw(controlText1);
@@ -197,9 +185,63 @@ void StateLayer::draw (state::State& state){
 	window.draw(*textureAreas[0]);	// Draw the map layer with the TextureArea type object as Target		
 	window.draw(*textureAreas[1]);	// Draw the units layer
 	window.draw(*textureAreas[2]);	// Draw the cursor layer
+    //window.draw(*textureAreas[3]);  // Draw selected unit picture
+
+    drawBottomInfos(state);
     
 	window.display();
 }
+
+/** Draw the display in the bottom rectangle, describes current action
+ * 
+ * param :
+ * state -> current state
+ */
+void StateLayer::drawBottomInfos(state::State& state){
+
+    // Current player rectangle at the bottm
+    sf::RectangleShape currentPlayerRectangle(sf::Vector2f(300.f, 30.f));
+	currentPlayerRectangle.setPosition(700.f, 810.f);
+    sf::Color colorCurrentPlayerRectangle(0,0,0,150);
+	currentPlayerRectangle.setFillColor(colorCurrentPlayerRectangle);
+
+    string currentString = "Player " + to_string(state.getCurrentPlayerID()) + " is playing";
+    sf::Text currentText;
+    currentText.setFont(font);
+    currentText.setString(currentString);
+    currentText.setCharacterSize(14);
+    currentText.setFillColor(sf::Color::White);
+    currentText.setPosition(775.f ,815.f);
+
+    // Current action rectangle at the bottom
+    sf::RectangleShape currentActionRectangle(sf::Vector2f(300.f, 25.f));
+	currentActionRectangle.setPosition(700.f, 850.f);
+    sf::Color colorCurrentActionRectangle(0,0,0,200);
+	currentActionRectangle.setFillColor(colorCurrentActionRectangle);
+
+    string currentActionString = "Smth is moving";
+    sf::Text currentAction;
+    currentAction.setFont(font);
+    currentAction.setString(currentActionString);
+    currentAction.setCharacterSize(12);
+    currentAction.setFillColor(sf::Color::White);
+    currentAction.setPosition(775.f ,855.f);
+
+    window.draw(currentPlayerRectangle);
+    window.draw(currentText);
+    window.draw(currentActionRectangle);
+    window.draw(currentAction);
+}
+
+/** Draw the display in the right rectangle, shows unit caracteristics
+ * 
+ * param :
+ * state -> current state
+ */
+void StateLayer::drawRightInfos(state::State& state){
+
+}
+
 
 /** Called when there has been changes in the state and updates the display
  * 

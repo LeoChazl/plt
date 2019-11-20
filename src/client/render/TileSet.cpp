@@ -21,6 +21,10 @@ TileSet::TileSet(render::TileSetID newID){
         case MAPTILESET:
             imageFile="rsc/Images/map_tileset.png";
             break;
+        case UNITDISPLAYTILESET:
+            cellWidth=64;
+            cellHeight=64;
+            imageFile="rsc/Images/characters_tileset_bottomdisplay.png";
         default:
             break;
     }
