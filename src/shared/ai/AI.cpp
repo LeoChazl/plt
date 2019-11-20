@@ -25,6 +25,7 @@ void AI::initAi(int AiID,engine::Engine& engine ){
             Move deplacement(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0], destination);
             std::unique_ptr<engine::Command> ptr_deplacement (new Move(deplacement));
             aiCommandList.push_back(move(ptr_deplacement));
+            //aiCommandList[k]=move(ptr_deplacement);
         }
     }
    /*int i=1;
@@ -35,9 +36,9 @@ void AI::initAi(int AiID,engine::Engine& engine ){
     aiCommandList.push_back(move(ptr_deplacement));*/
 
     //Register Attack 
-    /*Attack attack3(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
+    Attack attack3(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
     unique_ptr<Command> ptr_attack3 (new Attack(attack3));
-    aiCommandList.push_back(move(ptr_attack3));*/
+    aiCommandList.push_back(move(ptr_attack3));
     
 }
 
@@ -52,13 +53,13 @@ void AI::initAi(int AiID,engine::Engine& engine ){
 }*/
 
 //Getter and Setter
-int AI::getArtificialIntelligenceID() const{
+/*nt AI::getArtificialIntelligenceID() const{
     return artificialIntelligenceID;
 }
 
 void setArtificialIntelligenceID(int artificialIntelligenceID){
     artificialIntelligenceID=artificialIntelligenceID;
-}
+}*/
 
 
 

@@ -97,6 +97,11 @@ void AiTest::run(){
 
             if(engine.getState().getCurrentPlayerID()==1){
                 randomAi.run(engine);
+                /*int i=0;
+                int j=1;
+                int AiID=1;
+                Position destination(engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getX()+i+j,engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getY()+i+j);
+                Move deplacement(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0], destination);*/
             }else{
                 window.pollEvent(event);
                 if (event.type == sf::Event::Closed){
