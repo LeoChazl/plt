@@ -57,7 +57,7 @@ void AiTest::run(){
     StateLayer stateLayer(engine.getState(),window);
     stateLayer.initTextureAreas(engine.getState());
 
-    RandomAI randomAi;
+    //RandomAI randomAi;
     //randomAi.initAi(1,engine);
 
     StateLayer* ptr_stateLayer=&stateLayer;
