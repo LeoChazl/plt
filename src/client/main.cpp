@@ -35,8 +35,6 @@ int main(int argc, char* argv[])
             aiTest.run();
         }
     }
-    AiTest aiTest;
-    aiTest.run();
     return 0;
 }
 
