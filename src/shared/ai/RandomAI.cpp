@@ -16,11 +16,12 @@ RandomAI::RandomAI (int AiID){
 
 
 void RandomAI::run (engine::Engine& engine){
-
     if(engine.getState().getCurrentPlayerID()==artificialIntelligenceID){
         int randomAction;
 		int randomPosition;
 		int randomAttackPosition;
+
+        int waitingTime=3;
 
         //for each Unit controlled by artificial Intelligence Player
         for(unsigned int i=0;i<engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size();i++){
@@ -50,7 +51,6 @@ void RandomAI::run (engine::Engine& engine){
                 }
                 else{randomAction = rand()%3;}//EndAction=2 or Attack=1 or Move=0
 
-
                 // 0 : Move
                 if (randomAction == 0 && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!= 0){
                     //Initialize a liste of allowed Move
@@ -66,7 +66,7 @@ void RandomAI::run (engine::Engine& engine){
                         engine.update();//update engine will use state to notify render about changes
 
                         notAllowedAttack = false;
-                        sleep(1);
+                        sleep(waitingTime);
                     }
                     else{notAllowedMove = true;}
                 }
@@ -89,7 +89,7 @@ void RandomAI::run (engine::Engine& engine){
                             engine.addCommand(0, move(ptr_attack));
                             engine.update();
                             notAllowedMove = false;
-                            sleep(1);
+                            sleep(waitingTime);
                         }
                     }
                     else{notAllowedAttack = true;}				
@@ -101,7 +101,7 @@ void RandomAI::run (engine::Engine& engine){
                     unique_ptr<Command> ptr_endAction (new EndEntityRound(endAction));
                     engine.addCommand(0, move(ptr_endAction));
                     engine.update();
-                    sleep(1);
+                    sleep(waitingTime);
                 }
             }
             

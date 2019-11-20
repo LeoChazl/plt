@@ -88,7 +88,6 @@ bool Engine::checkRoundEnd(){
 		}
 	}
 
-	
 	if(playerChange && !roundChange){
 		cout << "The player " << currentState.getCurrentPlayerID() << " ends his round.\n"<< endl;
 		currentState.setCurrentPlayerID(currentState.getCurrentPlayerID()+1);//Increase the Player ID

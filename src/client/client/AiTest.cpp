@@ -81,6 +81,9 @@ void AiTest::run(){
         }
 
         while (1){
+
+            randomAi.run(engine);
+
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){
                 window.close();
@@ -95,26 +98,14 @@ void AiTest::run(){
                 engine.getState().notifyObservers(stateEvent, engine.getState());
             }
 
-            if(engine.getState().getCurrentPlayerID()==1){
-                randomAi.run(engine);
-                /*int i=0;
-                int j=1;
-                int AiID=1;
-                Position destination(engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getX()+i+j,engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getY()+i+j);
-                Move deplacement(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0], destination);*/
-            }else{
-                window.pollEvent(event);
-                if (event.type == sf::Event::Closed){
+            window.pollEvent(event);
+            if (event.type == sf::Event::Closed){
                     window.close();
-                    stateLayer.inputManager(event, engine.getState());
-                }
             }
-
-
-
+            
+            stateLayer.inputManager(event, engine.getState());
             engine.screenRefresh();
             usleep(5);
-            //engine.checkRoundEnd();
         }
     }
 }
