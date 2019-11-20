@@ -20,8 +20,8 @@ void RandomAI::run (engine::Engine& engine){
     // initialize random seed: 
     srand (time(NULL));
     // generate number between 1 and command list size 
-    int randomCommand = rand() % aiCommandList.size();
+    /*int randomCommand = rand() % aiCommandList.size();
 
-    aiCommandList[randomCommand]->execute(engine.getState());
+    aiCommandList[randomCommand]->execute(engine.getState());*/
 }
 

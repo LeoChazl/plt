@@ -58,7 +58,7 @@ void AiTest::run(){
     stateLayer.initTextureAreas(engine.getState());
 
     RandomAI randomAi;
-    randomAi.initAi(1,engine);
+    //randomAi.initAi(1,engine);
 
     StateLayer* ptr_stateLayer=&stateLayer;
     engine.getState().registerObserver(ptr_stateLayer);
@@ -96,7 +96,7 @@ void AiTest::run(){
             }
 
             if(engine.getState().getCurrentPlayerID()==1){
-                randomAi.run(engine);
+                //randomAi.run(engine);
                 /*int i=0;
                 int j=1;
                 int AiID=1;

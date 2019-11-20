@@ -12,14 +12,14 @@ using namespace ai;
 
 
 //constructor
-AI::AI():aiCommandList(aiCommandList),artificialIntelligenceID(artificialIntelligenceID){
+AI::AI():artificialIntelligenceID(artificialIntelligenceID){
 
 }
 
-void AI::initAi(int AiID,engine::Engine& engine ){
+//void AI::initAi(int AiID,engine::Engine& engine ){
 
     //Register all moves
-    for(int i=0;i<engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getMovementRange()/2;i++){
+    /*for(int i=0;i<engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getMovementRange()/2;i++){
         for(int j=0;j<engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getMovementRange()/2;j++){
             Position destination(engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getX()+i+j,engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getY()+i+j);
             Move deplacement(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0], destination);
@@ -27,7 +27,7 @@ void AI::initAi(int AiID,engine::Engine& engine ){
             aiCommandList.push_back(move(ptr_deplacement));
             //aiCommandList[k]=move(ptr_deplacement);
         }
-    }
+    }*/
    /*int i=1;
    int j=0;
     Position destination(engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getX()+i+j,engine.getState().getPlayerList()[AiID]->getMobileEntityList()[0]->getY()+i+j);
@@ -36,11 +36,11 @@ void AI::initAi(int AiID,engine::Engine& engine ){
     aiCommandList.push_back(move(ptr_deplacement));*/
 
     //Register Attack 
-    Attack attack3(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
+    /*Attack attack3(*engine.getState().getPlayerList()[AiID]->getMobileEntityList()[1], *engine.getState().getPlayerList()[1]->getMobileEntityList()[0]);
     unique_ptr<Command> ptr_attack3 (new Attack(attack3));
-    aiCommandList.push_back(move(ptr_attack3));
+    aiCommandList.push_back(move(ptr_attack3));*/
     
-}
+//}
 
 /*void AI::run (engine::Engine& engine){
 
@@ -53,13 +53,13 @@ void AI::initAi(int AiID,engine::Engine& engine ){
 }*/
 
 //Getter and Setter
-/*nt AI::getArtificialIntelligenceID() const{
+int AI::getArtificialIntelligenceID(){
     return artificialIntelligenceID;
 }
 
 void setArtificialIntelligenceID(int artificialIntelligenceID){
     artificialIntelligenceID=artificialIntelligenceID;
-}*/
+}
 
 
 
