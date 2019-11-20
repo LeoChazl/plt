@@ -57,7 +57,6 @@ void AiTest::run(){
     StateLayer stateLayer(engine.getState(),window);
     stateLayer.initTextureAreas(engine.getState());
 
-    RandomAI randomAi(1);
     //randomAi.initAi(1,engine);
 
     StateLayer* ptr_stateLayer=&stateLayer;
@@ -81,7 +80,8 @@ void AiTest::run(){
         }
 
         while (1){
-
+            //engine.checkRoundStart();
+            RandomAI randomAi(2);
             randomAi.run(engine);
 
             //Check if all ennemy units are dead or not
@@ -92,7 +92,8 @@ void AiTest::run(){
             }
 
             //Check if all units had played
-            if(!engine.getState().getEndGame() && engine.checkRoundEnd()){
+            if(engine.checkRoundEnd()){
+                cout<<"round change"<<endl;
                 engine.checkRoundStart();
                 StateEvent stateEvent(PLAYERCHANGE);
                 engine.getState().notifyObservers(stateEvent, engine.getState());

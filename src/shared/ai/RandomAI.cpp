@@ -22,6 +22,7 @@ void RandomAI::run (engine::Engine& engine){
 		int randomAttackPosition;
 
         int waitingTime=3;
+        artificialIntelligenceID=artificialIntelligenceID-1;
 
         //for each Unit controlled by artificial Intelligence Player
         for(unsigned int i=0;i<engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size();i++){
@@ -82,9 +83,9 @@ void RandomAI::run (engine::Engine& engine){
                                             
                         // Check if there are units on the random Attack Position
                         int target=engine.getState().isOccupied(allowedAttackPositionList[randomAttackPosition].getX(),allowedAttackPositionList[randomAttackPosition].getY());
-                        if (target != -1){
+                        if (target ==true){
                             // Commande d'attaque
-                            Attack attack(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i], *engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[target]);
+                            Attack attack(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i], *engine.getState().getMobileEntity(allowedAttackPositionList[randomAttackPosition].getX(),allowedAttackPositionList[randomAttackPosition].getY()));
                             unique_ptr<Command> ptr_attack (new Attack(attack));
                             engine.addCommand(0, move(ptr_attack));
                             engine.update();
