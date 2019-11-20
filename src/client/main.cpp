@@ -8,12 +8,14 @@
 #include "client.h"
 
 
+
 using namespace sf;
 using namespace std;
 using namespace state;
 using namespace render;
 using namespace engine;
 using namespace client;
+
 
 int main(int argc, char* argv[])
 {
@@ -26,6 +28,11 @@ int main(int argc, char* argv[])
         else if(strcmp(argv[1],"engine")==0){
             EngineTest engineTest;
             engineTest.run();
+        }
+
+        else if(strcmp(argv[1],"aiRandom")==0){
+            AiTest aiTest;
+            aiTest.run();
         }
     }
     return 0;
