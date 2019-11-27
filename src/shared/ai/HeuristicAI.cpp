@@ -54,8 +54,14 @@ void HeuristicAI::run (engine::Engine& engine){
 				}
 				else{
                     //AI Units health are weak --> run (Move)
+                    std::vector<Position> allowedMovePositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
                     if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getHealth()<=10){
-                        action=0; //Move=0
+                        if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
+                            action=2;//EndAction=2
+                        }else{
+                            action=0; //Move=0
+                        }
+                        
                     }else{
                         //Recover in a list all attackable positions
                         std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
@@ -84,7 +90,7 @@ void HeuristicAI::run (engine::Engine& engine){
                             action=0;//Move=0
                         }
 
-                        if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0){
+                        if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
                             action=2;//EndAction=2
                         }
 
