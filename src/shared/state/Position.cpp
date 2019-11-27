@@ -24,6 +24,11 @@ bool Position::equal(Position& position){
     return false;
 }
 
+int Position::distance(Position& position){
+	return abs(x-position.getX())+abs(y-position.getY());
+}
+
+
 // Getters
 
 int Position::getX(){

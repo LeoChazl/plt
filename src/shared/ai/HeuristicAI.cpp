@@ -241,6 +241,103 @@ state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position> 
 
 
 std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine, state::Position start, state::Position goal){
-    vector<Position> listPosition;
-    return listPosition;
+    vector<Position> path;
+
+    // Check if the goal is reachable and has a unit on it
+    if(engine.getState().isOccupied(goal.getX(), goal.getY())){
+        vector<Position> possibleNextPosition=engine.getState().getMobileEntity(goal.getX(), goal.getY())->allowedMove(engine.getState());
+        if(possibleNextPosition.size()==0){
+            return path;
+        }
+    }
+
+    // Contains the nodes already processed by A star
+    vector<Node> processedNodes;
+    // Contains the nodes reached by A star and has to be processed
+    vector<Node> nodeStack;
+
+    bool goalReached=false;
+
+    // Initializing starting node
+    Node startNode(nullptr, start);
+    startNode.setDistanceFromStart(0);
+    startNode.setDistanceFromGoal(start.distance(goal));
+
+    nodeStack.push_back(startNode);
+
+    // As long as there nodes to process or that the goal isn't reached
+    while(nodeStack.size()!=0 && goalReached){
+        int minNodeIndex=minIndex(nodeStack);
+        Node currentNode = nodeStack[minNodeIndex];
+
+        if(currentNode.getPosition().equal(goal)){
+            goalReached=true;
+
+            // Get the path from goal to start
+            path.push_back(currentNode.getPosition());
+            Node* nextNode=currentNode.getPreviousNode();
+            while(!nextNode->getPosition().equal(startNode.getPosition())){
+                path.push_back(nextNode->getPosition());
+                nextNode=nextNode->getPreviousNode();
+            }
+        }
+        else{
+            vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
+            if(nodeNeighbors.size()!=0){
+                for(size_t i=0; i<nodeNeighbors.size(); i++){
+                    if(nodeInStack(nodeStack,nodeNeighbors[i])!=-1){
+                        // If a node is already in stack but a new shorter path from start is found
+                        if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){
+                            nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
+                            nodeNeighbors[i].setPreviousNode(&currentNode);
+                        }
+                    }
+                    else{
+                        // New node is reached
+                        nodeNeighbors[i].setPreviousNode(&currentNode);
+                        nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
+                        nodeNeighbors[i].setDistanceFromGoal(nodeNeighbors[i].getPosition().distance(goal));
+                        nodeStack.push_back(nodeNeighbors[i]);
+                    }
+                }
+                // Empty the nodeNeighbors list for next iteration
+                while(nodeNeighbors.size()!=0){
+                    nodeNeighbors.pop_back();
+                }
+            }
+        }
+        processedNodes.push_back(currentNode);
+        nodeStack.erase(nodeStack.begin() + minNodeIndex);
+    }
+    return path;
 }
+
+int HeuristicAI::minIndex(std::vector<Node> nodeStack){
+    int minIndex=-1;
+
+    if(nodeStack.size()!=0){
+        minIndex=0;
+        Node minNode=nodeStack[0];
+        for(size_t i=1; i<nodeStack.size(); i++){
+            if(nodeStack[i].getHeuristicDistance()<minNode.getHeuristicDistance()){
+                minNode=nodeStack[i];
+                minIndex=i;
+            }
+        }
+    }
+    return minIndex;
+}
+
+int HeuristicAI::nodeInStack(std::vector<Node> nodeStack, Node& node){
+    int indexInStack=-1;
+    
+    for(size_t i=0; i<nodeStack.size(); i++){
+        if(nodeStack[i].getPosition().equal(node.getPosition())){
+            indexInStack=i;
+            break;
+        }
+    }
+
+    return indexInStack;
+}
+
