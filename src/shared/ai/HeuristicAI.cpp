@@ -9,5 +9,15 @@ using namespace engine;
 using namespace std;
 using namespace ai;
 
+//Constructor
+HeuristicAI::HeuristicAI(int AiID){
+        artificialIntelligenceID=AiID;
+}
+
 // Functions 
+
+void HeuristicAI::run (engine::Engine& engine){
+    
+
+}
 
