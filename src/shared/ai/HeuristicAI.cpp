@@ -54,7 +54,30 @@ void HeuristicAI::run (engine::Engine& engine){
                     if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getHealth()<=10){
                         action=0; //Move=0
                     }else{
-                        
+                        //Recover in a list all attackable positions
+                        std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
+                        std::vector<Position> occupiedPositionInAttackZone;
+                        int x_unit,y_unit;
+                        if(allowedAttackPositionList.size()!=0){
+                            //Check and recover in a list all units position inside the attack Zone
+                            for (size_t m = 0; m < allowedAttackPositionList.size(); m++)
+                            {
+                                x_unit=allowedAttackPositionList[m].getX();
+                                y_unit=allowedAttackPositionList[m].getY();
+                                if(engine.getState().isOccupied(x_unit,y_unit)){
+                                    occupiedPositionInAttackZone.push_back(allowedAttackPositionList[i]);
+                                }
+                            }
+
+                            //There are units in attackable zone
+                            if(occupiedPositionInAttackZone.size()!=0){
+                                
+
+                            }else{//No units in attackable zone
+                                action=0;//Move=0
+                            }
+                        }
+
                     }
                 }
 
