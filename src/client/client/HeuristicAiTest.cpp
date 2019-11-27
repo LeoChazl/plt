@@ -17,12 +17,12 @@ using namespace render;
 using namespace engine;
 using namespace ai;
 
-AiTest::AiTest(){
+HeuristicAiTest::HeuristicAiTest(){
 
 }
 
-void AiTest::run(){
-    cout<<"---- AI TEST ----"<<endl;
+void HeuristicAiTest::run(){
+    cout<<"---- Heuristic AI TEST ----"<<endl;
 
     //Initialize the window
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
@@ -81,8 +81,8 @@ void AiTest::run(){
 
         while (1){
             //engine.checkRoundStart();
-            RandomAI randomAi(2);
-            randomAi.run(engine);
+            ai::HeuristicAI heuristicAi(2);
+            heuristicAi.run(engine);
 
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){

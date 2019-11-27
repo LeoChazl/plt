@@ -33,6 +33,9 @@ int main(int argc, char* argv[])
         else if(strcmp(argv[1],"aiRandom")==0){
             AiTest aiTest;
             aiTest.run();
+        }else if(strcmp(argv[1],"aiHeuristic")==0){
+            HeuristicAiTest heuristicAiTest;
+            heuristicAiTest.run();
         }
     }
     return 0;
