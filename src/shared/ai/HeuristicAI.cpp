@@ -21,3 +21,7 @@ void HeuristicAI::run (engine::Engine& engine){
 
 }
 
+std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine, state::Position start, state::Position goal){
+    vector<Position> listPosition;
+    return listPosition;
+}
