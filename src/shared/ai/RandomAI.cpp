@@ -26,7 +26,7 @@ void RandomAI::run (engine::Engine& engine){
 
         //for each Unit controlled by artificial Intelligence Player
         for(unsigned int i=0;i<engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size();i++){
-            // Reinitialisations de changement de personnage
+            
 			int notAllowedMove = false;
 			int notAllowedAttack = false;
 			//int premierEssai = true;
