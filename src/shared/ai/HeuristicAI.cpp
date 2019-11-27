@@ -70,8 +70,9 @@ void HeuristicAI::run (engine::Engine& engine){
                             }
 
                             //There are units in attackable zone
+                            state::Position unitToAttack;
                             if(occupiedPositionInAttackZone.size()!=0){
-                                
+                                unitToAttack=attackSuccessScoring(occupiedPositionInAttackZone,engine);
 
                             }else{//No units in attackable zone
                                 action=0;//Move=0
@@ -92,6 +93,15 @@ void HeuristicAI::run (engine::Engine& engine){
     }
 
 }
+
+state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position> occupiedPositionInAttackZone,engine::Engine& engine){
+    for (size_t i = 0; i < occupiedPositionInAttackZone.size(); i++)
+    {
+        
+    }
+    
+}
+
 
 std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine, state::Position start, state::Position goal){
     vector<Position> listPosition;
