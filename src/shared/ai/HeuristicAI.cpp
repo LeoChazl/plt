@@ -102,7 +102,7 @@ void HeuristicAI::run (engine::Engine& engine){
                 int waitingTime=3;
                 if (action == 0 && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!= 0){
                     //Initialize a liste of allowed Move
-                    cout<<"e1"<<endl;
+                    //cout<<"e1"<<endl;
                     std::vector<Position> allowedMoveList =engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
                     if (allowedMoveList.size() != 0){
                         //srand(time(NULL));
@@ -158,21 +158,22 @@ void HeuristicAI::run (engine::Engine& engine){
                         goal.setX(occupiedPosition[minIndex].getX());
                         goal.setY(occupiedPosition[minIndex].getY());
 
-                        cout<<"e2"<<endl;
-                        std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
+
+                        //cout<<"e2"<<endl;
+                        //std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
 
                         /*******************************************************/
-                        cout<<"e3"<<endl;
+                        //cout<<"e3"<<endl;
                         //cout<<moveList[0].getX()<<endl;
                         //cout<<moveList[0].getY()<<endl;
-                        cout<<moveList.size()<<endl;
+                        //cout<<moveList.size()<<endl;
 
                         // Move Command
                         Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],allowedMoveList[0]);
                         unique_ptr<Command> ptr_movement (new Move(movement));
                         engine.addCommand(0, move(ptr_movement));
                         engine.update();//update engine will use state to notify render about changes
-                        cout<<"e4"<<endl;
+                        //cout<<"e4"<<endl;
                         //notAllowedAttack = false;
                         sleep(waitingTime);
                     }
@@ -322,7 +323,7 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
     // Contains the nodes reached by A star and has to be processed
     vector<Node> nodeStack;
 
-    bool goalReached=false;
+    bool goalNotReached=true;
 
     // Initializing starting node
     Node startNode(nullptr, start);
@@ -332,12 +333,12 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
     nodeStack.push_back(startNode);
 
     // As long as there nodes to process or that the goal isn't reached
-    while(nodeStack.size()!=0 && goalReached){
+    while(nodeStack.size()!=0 && goalNotReached){
         int minNodeIndex=minIndex(nodeStack);
         Node currentNode = nodeStack[minNodeIndex];
 
         if(currentNode.getPosition().equal(goal)){
-            goalReached=true;
+            goalNotReached=true;
 
             // Get the path from goal to start
             path.push_back(currentNode.getPosition());
