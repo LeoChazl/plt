@@ -38,6 +38,8 @@ int main(int argc, char* argv[])
             heuristicAiTest.run();
         }
     }
+    //HeuristicAiTest heuristicAiTest;
+    //heuristicAiTest.run();
     return 0;
 }
 

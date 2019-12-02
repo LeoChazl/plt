@@ -19,6 +19,12 @@ HeuristicAI::HeuristicAI(int AiID){
 // Functions 
 
 void HeuristicAI::run (engine::Engine& engine){
+    /*Position start,goal;
+    start.setX(1);
+    start.setY(1);
+    goal.setX(3);
+    goal.setY(3);
+    std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);*/
     //The current player ID is equal AI ID -> AI turn
     if(engine.getState().getCurrentPlayerID()==artificialIntelligenceID){
         artificialIntelligenceID=artificialIntelligenceID-1;//In order to use the id as an array index
@@ -159,11 +165,11 @@ void HeuristicAI::run (engine::Engine& engine){
                         goal.setY(occupiedPosition[minIndex].getY());
 
 
-                        //cout<<"e2"<<endl;
-                        //std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
+                        cout<<"e2"<<endl;
+                        std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
 
                         /*******************************************************/
-                        //cout<<"e3"<<endl;
+                        cout<<"e3"<<endl;
                         //cout<<moveList[0].getX()<<endl;
                         //cout<<moveList[0].getY()<<endl;
                         //cout<<moveList.size()<<endl;
