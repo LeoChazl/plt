@@ -332,10 +332,10 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
 
     nodeStack.push_back(startNode);
 
-    // As long as there nodes to process or that the goal isn't reached
+    // As long as there are nodes to process or that the goal isn't reached
     while(nodeStack.size()!=0 && goalNotReached){
-        int minNodeIndex=minIndex(nodeStack);
-        Node currentNode = nodeStack[minNodeIndex];
+        int minNodeIndex=minIndex(nodeStack);// index of node with the minimum heuristic distance
+        Node currentNode = nodeStack[minNodeIndex];//in the stack list take the node with the minimum heuristic distance
 
         if(currentNode.getPosition().equal(goal)){
             goalNotReached=true;
@@ -349,14 +349,17 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
             }
         }
         else{
+            //Recover all neighbors node from the actual position
             vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
             if(nodeNeighbors.size()!=0){
+                //for each node in the Neighbors Node
                 for(size_t i=0; i<nodeNeighbors.size(); i++){
+                    //if the neighbors node is in the processing node stack
                     if(nodeInStack(nodeStack,nodeNeighbors[i])!=-1){
                         // If a node is already in stack but a new shorter path from start is found
-                        if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){
-                            nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
-                            nodeNeighbors[i].setPreviousNode(&currentNode);
+                        if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){//the distance of the current node from the start < the distance of the neighbor node from the start
+                            nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);//increase the distance from start to "+1"
+                            nodeNeighbors[i].setPreviousNode(&currentNode);//replace the neighbor node withe the current node in the neighbor stack
                         }
                     }
                     else{
@@ -379,13 +382,19 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
     return path;
 }
 
+/**Recover the index of a node in a stack with the smallest heuristic distance to the goal
+ * 
+ */
+
 int HeuristicAI::minIndex(std::vector<Node> nodeStack){
     int minIndex=-1;
 
     if(nodeStack.size()!=0){
         minIndex=0;
         Node minNode=nodeStack[0];
+        //for each node in a node stack
         for(size_t i=1; i<nodeStack.size(); i++){
+            //compare the heuristic distance of two Nodes to the goal in order to fin the Node which is near to the goal
             if(nodeStack[i].getHeuristicDistance()<minNode.getHeuristicDistance()){
                 minNode=nodeStack[i];
                 minIndex=i;
@@ -395,6 +404,9 @@ int HeuristicAI::minIndex(std::vector<Node> nodeStack){
     return minIndex;
 }
 
+/** Recover the index of a noeud give as argument if it is in a Node Stack
+ * 
+ */
 int HeuristicAI::nodeInStack(std::vector<Node> nodeStack, Node& node){
     int indexInStack=-1;
     
