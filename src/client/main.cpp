@@ -36,6 +36,9 @@ int main(int argc, char* argv[])
         }else if(strcmp(argv[1],"aiHeuristic")==0){
             HeuristicAiTest heuristicAiTest;
             heuristicAiTest.run();
+        }else if(strcmp(argv[1],"deepAi")==0){
+            DeepAiTest deepAiTest;
+            deepAiTest.run();
         }
     }
     //HeuristicAiTest heuristicAiTest;
