@@ -46,6 +46,16 @@ std::vector<Node> Node::getNeighbors(state::State& state){
             // Test that the node is in range of the current node
             if((abs(i - position.getX()) + abs(j - position.getY()) <= 1)){
                 // Test the targeted node is not an obstacle and not occupied by a MobileEntity
+                cout << "x,y:" << i << ", " << j << "\n" << endl;
+                if(i<0)
+                    i=0;
+                else if(i>=state.getEntityMap().getWidth())
+                    i=state.getEntityMap().getWidth()-1;
+
+                if(j<0)
+                    j=0;
+                else if(j>=state.getEntityMap().getHeight())
+                    j=state.getEntityMap().getHeight()-1;
                 if(state.getEntityMap().getMapArray()[i][j]->isSpace() && !state.isOccupied(i,j)){
                     // Just adding the node with position information for now
                     // Test if the node is already in the stack later

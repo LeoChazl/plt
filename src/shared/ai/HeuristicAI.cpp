@@ -355,6 +355,7 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
             }
         }
         else{
+            cout << "Current Node :" << currentNode.getPosition().getX() << ", " << currentNode.getPosition().getY() << "\n" << endl;
             //Recover all neighbors node from the actual position
             vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
             if(nodeNeighbors.size()!=0){
