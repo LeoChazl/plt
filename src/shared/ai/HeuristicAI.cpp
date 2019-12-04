@@ -175,13 +175,16 @@ void HeuristicAI::run (engine::Engine& engine){
                         //cout<<moveList.size()<<endl;
 
                         // Move Command
-                        Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],allowedMoveList[0]);
-                        unique_ptr<Command> ptr_movement (new Move(movement));
-                        engine.addCommand(0, move(ptr_movement));
-                        engine.update();//update engine will use state to notify render about changes
-                        //cout<<"e4"<<endl;
-                        //notAllowedAttack = false;
-                        sleep(waitingTime);
+                        while(moveList.size()!=0){
+                            Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],moveList[moveList.size()-1]);
+                            unique_ptr<Command> ptr_movement (new Move(movement));
+                            engine.addCommand(0, move(ptr_movement));
+                            engine.update();//update engine will use state to notify render about changes
+                            //cout<<"e4"<<endl;
+                            //notAllowedAttack = false;
+                            sleep(waitingTime);
+                            moveList.pop_back();
+                        }
                     }
                     //else{notAllowedMove = true;}
                 }
@@ -343,49 +346,53 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
         int minNodeIndex=minIndex(nodeStack);// index of node with the minimum heuristic distance
         Node currentNode = nodeStack[minNodeIndex];//in the stack list take the node with the minimum heuristic distance
 
-        if(currentNode.getPosition().equal(goal)){
-            goalNotReached=true;
+        cout << "Current Node :" << currentNode.getPosition().getX() << ", " << currentNode.getPosition().getY() << "\n" << endl;
+        //Recover all neighbors node from the actual position
+        vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
+        if(nodeNeighbors.size()!=0){
+            //for each node in the Neighbors Node
+            for(size_t i=0; i<nodeNeighbors.size(); i++){
+                //if the neighbors node is in the processing node stack
+                if(nodeInStack(nodeStack,nodeNeighbors[i])!=-1){
+                    // If a node is already in stack but a new shorter path from start is found
+                    if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){//the distance of the current node from the start < the distance of the neighbor node from the start
+                        nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);//increase the distance from start to "+1"
+                        nodeNeighbors[i].setPreviousNode(&currentNode);//replace the neighbor node withe the current node in the neighbor stack
+                    }
+                }
+                else{
+                    // New node is reached
+                    //cout << "Neighbor : " << nodeNeighbors[i].getPosition().getX() << ", " << nodeNeighbors[i].getPosition().getY() << endl;
+                    //cout << "Previous node: " << currentNode.getPosition().getX() << ", " << currentNode.getPosition().getY() << endl;
+                    nodeNeighbors[i].setPreviousNode(new Node(currentNode));
+                    nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
+                    nodeNeighbors[i].setDistanceFromGoal(nodeNeighbors[i].getPosition().distance(goal));
+                    nodeStack.push_back(nodeNeighbors[i]);
+                }
+                if(nodeNeighbors[i].getPosition().distance(goal)==1){
+                    goalNotReached=false;
 
-            // Get the path from goal to start
-            path.push_back(currentNode.getPosition());
-            Node* nextNode=currentNode.getPreviousNode();
-            while(!nextNode->getPosition().equal(startNode.getPosition())){
-                path.push_back(nextNode->getPosition());
-                nextNode=nextNode->getPreviousNode();
-            }
-        }
-        else{
-            cout << "Current Node :" << currentNode.getPosition().getX() << ", " << currentNode.getPosition().getY() << "\n" << endl;
-            //Recover all neighbors node from the actual position
-            vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
-            if(nodeNeighbors.size()!=0){
-                //for each node in the Neighbors Node
-                for(size_t i=0; i<nodeNeighbors.size(); i++){
-                    //if the neighbors node is in the processing node stack
-                    if(nodeInStack(nodeStack,nodeNeighbors[i])!=-1){
-                        // If a node is already in stack but a new shorter path from start is found
-                        if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){//the distance of the current node from the start < the distance of the neighbor node from the start
-                            nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);//increase the distance from start to "+1"
-                            nodeNeighbors[i].setPreviousNode(&currentNode);//replace the neighbor node withe the current node in the neighbor stack
-                        }
-                    }
-                    else{
-                        // New node is reached
-                        nodeNeighbors[i].setPreviousNode(&currentNode);
-                        nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
-                        nodeNeighbors[i].setDistanceFromGoal(nodeNeighbors[i].getPosition().distance(goal));
-                        nodeStack.push_back(nodeNeighbors[i]);
+                    // Get the path from goal to start
+                    path.push_back(nodeNeighbors[i].getPosition());
+                    Node nextNode= *nodeNeighbors[i].getPreviousNode();
+                    //cout << "Previous node: " << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
+                    //cout << "Start node: "<< startNode.getPosition().getX() << ", " << startNode.getPosition().getY() << "\n" << endl;
+                    while(!nextNode.getPosition().equal(startNode.getPosition())){
+                        //cout << "Current node: " << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
+                        //cout << "Start node: "<< startNode.getPosition().getX() << ", " << startNode.getPosition().getY() << endl;
+                        //cout << "Previous node: "<< nextNode.getPreviousNode()->getPosition().getX() << ", " << nextNode.getPreviousNode()->getPosition().getY()<< "\n" << endl;
+                        path.push_back(nextNode.getPosition());
+                        nextNode=*nextNode.getPreviousNode();
                     }
                 }
-                // Empty the nodeNeighbors list for next iteration
-                while(nodeNeighbors.size()!=0){
-                    nodeNeighbors.pop_back();
-                }
             }
+            // Empty the nodeNeighbors list for next iteration
+            nodeNeighbors.clear();
         }
         processedNodes.push_back(currentNode);
         nodeStack.erase(nodeStack.begin() + minNodeIndex);
     }
+    cout << "ok" << endl;
     return path;
 }
 
