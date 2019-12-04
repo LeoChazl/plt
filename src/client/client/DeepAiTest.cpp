@@ -22,7 +22,7 @@ DeepAiTest::DeepAiTest(){
 }
 
 void DeepAiTest::run(){
-    DeepAI deepAi;
+    DeepAI deepAi(2);
     Engine engine;
     deepAi.run(engine);
 }
