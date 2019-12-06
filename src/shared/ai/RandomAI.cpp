@@ -9,11 +9,13 @@ using namespace engine;
 using namespace std;
 using namespace ai;
 
+// Constructor
 
 RandomAI::RandomAI (int AiID){
     artificialIntelligenceID=AiID;
 }
 
+// Function
 
 void RandomAI::run (engine::Engine& engine){
     if(engine.getState().getCurrentPlayerID()==artificialIntelligenceID){
@@ -24,37 +26,36 @@ void RandomAI::run (engine::Engine& engine){
         int waitingTime=3;
         artificialIntelligenceID=artificialIntelligenceID-1;
 
-        //for each Unit controlled by artificial Intelligence Player
+        // For each Unit controlled by artificial Intelligence Player
         for(unsigned int i=0;i<engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size();i++){
             
 			int notAllowedMove = false;
 			int notAllowedAttack = false;
-			//int premierEssai = true;
 
-            //The Unit need to end his turn or dead before changing to another unit
+            // The Unit needs to end his turn or dead before changing to another unit
             while (engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getStatus()!=DEAD && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getStatus()!=WAITING)
             {
                 engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->setStatus(SELECTED);
 
-                // initialize random seed: 
+                // Initialize random seed
                 srand(time(NULL));
                 if (notAllowedMove == true && notAllowedAttack == true){
-                    randomAction = 2;//EndAction=2
+                    randomAction = 2; // EndAction=2
                 }
                 else if (notAllowedMove == true && notAllowedAttack == false){
-                    randomAction = rand()%2+1 ; //EndAction=2 or Attack=1
+                    randomAction = rand()%2+1 ; // EndAction=2 or Attack=1
                 }
                 else if (notAllowedMove == false && notAllowedAttack == true){
-                    randomAction = rand()%2;// Move=0 or EndAction=2
+                    randomAction = rand()%2; // Move=0 or EndAction=2
                     if(randomAction == 1){
                         randomAction = 2;
                     }
                 }
-                else{randomAction = rand()%3;}//EndAction=2 or Attack=1 or Move=0
+                else{randomAction = rand()%3;} // EndAction=2 or Attack=1 or Move=0
 
                 // 0 : Move
                 if (randomAction == 0 && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!= 0){
-                    //Initialize a liste of allowed Move
+                    //Initialize a list of allowed Move
                     std::vector<Position> allowedMoveList =engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
                     if (allowedMoveList.size() != 0){
                         srand(time(NULL));
@@ -64,7 +65,7 @@ void RandomAI::run (engine::Engine& engine){
                         Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i], allowedMoveList[randomPosition]);
                         unique_ptr<Command> ptr_movement (new Move(movement));
                         engine.addCommand(0, move(ptr_movement));
-                        engine.update();//update engine will use state to notify render about changes
+                        engine.update(); // Update engine will use state to notify render about changes
 
                         notAllowedAttack = false;
                         sleep(waitingTime);
@@ -74,7 +75,7 @@ void RandomAI::run (engine::Engine& engine){
 
                 // 1 : Attack
                 else if (randomAction == 1){
-                    //Initialize a list with all attack allowed positions
+                    // Initialize a list with all attack allowed positions
                     std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
 
                     if (allowedAttackPositionList.size() !=0){
@@ -84,7 +85,7 @@ void RandomAI::run (engine::Engine& engine){
                         // Check if there are units on the random Attack Position
                         int target=engine.getState().isOccupied(allowedAttackPositionList[randomAttackPosition].getX(),allowedAttackPositionList[randomAttackPosition].getY());
                         if (target ==true){
-                            // Commande d'attaque
+                            // Command d'attack
                             Attack attack(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i], *engine.getState().getMobileEntity(allowedAttackPositionList[randomAttackPosition].getX(),allowedAttackPositionList[randomAttackPosition].getY()));
                             unique_ptr<Command> ptr_attack (new Attack(attack));
                             engine.addCommand(0, move(ptr_attack));
@@ -110,4 +111,3 @@ void RandomAI::run (engine::Engine& engine){
     }
 
 }
-

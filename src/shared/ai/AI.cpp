@@ -9,14 +9,12 @@ using namespace engine;
 using namespace std;
 using namespace ai;
 
-
-
-//constructor
+// Constructor
 AI::AI():artificialIntelligenceID(artificialIntelligenceID){
 
 }
 
-//Getter and Setter
+// Getter and Setter
 int AI::getArtificialIntelligenceID(){
     return artificialIntelligenceID;
 }
