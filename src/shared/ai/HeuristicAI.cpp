@@ -36,7 +36,7 @@ void HeuristicAI::run (engine::Engine& engine){
                 engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->setStatus(SELECTED);
                 bool ennemyUnitsAllDead=true;
 
-                // Check if there are ennemy units still alive
+                // Check if there are enemy units still alive
                 for (size_t l = 0; l < engine.getState().getPlayerList().size(); l++){
                     if(engine.getState().getPlayerList()[l]->getId()!=artificialIntelligenceID){
                         for (size_t k = 0; k < engine.getState().getPlayerList()[i]->getMobileEntityList().size(); k++)
@@ -98,8 +98,7 @@ void HeuristicAI::run (engine::Engine& engine){
                 }
 
                 // 0 : Move
-                int randomPosition;
-                int waitingTime=3;
+                int waitingTime=1;
                 if (action == 0 && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!= 0){
                     // Initialize a list of allowed Move
                     std::vector<Position> allowedMoveList =engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
@@ -108,57 +107,13 @@ void HeuristicAI::run (engine::Engine& engine){
                         start.setX(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getX());
                         start.setY(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getY());
 
-                        std::vector<Position> occupiedPosition;
-                        state::Position position;
-                        for (int a = 0; a < 25; a++)
-                        {
-                            for (int b = 0; b < 50; b++)
-                            {
-                                if(engine.getState().isOccupied(a,b)){
-                                    bool sameTeam=false;
-                                    for (int c = 0; c < engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); c++)
-                                    {
-                                        if(a==engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[c]->getX() && b==engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[c]->getY()){
-                                            sameTeam=true;
-                                        }
-                                    }
-                                    if(!sameTeam){
-                                        position.setX(a);
-                                        position.setY(b);
-                                        occupiedPosition.push_back(position);
-                                    }
-                                    
-                                }
-                            }
-                        }
-                        
-                        std::vector<float> distanceList;
-                        float distance;
-                        for (size_t d = 0; d < occupiedPosition.size(); d++)
-                        {
-                            distance=abs(occupiedPosition[d].getX()-start.getX()) + abs(occupiedPosition[d].getY()-start.getY());
-                            distanceList.push_back(distance);
-                        }
-                        
-                        int minIndex=0;
-                        float minDistance=distanceList[0];
-                        for (size_t e = 0; e < distanceList.size(); e++)
-                        {
-                            if(distanceList[e]<minDistance){
-                                minDistance=distanceList[e];
-                                minIndex=e;
-                            }
-                        }
-                        
-
-                        goal.setX(occupiedPosition[minIndex].getX());
-                        goal.setY(occupiedPosition[minIndex].getY());
-
+                        goal=engine.getState().getClosestEnemyPosition(start);
+                        cout << "Goal position : " << goal.getX() << ", " << goal.getY() << endl;
 
                         std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
 
                         // Move Command
-                        while(moveList.size()!=0){
+                        while(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!=0){
                             Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],moveList[moveList.size()-1]);
                             unique_ptr<Command> ptr_movement (new Move(movement));
                             engine.addCommand(0, move(ptr_movement));
@@ -167,6 +122,7 @@ void HeuristicAI::run (engine::Engine& engine){
                             sleep(waitingTime);
                             moveList.pop_back();
                         }
+                        moveList.clear();
                     }
                 }
 

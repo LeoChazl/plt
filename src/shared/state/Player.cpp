@@ -54,12 +54,14 @@ Position Player::getClosestPosition(Position& position){
     Position testPosition(0,0);
     int lowestDistance=1000; // Value above any distance possible
     for(size_t i=0; i<mobileEntityList.size(); i++){
-        testPosition.setX(mobileEntityList[i]->getX());
-        testPosition.setY(mobileEntityList[i]->getY());
+        if(mobileEntityList[i]->getStatus()!=DEAD){
+            testPosition.setX(mobileEntityList[i]->getX());
+            testPosition.setY(mobileEntityList[i]->getY());
 
-        if(lowestDistance > testPosition.distance(position)){
-            lowestDistance = testPosition.distance(position);
-            closestPosition = testPosition;
+            if(lowestDistance > testPosition.distance(position)){
+                lowestDistance = testPosition.distance(position);
+                closestPosition = testPosition;
+            }
         }
     }
 
