@@ -21,8 +21,7 @@ DeepAI::DeepAI(int AiID):depth(depth),currentPlayerID(currentPlayerID){
  * 
  */
 void DeepAI::run (engine::Engine& engine){
-    // The number of elements in scores must be 
-    // a power of 2.
+    
     /*****************************************************
      * TEST
      *****************************************************/ 
@@ -35,6 +34,8 @@ void DeepAI::run (engine::Engine& engine){
     cout << "Depth value is : " << h << endl; 
     cout << "The optimal value is : " << res << endl;*/
     /*************************************************/
+
+    
     //The current player ID is equal AI ID -> AI turn
     if(engine.getState().getCurrentPlayerID()==artificialIntelligenceID){
         artificialIntelligenceID=artificialIntelligenceID-1;//In order to use the id as an array index
