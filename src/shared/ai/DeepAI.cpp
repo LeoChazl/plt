@@ -151,12 +151,9 @@ void DeepAI::run (engine::Engine& engine){
                     if ( engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()== 0){
                         action=2;
                     }
-                    
-
                 }
 
                 // 0 : Move
-                int randomPosition;
                 int waitingTime=3;
                 if (action == 0 && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!= 0){
                     //Initialize a liste of allowed Move
@@ -171,14 +168,14 @@ void DeepAI::run (engine::Engine& engine){
 
                         /***************************************/
                         std::vector<Position> occupiedPosition;
-                        state:Position position;
-                        for (size_t a = 0; a < 25; a++)
+                        state::Position position;
+                        for (int a = 0; a < 25; a++)
                         {
-                            for (size_t b = 0; b < 50; b++)
+                            for (int b = 0; b < 50; b++)
                             {
                                 if(engine.getState().isOccupied(a,b)){
                                     bool sameTeam=false;
-                                    for (size_t c = 0; c < engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); c++)
+                                    for (int c = 0; c < engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); c++)
                                     {
                                         if(a==engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[c]->getX() && b==engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[c]->getY()){
                                             sameTeam=true;
@@ -337,7 +334,7 @@ int DeepAI::evaluationFunction (engine::Engine& engine){
     }else{
         int sumCurrentPv=0, sumAdversePv=0, currentPlayerAliveUnits=0, AdverseAliveUnits=0;
 		Position deadPosition(-1,-1);
-		for(size_t i=0; i<engine.getState().getPlayerList().size(); i++){
+		for(int i=0; i<engine.getState().getPlayerList().size(); i++){
             //the player is the artificial intelligence
             if(i==artificialIntelligenceID){
                 for (size_t j = 0; j < engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); j++)
@@ -398,8 +395,6 @@ std::vector<unique_ptr<engine::Command>> DeepAI::findPossibleActions (engine::En
         //Possible MOVE Command : for each move
         for (size_t i = 0; i < listMovePosition.size(); i++){
             //Attack poosition : (x,y)
-            int x=listMovePosition[i].getX();
-            int y=listMovePosition[i].getY();
 
             Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],listMovePosition[i]);
             unique_ptr<Command> ptr_movement (new Move(movement));

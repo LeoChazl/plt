@@ -178,6 +178,20 @@ int State::getCurrentPlayerID(){
     return currentPlayerID;
 }
 
+Position State::getClosestEnemyPosition(Position& position){
+    Position closestPosition(0,0);
+    Position playerClosestPosition(0,0);
+    int lowestDistance=1000; // Value above any distance possible
+    for(size_t i=0; i<playerList.size(); i++){
+        playerClosestPosition = playerList[i]->getClosestPosition(position);
+        if(lowestDistance > position.distance(playerClosestPosition)){
+            closestPosition = playerClosestPosition;
+        }
+    }
+
+    return closestPosition;
+}
+
 // Setters
 
 void State::setRound(int round){

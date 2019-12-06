@@ -49,6 +49,23 @@ vector<shared_ptr<MobileEntity>>& Player::getMobileEntityList(){
     return mobileEntityList;
 }
 
+Position Player::getClosestPosition(Position& position){
+    Position closestPosition(0,0);
+    Position testPosition(0,0);
+    int lowestDistance=1000; // Value above any distance possible
+    for(size_t i=0; i<mobileEntityList.size(); i++){
+        testPosition.setX(mobileEntityList[i]->getX());
+        testPosition.setY(mobileEntityList[i]->getY());
+
+        if(lowestDistance > testPosition.distance(position)){
+            lowestDistance = testPosition.distance(position);
+            closestPosition = testPosition;
+        }
+    }
+
+    return closestPosition;
+}
+
 // Setters 
 
 void Player::setId(int id){

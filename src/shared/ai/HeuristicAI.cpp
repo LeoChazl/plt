@@ -11,7 +11,8 @@ using namespace engine;
 using namespace std;
 using namespace ai;
 
-//Constructor
+// Constructor
+
 HeuristicAI::HeuristicAI(int AiID){
         artificialIntelligenceID=AiID;
 }
@@ -19,29 +20,23 @@ HeuristicAI::HeuristicAI(int AiID){
 // Functions 
 
 void HeuristicAI::run (engine::Engine& engine){
-    /*Position start,goal;
-    start.setX(1);
-    start.setY(1);
-    goal.setX(3);
-    goal.setY(3);
-    std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);*/
-    //The current player ID is equal AI ID -> AI turn
+    // The current player ID is equal AI ID -> AI turn
     if(engine.getState().getCurrentPlayerID()==artificialIntelligenceID){
         artificialIntelligenceID=artificialIntelligenceID-1;//In order to use the id as an array index
         int action;
         state::Position unitToAttack;
 
-        //for each Unit controlled by artificial Intelligence Player
+        // For each Unit controlled by artificial Intelligence Player
         for(unsigned int i=0;i<engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size();i++){
 
-            //The Unit need to end his turn or dead before changing to another unit
+            // The Unit need to end his turn or dead before changing to another unit
             while (engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getStatus()!=DEAD && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getStatus()!=WAITING)
             {
-                //Set the status of the current Unit as selected
+                // Set the status of the current Unit as selected
                 engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->setStatus(SELECTED);
                 bool ennemyUnitsAllDead=true;
 
-                /*** Check if there are ennemy units still alive***/
+                // Check if there are ennemy units still alive
                 for (size_t l = 0; l < engine.getState().getPlayerList().size(); l++){
                     if(engine.getState().getPlayerList()[l]->getId()!=artificialIntelligenceID){
                         for (size_t k = 0; k < engine.getState().getPlayerList()[i]->getMobileEntityList().size(); k++)
@@ -54,27 +49,27 @@ void HeuristicAI::run (engine::Engine& engine){
                     }
                 }
 
-                //No Units alive--> AI 
+                // No Units alive--> AI 
                 if (ennemyUnitsAllDead){
-						action = 2;//EndAction=2
+						action = 2; // EndAction=2
 				}
 				else{
-                    //AI Units health are weak --> run (Move)
+                    // AI Units health are weak --> run (Move)
                     std::vector<Position> allowedMovePositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
                     if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getHealth()<=10){
                         if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
-                            action=2;//EndAction=2
+                            action=2; // EndAction=2
                         }else{
-                            action=0; //Move=0
+                            action=0; // Move=0
                         }
                         
                     }else{
-                        //Recover in a list all attackable positions
+                        // Recover in a list all attackable positions
                         std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
                         std::vector<Position> occupiedPositionInAttackZone;
                         int x_unit,y_unit;
                         if(allowedAttackPositionList.size()!=0){
-                            //Check and recover in a list all units position inside the attack Zone
+                            // Check and recover in a list all units position inside the attack Zone
                             for (size_t m = 0; m < allowedAttackPositionList.size(); m++)
                             {
                                 x_unit=allowedAttackPositionList[m].getX();
@@ -84,20 +79,19 @@ void HeuristicAI::run (engine::Engine& engine){
                                 }
                             }
 
-                            //There are units in attackable zone
-                            
+                            // There are units in attackable zone
                             if(occupiedPositionInAttackZone.size()!=0){
                                 unitToAttack=attackSuccessScoring(occupiedPositionInAttackZone,*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],engine.getState());
-                                action=1;//Attack=1
-                            }else{//No units in attackable zone
-                                action=0;//Move=0
+                                action=1; // Attack=1
+                            }else{ // No units in attackable zone
+                                action=0; // Move=0
                             }
                         }else{
-                            action=0;//Move=0
+                            action=0; // Move=0
                         }
 
                         if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
-                            action=2;//EndAction=2
+                            action=2; // EndAction=2
                         }
 
                     }
@@ -107,26 +101,22 @@ void HeuristicAI::run (engine::Engine& engine){
                 int randomPosition;
                 int waitingTime=3;
                 if (action == 0 && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!= 0){
-                    //Initialize a liste of allowed Move
-                    //cout<<"e1"<<endl;
+                    // Initialize a list of allowed Move
                     std::vector<Position> allowedMoveList =engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
                     if (allowedMoveList.size() != 0){
-                        //srand(time(NULL));
-                        //randomPosition = rand()%allowedMoveList.size();
                         state::Position start,goal;
                         start.setX(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getX());
                         start.setY(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getY());
 
-                        /***************************************/
                         std::vector<Position> occupiedPosition;
-                        state:Position position;
-                        for (size_t a = 0; a < 25; a++)
+                        state::Position position;
+                        for (int a = 0; a < 25; a++)
                         {
-                            for (size_t b = 0; b < 50; b++)
+                            for (int b = 0; b < 50; b++)
                             {
                                 if(engine.getState().isOccupied(a,b)){
                                     bool sameTeam=false;
-                                    for (size_t c = 0; c < engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); c++)
+                                    for (int c = 0; c < engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); c++)
                                     {
                                         if(a==engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[c]->getX() && b==engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[c]->getY()){
                                             sameTeam=true;
@@ -165,14 +155,7 @@ void HeuristicAI::run (engine::Engine& engine){
                         goal.setY(occupiedPosition[minIndex].getY());
 
 
-                        cout<<"e2"<<endl;
                         std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
-
-                        /*******************************************************/
-                        cout<<"e3"<<endl;
-                        //cout<<moveList[0].getX()<<endl;
-                        //cout<<moveList[0].getY()<<endl;
-                        //cout<<moveList.size()<<endl;
 
                         // Move Command
                         while(moveList.size()!=0){
@@ -180,36 +163,20 @@ void HeuristicAI::run (engine::Engine& engine){
                             unique_ptr<Command> ptr_movement (new Move(movement));
                             engine.addCommand(0, move(ptr_movement));
                             engine.update();//update engine will use state to notify render about changes
-                            //cout<<"e4"<<endl;
-                            //notAllowedAttack = false;
+
                             sleep(waitingTime);
                             moveList.pop_back();
                         }
                     }
-                    //else{notAllowedMove = true;}
                 }
 
                 // 1 : Attack
                 else if (action == 1){
-    
-
-                    //if (allowedAttackPositionList.size() !=0){
-                        //srand(time(NULL));
-                        //randomAttackPosition = rand()%allowedAttackPositionList.size();
-                                            
-                        // Check if there are units on the random Attack Position
-                        //int target=engine.getState().isOccupied(allowedAttackPositionList[randomAttackPosition].getX(),allowedAttackPositionList[randomAttackPosition].getY());
-                        //if (target ==true){
-                            // Commande d'attaque
-                            Attack attack(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i], *engine.getState().getMobileEntity(unitToAttack.getX(),unitToAttack.getY()));
-                            unique_ptr<Command> ptr_attack (new Attack(attack));
-                            engine.addCommand(0, move(ptr_attack));
-                            engine.update();
-                            //notAllowedMove = false;
-                            sleep(waitingTime);
-                        //}
-                    //}
-                    //else{notAllowedAttack = true;}				
+                    Attack attack(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i], *engine.getState().getMobileEntity(unitToAttack.getX(),unitToAttack.getY()));
+                    unique_ptr<Command> ptr_attack (new Attack(attack));
+                    engine.addCommand(0, move(ptr_attack));
+                    engine.update();
+                    sleep(waitingTime);		
                 }
 
                 // 2 : EndEntityRound
@@ -220,35 +187,27 @@ void HeuristicAI::run (engine::Engine& engine){
                     engine.update();
                     sleep(waitingTime);
                 }
-
-
-
-
             }
-
         }
-
     }
-
 }
 
-state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position> occupiedPositionInAttackZone,state::MobileEntity& currentUnit,state::State& state){
+state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position>& occupiedPositionInAttackZone,state::MobileEntity& currentUnit,state::State& state){
     
-    //Initialize all AI current unit statistics
+    // Initialize all AI current unit statistics
     float currentUnitHealth=currentUnit.getHealth();
-    float currentUnitArmor=currentUnit.getArmor();
     float currentUnitDamage=currentUnit.getDamage();
     int currentUnitMovementRange= currentUnit.getMovementRange();
     int currentUnitAttackRange=currentUnit.getAttackRange();
 
-    //Declaration of all enemy Unit statistics variable
+    // Declaration of all enemy Unit statistics variable
     float enemyUnitHealth;
     float enemyUnitArmor;
     float enemyUnitDamage;
     int enemyUnitMovementRange;
     int enemyUnitAttackRange;
 
-    //Array to store all score value for different units in attackable zone
+    // Array to store all score value for different units in attackable zone
     std::vector<int> scoreList;
     int score=0;
     int maxScore=0;
@@ -256,27 +215,27 @@ state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position> 
 
     for (size_t i = 0; i < occupiedPositionInAttackZone.size(); i++)
     {
-        //Initialization of all enemy Unit statistics
+        // Initialization of all enemy Unit statistics
         enemyUnitHealth=state.getMobileEntity(occupiedPositionInAttackZone[i].getX(),occupiedPositionInAttackZone[i].getY())->getHealth();
         enemyUnitArmor=state.getMobileEntity(occupiedPositionInAttackZone[i].getX(),occupiedPositionInAttackZone[i].getY())->getArmor();
         enemyUnitDamage=state.getMobileEntity(occupiedPositionInAttackZone[i].getX(),occupiedPositionInAttackZone[i].getY())->getDamage();
         enemyUnitMovementRange=state.getMobileEntity(occupiedPositionInAttackZone[i].getX(),occupiedPositionInAttackZone[i].getY())->getMovementRange();
         enemyUnitAttackRange=state.getMobileEntity(occupiedPositionInAttackZone[i].getX(),occupiedPositionInAttackZone[i].getY())->getAttackRange();
         
-        //the enemey Health is weak than AI health
+        // Enemy Health is lower than AI health
         if(enemyUnitHealth<=currentUnitHealth){
             score+=6;
         }
 
-        //the enemy armor is weak than AI damage
+        // Enemy armor is lower than AI damage
         if(enemyUnitArmor<currentUnitDamage){
             score++;
         }
-        //the enemy armor is twice time weak than AI damage
+        // Enemy armor is twice time lower than AI damage
         if(enemyUnitArmor<currentUnitDamage/2){
             score+=2;
         }
-        //the enemy armor is third time weak than AI damage
+        // Enemy armor is third time lower than AI damage
         if(enemyUnitArmor<currentUnitDamage/3){
             score+=3;
         }
@@ -293,16 +252,16 @@ state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position> 
             score++;
         }
 
-        //Even after enemy attck in the AI the AI health is upper than the enemy health
+        // Even after enemy attck in the AI the AI health is upper than the enemy health
         if(currentUnitHealth-enemyUnitDamage>enemyUnitHealth){
             score+=10;
         }
 
-        //Store the score in the scoreList
+        // Store the score in the scoreList
         scoreList.push_back(score);
     }
     
-    //Find the max score in the scoreList
+    // Find the max score in the scoreList
     for (size_t k = 0; k < scoreList.size(); k++)
     {
         if(maxScore<scoreList[k]){
@@ -310,7 +269,7 @@ state::Position HeuristicAI::attackSuccessScoring (std::vector<state::Position> 
             maxScoreIndex=k;
         }
     }
-    //Return the position of the enemy unit which will offer a good chance to wi the game if AI ATTACK it
+    // Return the position of the enemy unit which will offer a good chance to wi the game if AI ATTACK it
     return occupiedPositionInAttackZone[maxScoreIndex];
 
 }
@@ -343,27 +302,24 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
 
     // As long as there are nodes to process or that the goal isn't reached
     while(nodeStack.size()!=0 && goalNotReached){
-        int minNodeIndex=minIndex(nodeStack);// index of node with the minimum heuristic distance
-        Node currentNode = nodeStack[minNodeIndex];//in the stack list take the node with the minimum heuristic distance
+        int minNodeIndex=minIndex(nodeStack);// Index of node with the minimum heuristic distance
+        Node currentNode = nodeStack[minNodeIndex];// In the stack list take the node with the minimum heuristic distance
 
-        cout << "Current Node :" << currentNode.getPosition().getX() << ", " << currentNode.getPosition().getY() << "\n" << endl;
-        //Recover all neighbors node from the actual position
+        // Recover all neighbors node from the actual position
         vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
         if(nodeNeighbors.size()!=0){
-            //for each node in the Neighbors Node
+            // For each node in the Neighbors Node
             for(size_t i=0; i<nodeNeighbors.size(); i++){
-                //if the neighbors node is in the processing node stack
+                // If the neighbors node is in the processing node stack
                 if(nodeInStack(nodeStack,nodeNeighbors[i])!=-1){
                     // If a node is already in stack but a new shorter path from start is found
                     if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){//the distance of the current node from the start < the distance of the neighbor node from the start
                         nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);//increase the distance from start to "+1"
-                        nodeNeighbors[i].setPreviousNode(&currentNode);//replace the neighbor node withe the current node in the neighbor stack
+                        nodeNeighbors[i].setPreviousNode(&currentNode); // Replace the neighbor node withe the current node in the neighbor stack
                     }
                 }
                 else{
                     // New node is reached
-                    //cout << "Neighbor : " << nodeNeighbors[i].getPosition().getX() << ", " << nodeNeighbors[i].getPosition().getY() << endl;
-                    //cout << "Previous node: " << currentNode.getPosition().getX() << ", " << currentNode.getPosition().getY() << endl;
                     nodeNeighbors[i].setPreviousNode(new Node(currentNode));
                     nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
                     nodeNeighbors[i].setDistanceFromGoal(nodeNeighbors[i].getPosition().distance(goal));
@@ -375,12 +331,7 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
                     // Get the path from goal to start
                     path.push_back(nodeNeighbors[i].getPosition());
                     Node nextNode= *nodeNeighbors[i].getPreviousNode();
-                    //cout << "Previous node: " << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
-                    //cout << "Start node: "<< startNode.getPosition().getX() << ", " << startNode.getPosition().getY() << "\n" << endl;
                     while(!nextNode.getPosition().equal(startNode.getPosition())){
-                        //cout << "Current node: " << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
-                        //cout << "Start node: "<< startNode.getPosition().getX() << ", " << startNode.getPosition().getY() << endl;
-                        //cout << "Previous node: "<< nextNode.getPreviousNode()->getPosition().getX() << ", " << nextNode.getPreviousNode()->getPosition().getY()<< "\n" << endl;
                         path.push_back(nextNode.getPosition());
                         nextNode=*nextNode.getPreviousNode();
                     }
@@ -392,7 +343,6 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
         processedNodes.push_back(currentNode);
         nodeStack.erase(nodeStack.begin() + minNodeIndex);
     }
-    cout << "ok" << endl;
     return path;
 }
 

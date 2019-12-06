@@ -28,6 +28,10 @@ int Position::distance(Position& position){
 	return abs(x-position.getX())+abs(y-position.getY());
 }
 
+void Position::operator=(const Position& position){
+    x = position.x;
+    y = position.y;
+}
 
 // Getters
 
