@@ -214,7 +214,7 @@ void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::St
 }
 
 
-//	Getters
+//	Getters and Setters
 
 State& Engine::getState(){
 	return currentState;
@@ -224,6 +224,29 @@ map<int, unique_ptr<Command>>& Engine::getCurrentCommands(){
 	return currentCommands;
 }
 
+bool Engine::getChangeRound (){
+	return changeRound;
+}
+
+bool Engine::getStop (){
+	return stop;
+}
+
+void Engine::setCurrentState (state::State currentState){
+	this->currentState=currentState;
+}
+
+void Engine::setCurrentCommands (std::map<int,std::unique_ptr<Command>> currentCommands){
+	this->currentCommands=move(currentCommands);
+}
+
+void Engine::setChangeRound (bool changeRound){
+	this->changeRound=changeRound;
+}
+
+void Engine::setStop (bool stop){
+	this->stop=stop;
+}
 
 //	Destructor
 
