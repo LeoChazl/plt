@@ -35,7 +35,7 @@ void DeepAI::run (engine::Engine& engine){
     cout << "The optimal value is : " << res << endl;*/
     /*************************************************/
 
-    
+
     //The current player ID is equal AI ID -> AI turn
     if(engine.getState().getCurrentPlayerID()==artificialIntelligenceID){
         artificialIntelligenceID=artificialIntelligenceID-1;//In order to use the id as an array index
@@ -368,6 +368,9 @@ std::vector<unique_ptr<engine::Command>> DeepAI::findPossibleActions (engine::En
 	std::vector<state::Position> listAttackPosition;
 	std::vector<state::Position> listMovePosition;
 
+    if(engine.getState().getEndGame()){
+        //return ;
+    }
 
     if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[entityNumber]->getStatus()!= DEAD && engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[entityNumber]->getStatus()!= WAITING){
         //REcover all posibe attack and move positions
@@ -386,8 +389,10 @@ std::vector<unique_ptr<engine::Command>> DeepAI::findPossibleActions (engine::En
                     Attack attack(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[entityNumber], *engine.getState().getMobileEntity(x,y));
                     unique_ptr<Command> ptr_attack (new Attack(attack));
                     listCommand.push_back(move(ptr_attack));
-                    //engine.addCommand(0, move(ptr_attack));
-                    //engine.update();
+                    engine.addCommand(0, move(ptr_attack));
+                    engine.update();
+                    findPossibleActions (engine,artificialIntelligenceID,entityNumber);
+   
                 }
             }
         }
@@ -398,15 +403,19 @@ std::vector<unique_ptr<engine::Command>> DeepAI::findPossibleActions (engine::En
 
             Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],listMovePosition[i]);
             unique_ptr<Command> ptr_movement (new Move(movement));
-            listCommand.push_back(move(ptr_movement));
-            //engine.addCommand(0, move(ptr_attack));
-            //engine.update();
+            //listCommand.push_back(move(ptr_movement));
+            engine.addCommand(0, move(ptr_movement));
+            engine.update();
+            findPossibleActions (engine,artificialIntelligenceID,entityNumber);
         }
 
         //END ACTION Command
         EndEntityRound endAction(*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[entityNumber]);
         unique_ptr<Command> ptr_endAction (new EndEntityRound(endAction));
         listCommand.push_back(move(ptr_endAction));
+        engine.addCommand(0, move(ptr_endAction));
+        engine.update();
+        findPossibleActions (engine,artificialIntelligenceID,entityNumber);
     }
 
     return listCommand;
