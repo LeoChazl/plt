@@ -84,8 +84,8 @@ void DeepAiTest::run(){
 
         while (1){
             //engine.checkRoundStart();
-            ai::DeepAI deepAi(2);
-            deepAi.run(engine);
+            //ai::DeepAI deepAi(2);
+            //deepAi.run(engine);
 
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){

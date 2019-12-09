@@ -23,5 +23,7 @@ void setArtificialIntelligenceID(int artificialIntelligenceID){
     artificialIntelligenceID=artificialIntelligenceID;
 }
 
-
+AI::~AI(){
+    
+}
 
