@@ -10,8 +10,12 @@ using namespace std;
 using namespace ai;
 
 //Constructor
-DeepAiNode::DeepAiNode():ptrParent(NULL),score(-1000),executedCommand(NULL),childDeepAiNodeList(childDeepAiNodeList){
 
+DeepAiNode::DeepAiNode(){
+    this->ptrParent=0;
+    this->score=-1000;
+    this->executedCommand=0;
+    this->childDeepAiNodeList=childDeepAiNodeList;
 }
 
 DeepAiNode::DeepAiNode (DeepAiNode* ptrParent, engine::Command* executedCommand):ptrParent(ptrParent),score(-1000),executedCommand(executedCommand),childDeepAiNodeList(childDeepAiNodeList){
@@ -54,8 +58,3 @@ void DeepAiNode::setExecutedCommand (engine::Command* executedCommand){
 }
 
 
-
-//Destructor
-DeepAiNode::~DeepAiNode (){
-
-}
