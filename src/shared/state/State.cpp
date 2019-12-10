@@ -194,6 +194,12 @@ Position State::getClosestEnemyPosition(Position& position){
     return closestPosition;
 }
 
+
+std::shared_ptr<state::MobileEntity> State::ptrReferenceToPlayingEntity (int playingEntityIndex){
+    return playerList[currentPlayerID]->getMobileEntityList()[playingEntityIndex];
+}
+
+
 // Setters
 
 void State::setRound(int round){
