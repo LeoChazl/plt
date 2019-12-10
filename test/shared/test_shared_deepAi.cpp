@@ -25,7 +25,7 @@ namespace ai{
 
 BOOST_AUTO_TEST_CASE(TestStaticAssert)
 {
-    //Engine Side
+    //Engine Init
     Engine engine;
     engine.getState().initPlayers();
   
@@ -40,20 +40,33 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     Engine copiedEngine;
     //copy engine
     deepAi.copyEngine(engine,copiedEngine);
-    
-    state::State state;
-    state.setEndGame(true);
-    copiedEngine.setCurrentState(state);
-    //Test if "engine" and copiedEngine" don't have any link
-    BOOST_CHECK_EQUAL(engine.getState().getEndGame(),false);
-    BOOST_CHECK_EQUAL(copiedEngine.getState().getEndGame(),true);
+
+    //Test if the "initplayer" function on the engine init is the same as copiedEngine
+        //x position
+    BOOST_CHECK_EQUAL(engine.getState().getPlayerList()[0]->getMobileEntityList()[0]->getX(),copiedEngine.getState().getPlayerList()[0]->getMobileEntityList()[0]->getX());
+    BOOST_CHECK_EQUAL(engine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getX(),copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getX());
+        //Health
+    BOOST_CHECK_EQUAL(engine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getHealth(),copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getHealth());
+    BOOST_CHECK_EQUAL(engine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getHealth(),copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getHealth());
+        //Damage
+    BOOST_CHECK_EQUAL(engine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getDamage(),copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getDamage());
+    BOOST_CHECK_EQUAL(engine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getDamage(),copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->getDamage());
+
+
+    copiedEngine.getState().getPlayerList()[0]->getMobileEntityList()[0]->setX(0);
+    copiedEngine.getState().getPlayerList()[0]->getMobileEntityList()[0]->setY(0);
+
+    copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->setX(0);
+    copiedEngine.getState().getPlayerList()[1]->getMobileEntityList()[0]->setY(1);
 
     /***********************************/
     /*"attackableEnemies" function test*/
     /***********************************/
     std::vector<state::Position> attackableEnemiesPositionList;
     //Store in  "attackableEnemiesPositionList" all attackable ennemeies positions
-    attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,1,1);
+    attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
+
+    cout<<"attackable Enemies Position List size = "<<attackableEnemiesPositionList.size()<<endl;
     if(attackableEnemiesPositionList.size()!=0){
         BOOST_CHECK_EQUAL(attackableEnemiesPositionList[0].getX(),0);
         BOOST_CHECK_EQUAL(attackableEnemiesPositionList[0].getY(),0);
@@ -63,7 +76,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     /*"optimalMoveCoord" function test*/
     /**********************************/
     std::vector<state::Position> optimalMoveCoord;
-    optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,1,1);
+    optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,0,1);
 
     /*************************************/
     /*"storeAttackCommands" function test*/
@@ -72,19 +85,19 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     BOOST_CHECK_EQUAL(possibleCommandList.size(),0);
 
     deepAi.storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList,0);
-    BOOST_CHECK_EQUAL(possibleCommandList.size(),0);
+    BOOST_CHECK_EQUAL(possibleCommandList.size(),1);
 
     /***********************************/
     /*"storeMoveCommands" function test*/
     /***********************************/
     deepAi.storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList,0);
-    BOOST_CHECK_EQUAL(possibleCommandList.size(),0);
+    BOOST_CHECK_EQUAL(possibleCommandList.size(),2);
 
-    /***********************************/
+    /***************************************/
     /*"storeEndActionCommand" function test*/
-    /***********************************/
+    /***************************************/
     deepAi.storeEndActionCommand(copiedEngine,possibleCommandList,0);
-    BOOST_CHECK_EQUAL(possibleCommandList.size(),1);
+    BOOST_CHECK_EQUAL(possibleCommandList.size(),3);
 
 
 
