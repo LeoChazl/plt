@@ -21,6 +21,7 @@ using namespace ai;
 
 namespace ai{
     class DeepAI;
+    class DeepAiNode;
 }
 
 BOOST_AUTO_TEST_CASE(TestStaticAssert)
@@ -66,7 +67,6 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     //Store in  "attackableEnemiesPositionList" all attackable ennemeies positions
     attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
 
-    cout<<"attackable Enemies Position List size = "<<attackableEnemiesPositionList.size()<<endl;
     if(attackableEnemiesPositionList.size()!=0){
         BOOST_CHECK_EQUAL(attackableEnemiesPositionList[0].getX(),0);
         BOOST_CHECK_EQUAL(attackableEnemiesPositionList[0].getY(),0);
@@ -99,7 +99,30 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     deepAi.storeEndActionCommand(copiedEngine,possibleCommandList,0);
     BOOST_CHECK_EQUAL(possibleCommandList.size(),3);
 
+/*--------------------------------------------------------------------------*/
 
+    /***************************************/
+    /*"createNodes" function test*/
+    /***************************************/
+    //Init Parent Node
+    ai::DeepAiNode headNode;
+    headNode.setScore(30);
+    DeepAiNode* ptrHeadNode(&headNode);
+
+    //Init childNode
+    DeepAiNode childNode;
+    childNode.setPtrParent(&headNode);
+    childNode.setExecutedCommand(possibleCommandList[0].get());//with the "get" function I just recover the adress of the pointor without shared pointor specification and proprities
+    
+
+    
+    //Create a chained list and store it in the parent "childDeepAiNodeList" attribut
+    BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),0);
+    deepAi.createChildNodes(copiedEngine,headNode,possibleCommandList);
+
+    BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),possibleCommandList.size());
+
+    BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[0]->getPtrParent(),headNode.getChildDeepAiNodeList()[0]->getPtrParent());
 
 
 }
