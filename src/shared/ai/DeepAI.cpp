@@ -33,9 +33,12 @@ void DeepAI::copyEngine (engine::Engine& engine,engine::Engine& copiedEngine){
 }
 
 
-/**
- * 
- */
+/**sore all attackable positions where ennemies are standed
+ *  Arguments: -> reference "copied Engine"
+ *             -> the unit index in the mobile entity list associated to a player
+ *             -> the artificial intelligence ID - 1
+ *  Return: list of the attackable positions where ennemies are standed
+ */ 
 std::vector<state::Position> DeepAI::attackableEnemies (engine::Engine& copiedEngine, int aiUnitIndex, int artificalIntelligenceID){
     std::vector<state::Position> attackableEnemiesPositionList;
     std::vector<state::Position> allowedAttackPosition=copiedEngine.getState().getPlayerList()[artificalIntelligenceID]->getMobileEntityList()[aiUnitIndex]->allowedAttack(copiedEngine.getState());
@@ -53,8 +56,11 @@ std::vector<state::Position> DeepAI::attackableEnemies (engine::Engine& copiedEn
 }
 
 
-/**
- * 
+/**recover all optimal move position after using AStar algorithm
+ *  Arguments: -> reference "copied Engine"
+ *             -> the unit index in the mobile entity list associated to a player
+ *             -> the artificial intelligence ID - 1
+ *  Return: list of optimal coord where the unit can move in order to reach the nearest enemy
  */ 
 std::vector<state::Position> DeepAI::optimalMoveCoord (engine::Engine& copiedEngine, int aiUnitIndex, int artificialIntelligenceID){
     //change with the ASTAR Algorithm results
@@ -102,5 +108,8 @@ void DeepAI::storeEndActionCommand(engine::Engine& copiedEngine, std::vector<std
 	shared_ptr<Command> ptr_endEntityRound(new EndEntityRound(endEntityRound));
     possibleCommandList.push_back(ptr_endEntityRound);
 }
+
+
+
 
 
