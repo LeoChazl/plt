@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     //Init Parent Node
     ai::DeepAiNode headNode;
     headNode.setScore(30);
-    DeepAiNode* ptrHeadNode(&headNode);
+
 
     //Init childNode
     DeepAiNode childNode;
@@ -121,8 +121,66 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     deepAi.createChildNodes(copiedEngine,headNode,possibleCommandList);
 
     BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),possibleCommandList.size());
-
     BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[0]->getPtrParent(),headNode.getChildDeepAiNodeList()[0]->getPtrParent());
 
+    childNode.getExecutedCommand()->execute(copiedEngine.getState());
 
+
+    /***************************************/
+    /*"createTheTree" function test*/
+    /***************************************/
+    //for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
+    //{
+        //deepAi.copyEngine(engine,copiedEngine);
+        //headNode.getChildDeepAiNodeList()[i]->getExecutedCommand()->execute(copiedEngine.getState());
+        //possibleCommandList[i]->execute(copiedEngine.getState());
+        
+        /***********************************/
+        /*"attackableEnemies" function test*/
+        /***********************************/
+        //std::vector<state::Position> attackableEnemiesPositionList;
+        //attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
+
+        /**********************************/
+        /*"optimalMoveCoord" function test*/
+        /**********************************/
+        //std::vector<state::Position> optimalMoveCoord;
+        //optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,0,1);
+
+        /*************************************/
+        /*"storeAttackCommands" function test*/
+        /*************************************/
+        //std::vector<std::shared_ptr<engine::Command>> possibleCommandList2;
+        //BOOST_CHECK_EQUAL(possibleCommandList.size(),0);
+
+        //deepAi.storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
+        //BOOST_CHECK_EQUAL(possibleCommandList.size(),1);
+
+        /***********************************/
+        /*"storeMoveCommands" function test*/
+        /***********************************/
+        //deepAi.storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
+        //BOOST_CHECK_EQUAL(possibleCommandList.size(),2);
+
+        /***************************************/
+        /*"storeEndActionCommand" function test*/
+        /***************************************/
+        //deepAi.storeEndActionCommand(copiedEngine,possibleCommandList2,0);
+        //BOOST_CHECK_EQUAL(possibleCommandList.size(),3);
+
+        //deepAi.createChildNodes(copiedEngine,*headNode.getChildDeepAiNodeList()[i],possibleCommandList2);
+        //DeepAiNode parentNode(*headNode.getChildDeepAiNodeList()[i]);
+        /*std::vector<ai::DeepAiNode*> childNodesList= parentNode.getChildDeepAiNodeList();
+        for (uint i = 0; i < possibleCommandList.size(); i++)
+        {
+            DeepAiNode childNode;
+            childNode.setPtrParent(&parentNode);
+            childNode.setExecutedCommand(possibleCommandList[i].get());
+            childNodesList.push_back(&childNode);
+        }
+        parentNode.setChildDeepAiNodeList(childNodesList);*/
+    
+
+    //}
+    
 }

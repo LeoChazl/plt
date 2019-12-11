@@ -109,9 +109,11 @@ void DeepAI::storeEndActionCommand(engine::Engine& copiedEngine, std::vector<std
     possibleCommandList.push_back(ptr_endEntityRound);
 }
 
-/**
- * 
- * 
+/**create a list of child nodes (one node for each possibleCommands) and sore it in a parent attribut ("childDeepAiNode")
+ *  Arguments: -> reference to "copiedEngine" 
+ *             -> reference to the parent Node
+ *             -> list of possible Commands
+ *  No return
  */
 void DeepAI::createChildNodes (engine::Engine& copiedEngine, DeepAiNode& parentNode, std::vector<std::shared_ptr<engine::Command>> possibleCommandList){
 
@@ -119,7 +121,8 @@ void DeepAI::createChildNodes (engine::Engine& copiedEngine, DeepAiNode& parentN
     for (uint i = 0; i < possibleCommandList.size(); i++)
     {
         DeepAiNode childNode;
-        childNode.setPtrParent(parentNode.getPtrParent());
+        DeepAiNode* ptrChildNode;
+        childNode.setPtrParent(&parentNode);
         childNode.setExecutedCommand(possibleCommandList[i].get());
         childNodesList.push_back(&childNode);
     }
