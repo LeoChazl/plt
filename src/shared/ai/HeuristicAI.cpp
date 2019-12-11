@@ -283,11 +283,13 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
                 }
                 if(nodeNeighbors[i].getPosition().distance(goal)==1){
                     goalNotReached=false;
+                    cout << "goal" << endl;
 
                     // Get the path from goal to start
                     path.push_back(nodeNeighbors[i].getPosition());
                     Node nextNode= *nodeNeighbors[i].getPreviousNode();
                     while(!nextNode.getPosition().equal(startNode.getPosition())){
+                        cout << "Next node pos :" << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
                         path.push_back(nextNode.getPosition());
                         nextNode=*nextNode.getPreviousNode();
                     }

@@ -48,7 +48,7 @@ std::vector<Node> Node::getNeighbors(state::State& state){
                 // Test not out of bounds
                 if(i>=0 && i < state.getEntityMap().getWidth() && j>=0 && j < state.getEntityMap().getHeight()){
                     // Test the targeted node is not an obstacle and not occupied by a MobileEntity
-                    if(state.getEntityMap().getMapArray()[i][j]->isSpace() && !state.isOccupied(i,j)){
+                    if(state.getEntityMap().getMapArray()[j][i]->isSpace() && !state.isOccupied(i,j)){
                         // Just adding the node with position information for now
                         // Test if the node is already in the stack later
                         neighborNodePosition.setX(i);
