@@ -130,6 +130,55 @@ void DeepAI::createChildNodes (engine::Engine& copiedEngine, DeepAiNode& parentN
     
 }
 
+/**Evaluate the actual situation in order to attribut a score
+ * 
+ *  No retrun
+ */ 
 
+int DeepAI::evalSituation(engine::Engine& copiedEngine){
+    int score=0;
+    int artificialIntelligenceID=1;
+    //Situation = game end
+    if(copiedEngine.getState().getEndGame()){
+        for (size_t i = 0; i < copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); i++)
+        {
+            if(copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getStatus()!=DEAD){
+                score=1000-copiedEngine.getState().getRound();//In a game end situation -> give max score if artificial intelligence have at least one unit alive
+            }else{
+                score=-1000+copiedEngine.getState().getRound();//In a game end situation --> give min score if artificaial intelligence lose the game
+            }
+            return score;
+        }
+
+    //Situation= game didn't end
+    }else{
+        int sumCurrentPv=0, sumAdversePv=0, currentPlayerAliveUnits=0, AdverseAliveUnits=0;
+        Position deadPosition(-1,-1);
+        for(int i=0; i<copiedEngine.getState().getPlayerList().size(); i++){
+            //the player is the artificial intelligence
+            if(i==artificialIntelligenceID){
+                for (size_t j = 0; j < copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); j++)
+                {
+                    //sum all the artifical intelligence units pv in the current situation / Count all the artificial intelligence units which are still alive
+                    sumCurrentPv+=copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[j]->getHealth();
+                    currentPlayerAliveUnits++;
+                }
+            }
+            //the player is not the artificial intelligence
+            else{
+                for (size_t j = 0; j < copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); j++)
+                {
+                    //sum all adverse units pv in the current situation / Count all adverse units which are still alive
+                    sumAdversePv+=copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[j]->getHealth();
+                    AdverseAliveUnits++;
+                }
+            }
+        }
+        score=sumCurrentPv-sumAdversePv+100*currentPlayerAliveUnits-100*AdverseAliveUnits;
+        cout<<"Evaluation function return  :" << score<<endl;
+        return score;
+    }
+    
+}
 
 

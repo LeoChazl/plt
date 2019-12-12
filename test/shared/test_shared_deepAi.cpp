@@ -194,18 +194,40 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
             ptrChildNode->setPtrParent(&parentNode);
             ptrChildNode->setExecutedCommand(possibleCommandList2[i].get());
             childNodesList2.push_back(ptrChildNode);
+
+            possibleCommandList2[i]->execute(copiedEngine.getState());
+            ptrChildNode->setScore(deepAi.evalSituation(engine));
         }
         
         BOOST_CHECK_EQUAL(parentNode.getChildDeepAiNodeList().size(),headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
         BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),0);
 
         parentNode.setChildDeepAiNodeList(childNodesList2);
+        headNode.getChildDeepAiNodeList()[i]->setChildDeepAiNodeList(childNodesList2);
         BOOST_CHECK_EQUAL(parentNode.getChildDeepAiNodeList().size(),headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
         BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),6);
 
+    }
 
-    
+
+    /***************************************/
+    /*"evalSituation" function test*/
+    /***************************************/
+    for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
+    {
+        for (uint j = 0; j < headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(); j++)
+        {
+            deepAi.copyEngine(engine,copiedEngine);
+            //headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]->getExecutedCommand()->execute(copiedEngine.getState());
+            //deepAi.evalSituation(copiedEngine,*headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]);
+           
+
+        }
+        //cout<<headNode.getChildDeepAiNodeList()[i]->getScore();
+         //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),10);
 
     }
+    
+
     
 }
