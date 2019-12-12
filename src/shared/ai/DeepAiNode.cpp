@@ -12,10 +12,10 @@ using namespace ai;
 //Constructor
 
 DeepAiNode::DeepAiNode(){
-    this->ptrParent=0;
+    /*this->ptrParent=0;
     this->score=-1000;
     this->executedCommand=0;
-    this->childDeepAiNodeList=childDeepAiNodeList;
+    this->childDeepAiNodeList=childDeepAiNodeList;*/
 }
 
 DeepAiNode::DeepAiNode (DeepAiNode* ptrParent, engine::Command* executedCommand):ptrParent(ptrParent),score(-1000),executedCommand(executedCommand),childDeepAiNodeList(childDeepAiNodeList){
