@@ -115,18 +115,18 @@ void DeepAI::storeEndActionCommand(engine::Engine& copiedEngine, std::vector<std
  *             -> list of possible Commands
  *  No return
  */
-void DeepAI::createChildNodes (engine::Engine& copiedEngine, DeepAiNode& parentNode, std::vector<std::shared_ptr<engine::Command>> possibleCommandList){
+void DeepAI::createChildNodes (engine::Engine& copiedEngine, std::shared_ptr<DeepAiNode>& parentNode, std::vector<std::shared_ptr<engine::Command>> possibleCommandList){
 
-    std::vector<ai::DeepAiNode*> childNodesList= parentNode.getChildDeepAiNodeList();
+    std::vector<std::shared_ptr<ai::DeepAiNode>> childNodesList= parentNode->getChildDeepAiNodeList();
     for (uint i = 0; i < possibleCommandList.size(); i++)
     {
-        DeepAiNode childNode;
-        DeepAiNode* ptrChildNode;
-        childNode.setPtrParent(&parentNode);
-        childNode.setExecutedCommand(possibleCommandList[i].get());
-        childNodesList.push_back(&childNode);
+        //DeepAiNode childNode;
+        std::shared_ptr<DeepAiNode> ptrChildNode(std::make_shared<DeepAiNode>());
+        ptrChildNode->setPtrParent(parentNode);
+        ptrChildNode->setExecutedCommand(possibleCommandList[i]);
+        childNodesList.push_back(ptrChildNode);
     }
-    parentNode.setChildDeepAiNodeList(childNodesList);
+    parentNode->setChildDeepAiNodeList(childNodesList);
     
 }
 

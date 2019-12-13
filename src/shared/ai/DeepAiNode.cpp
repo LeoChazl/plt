@@ -18,18 +18,18 @@ DeepAiNode::DeepAiNode(){
     this->childDeepAiNodeList=childDeepAiNodeList;*/
 }
 
-DeepAiNode::DeepAiNode (DeepAiNode* ptrParent, engine::Command* executedCommand):ptrParent(ptrParent),score(-1000),executedCommand(executedCommand),childDeepAiNodeList(childDeepAiNodeList){
+DeepAiNode::DeepAiNode (std::shared_ptr<DeepAiNode> ptrParent, std::shared_ptr<engine::Command> executedCommand):ptrParent(ptrParent),score(-1000),executedCommand(executedCommand),childDeepAiNodeList(childDeepAiNodeList){
 
 }
 
 
 //Getters and Setters
 
-DeepAiNode* DeepAiNode::getPtrParent (){
+std::shared_ptr<DeepAiNode> DeepAiNode::getPtrParent (){
     return ptrParent; 
 }
 
-std::vector<DeepAiNode*> DeepAiNode::getChildDeepAiNodeList (){
+std::vector<std::shared_ptr<DeepAiNode>> DeepAiNode::getChildDeepAiNodeList (){
     return childDeepAiNodeList;
 }
 
@@ -37,15 +37,15 @@ int DeepAiNode::getScore (){
     return score;
 }
 
-engine::Command* DeepAiNode::getExecutedCommand (){
+std::shared_ptr<engine::Command> DeepAiNode::getExecutedCommand (){
     return executedCommand;
 }
 
-void DeepAiNode::setPtrParent (DeepAiNode* ptrParent){
+void DeepAiNode::setPtrParent (std::shared_ptr<DeepAiNode> ptrParent){
     this->ptrParent=ptrParent;
 }
 
-void DeepAiNode::setChildDeepAiNodeList (std::vector<DeepAiNode*> childDeepAiNodeList){
+void DeepAiNode::setChildDeepAiNodeList (std::vector<std::shared_ptr<DeepAiNode>> childDeepAiNodeList){
     this->childDeepAiNodeList=childDeepAiNodeList;
 }
 
@@ -53,7 +53,7 @@ void DeepAiNode::setScore (int score){
     this->score=score;
 }
 
-void DeepAiNode::setExecutedCommand (engine::Command* executedCommand){
+void DeepAiNode::setExecutedCommand (std::shared_ptr<engine::Command> executedCommand){
     this->executedCommand=executedCommand;
 }
 
