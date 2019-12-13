@@ -105,128 +105,131 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     /*"createNodes" function test*/
     /***************************************/
     //Init Parent Node
-    ai::DeepAiNode headNode;
-    headNode.setScore(30);
+    std::shared_ptr<ai::DeepAiNode> ptrHeadNode(std::make_shared<DeepAiNode>());
+    ptrHeadNode->setScore(30);
 
 
     //Init childNode
-    //DeepAiNode childNode;
-    //childNode.setPtrParent(&headNode);
-    //childNode.setExecutedCommand(possibleCommandList[0].get());//with the "get" function I just recover the adress of the pointor without shared pointor specification and proprities
+    std::shared_ptr<DeepAiNode> ptrChildNode(std::make_shared<DeepAiNode>());
+    ptrChildNode->setPtrParent(ptrHeadNode);
+    ptrChildNode->setExecutedCommand(possibleCommandList[0]);//with the "get" function I just recover the adress of the pointor without shared pointor specification and proprities
     
 
     
     //Create a chained list and store it in the parent "childDeepAiNodeList" attribut
-    //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),0);
+    //BOOST_CHECK_EQUAL(ptrHeadNode->getChildDeepAiNodeList().size(),0);
     ////deepAi.createChildNodes(copiedEngine,headNode,possibleCommandList);
 
     //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),possibleCommandList.size());
     //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[0]->getPtrParent(),headNode.getChildDeepAiNodeList()[1]->getPtrParent());
 
-   /* childNode.getExecutedCommand()->execute(copiedEngine.getState());
+    //childNode.getExecutedCommand()->execute(copiedEngine.getState());
 
-    std::vector<ai::DeepAiNode*> childNodesList= headNode.getChildDeepAiNodeList();
+    std::vector<std::shared_ptr<ai::DeepAiNode>> childNodesList= ptrHeadNode->getChildDeepAiNodeList();
     for (uint i = 0; i < possibleCommandList.size(); i++)
     {
-        DeepAiNode childNode;
-        DeepAiNode* ptrChildNode;
-        childNode.setPtrParent(&headNode);
-        childNode.setExecutedCommand(possibleCommandList[i].get());
-        childNodesList.push_back(&childNode);
+        std::shared_ptr<DeepAiNode> ptrChildNode(std::make_shared<DeepAiNode>());
+        ptrChildNode->setPtrParent(ptrHeadNode);
+        ptrChildNode->setExecutedCommand(possibleCommandList[0]);
+        childNodesList.push_back(ptrChildNode);
     }
-    headNode.setChildDeepAiNodeList(childNodesList);*/
+    ptrHeadNode->setChildDeepAiNodeList(childNodesList);
 
     /***************************************/
     /*"createTheTree" function test*/
     /***************************************/
-    /*for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
+    for (uint i = 0; i < ptrHeadNode->getChildDeepAiNodeList().size(); i++)
     {
         deepAi.copyEngine(engine,copiedEngine);
-        headNode.getChildDeepAiNodeList()[i]->getExecutedCommand()->execute(copiedEngine.getState());
+        ptrHeadNode->getChildDeepAiNodeList()[i]->getExecutedCommand()->execute(copiedEngine.getState());
         //possibleCommandList[i]->execute(copiedEngine.getState());
         
         /***********************************/
         /*"attackableEnemies" function test*/
         /***********************************/
-        //std::vector<state::Position> attackableEnemiesPositionList;
-        //attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
+        std::vector<state::Position> attackableEnemiesPositionList;
+        attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
 
         /**********************************/
         /*"optimalMoveCoord" function test*/
         /**********************************/
-        //std::vector<state::Position> optimalMoveCoord;
-        //optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,0,1);
+        std::vector<state::Position> optimalMoveCoord;
+        optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,0,1);
 
         /*************************************/
         /*"storeAttackCommands" function test*/
         /*************************************/
-        //std::vector<std::shared_ptr<engine::Command>> possibleCommandList2;
-        //BOOST_CHECK_EQUAL(possibleCommandList2.size(),0);
+        std::vector<std::shared_ptr<engine::Command>> possibleCommandList2;
+        BOOST_CHECK_EQUAL(possibleCommandList2.size(),0);
 
-        //deepAi.storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
-        //BOOST_CHECK_EQUAL(possibleCommandList2.size(),1);
+        deepAi.storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
+        BOOST_CHECK_EQUAL(possibleCommandList2.size(),1);
 
         /***********************************/
         /*"storeMoveCommands" function test*/
         /***********************************/
-        //deepAi.storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
-        //BOOST_CHECK_EQUAL(possibleCommandList2.size(),2);
+        deepAi.storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
+        BOOST_CHECK_EQUAL(possibleCommandList2.size(),2);
 
         /***************************************/
         /*"storeEndActionCommand" function test*/
         /***************************************/
-        /*deepAi.storeEndActionCommand(copiedEngine,possibleCommandList2,0);
+        deepAi.storeEndActionCommand(copiedEngine,possibleCommandList2,0);
         BOOST_CHECK_EQUAL(possibleCommandList2.size(),3);
 
         //deepAi.createChildNodes(copiedEngine,*headNode.getChildDeepAiNodeList()[i],possibleCommandList2);
-        std::vector<ai::DeepAiNode*> childNodesList2= headNode.getChildDeepAiNodeList();
-        DeepAiNode parentNode;
-        parentNode.setPtrParent(childNodesList2[i]->getPtrParent());
-        parentNode.setChildDeepAiNodeList(childNodesList2[i]->getChildDeepAiNodeList());
-        parentNode.setExecutedCommand(childNodesList2[i]->getExecutedCommand());
-        parentNode.setScore(childNodesList2[i]->getScore());
+        std::vector<std::shared_ptr<DeepAiNode>> childNodesList2= ptrHeadNode->getChildDeepAiNodeList();
+        auto ptrChildParentNode(std::make_shared<DeepAiNode>());
+        ptrChildParentNode->setPtrParent(childNodesList2[i]->getPtrParent());
+        ptrChildParentNode->setChildDeepAiNodeList(childNodesList2[i]->getChildDeepAiNodeList());
+        ptrChildParentNode->setExecutedCommand(childNodesList2[i]->getExecutedCommand());
+        ptrChildParentNode->setScore(childNodesList2[i]->getScore());
         //std::vector<ai::DeepAiNode*> childNodesList= parentNode.getChildDeepAiNodeList();
         for (uint i = 0; i < possibleCommandList2.size(); i++)
         {
-            DeepAiNode* ptrChildNode;
-            ptrChildNode=new DeepAiNode;
-
-            ptrChildNode->setPtrParent(&parentNode);
-            ptrChildNode->setExecutedCommand(possibleCommandList2[i].get());
-            childNodesList2.push_back(ptrChildNode);
+            std::shared_ptr<DeepAiNode> ptrChildNode2(std::make_shared<DeepAiNode>());
+            ptrChildNode2->setPtrParent(ptrHeadNode);
+            ptrChildNode2->setExecutedCommand(possibleCommandList[0]);
+            childNodesList2.push_back(ptrChildNode2);
 
             possibleCommandList2[i]->execute(copiedEngine.getState());
             ptrChildNode->setScore(deepAi.evalSituation(engine));
         }
         
-        BOOST_CHECK_EQUAL(parentNode.getChildDeepAiNodeList().size(),headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
-        BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),0);
+        BOOST_CHECK_EQUAL(ptrChildParentNode->getChildDeepAiNodeList().size(),ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
+        BOOST_CHECK_EQUAL(ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),0);
 
-        parentNode.setChildDeepAiNodeList(childNodesList2);
-        headNode.getChildDeepAiNodeList()[i]->setChildDeepAiNodeList(childNodesList2);
-        BOOST_CHECK_EQUAL(parentNode.getChildDeepAiNodeList().size(),headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
-        BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),6);
+        //ptrChildParentNode->setChildDeepAiNodeList(childNodesList2);
+        ptrHeadNode->getChildDeepAiNodeList()[i]->setChildDeepAiNodeList(childNodesList2);
+        //BOOST_CHECK_EQUAL(ptrChildParentNode->getChildDeepAiNodeList().size(),ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
+        //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),6);
 
-    }*/
+    }
 
 
     /***************************************/
     /*"evalSituation" function test*/
     /***************************************/
-    /*for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
+    for (uint i = 0; i < ptrHeadNode->getChildDeepAiNodeList().size(); i++)
     {
-        for (uint j = 0; j < headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(); j++)
+        for (uint j = 0; j < ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(); j++)
         {
             deepAi.copyEngine(engine,copiedEngine);
-            //headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]->getExecutedCommand()->execute(copiedEngine.getState());
-            //deepAi.evalSituation(copiedEngine,*headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]);
+            ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]->getExecutedCommand()->execute(copiedEngine.getState());
+            //deepAi.evalSituation(copiedEngine,*ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]);
+            deepAi.evalSituation(copiedEngine);
            
 
         }
+        deepAi.minimixeScore(ptrHeadNode->getChildDeepAiNodeList()[i]);
         //cout<<headNode.getChildDeepAiNodeList()[i]->getScore();
-         //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),10);
+         //BOOST_CHECK_EQUAL(ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),10);
 
-    }*/
+    }
+    deepAi.maximiseScore(ptrHeadNode);
+
+    int optimalCommandIndex=deepAi.findOptimalCommandIndex(ptrHeadNode);
+    deepAi.executeOptimalCommand(engine,optimalCommandIndex,ptrHeadNode);
     
 
     

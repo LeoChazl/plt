@@ -181,4 +181,66 @@ int DeepAI::evalSituation(engine::Engine& copiedEngine){
     
 }
 
+/**Give the max score chose between childNode score
+ * 
+ * No Return
+ */
+void DeepAI::maximiseScore (std::shared_ptr<DeepAiNode>& ptrEvaluatedNode){
+    int actualScore=-1000;
+    std::vector<std::shared_ptr<DeepAiNode>> childNodes=ptrEvaluatedNode->getChildDeepAiNodeList();
+    int maxScore=childNodes[0]->getScore();
+    for (uint i = 0; i < childNodes.size(); i++)
+    {
+        actualScore=childNodes[i]->getScore();
+        if(maxScore<actualScore){
+            maxScore=actualScore;
+        }
+    }
+    ptrEvaluatedNode->setScore(maxScore);
+}
 
+/**Give the min score chose between childNode score
+ * 
+ * No Return
+ */
+void DeepAI::minimixeScore (std::shared_ptr<DeepAiNode>& ptrEvaluatedNode){
+    int actualScore;
+    std::vector<std::shared_ptr<DeepAiNode>> childNodes=ptrEvaluatedNode->getChildDeepAiNodeList();
+    int minScore=childNodes[0]->getScore();
+    for (uint i = 0; i < childNodes.size(); i++)
+    {
+        actualScore=childNodes[i]->getScore();
+        if(minScore>actualScore){
+            minScore=actualScore;
+        }
+    }
+    ptrEvaluatedNode->setScore(minScore);
+}
+
+/**
+ * 
+ * 
+ */
+int DeepAI::findOptimalCommandIndex (std::shared_ptr<DeepAiNode>& ptrHeadNode){
+    int maxScoreIndex=0;
+    int maxScore=ptrHeadNode->getChildDeepAiNodeList()[0]->getScore();
+    int actualScore=ptrHeadNode->getChildDeepAiNodeList()[0]->getScore();
+    for (uint i = 0; i < ptrHeadNode->getChildDeepAiNodeList().size(); i++)
+    {
+        actualScore=ptrHeadNode->getChildDeepAiNodeList()[i]->getScore();
+        if(maxScore<actualScore){
+            maxScore=actualScore;
+            maxScoreIndex=i;
+        }
+    }
+    return maxScoreIndex;
+}
+
+
+/**
+ * 
+ * 
+ */
+void DeepAI::executeOptimalCommand (engine::Engine& engine, int optimalCommandIndex, std::shared_ptr<DeepAiNode>& ptrHeadNode){
+    ptrHeadNode->getChildDeepAiNodeList()[optimalCommandIndex]->getExecutedCommand()->execute(engine.getState());
+}
