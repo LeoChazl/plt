@@ -263,6 +263,25 @@ void StateLayer::drawRightInfos(state::State& state){
 	selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
 	selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
 
+    sf::Texture vs;
+    vs.loadFromFile("rsc/Images/vs.png");
+    sf::Sprite spriteVs;
+    spriteVs.setPosition(1720.f,425.f);
+    spriteVs.setTexture(vs, true);
+
+    sf::RectangleShape enemyUnitRectangle(sf::Vector2f(250.f, 30.f));
+	enemyUnitRectangle.setPosition(1635.f, 475.f);
+    sf::Color colorEnemyUnitRectangle(0,0,0,100);
+	enemyUnitRectangle.setFillColor(colorEnemyUnitRectangle);
+
+    string enemyString = "Enemy unit stats";
+    sf::Text enemyText;
+    enemyText.setFont(font);
+    enemyText.setString(enemyString);
+    enemyText.setCharacterSize(14);
+    enemyText.setFillColor(sf::Color::White);
+    enemyText.setPosition(1685.f ,480.f);
+
     // Enemy stats box
     sf::RectangleShape enemyUnitStatsRectangle(sf::Vector2f(250.f, 250.f));
 	enemyUnitStatsRectangle.setPosition(1635.f, 520.f);
@@ -271,6 +290,9 @@ void StateLayer::drawRightInfos(state::State& state){
     window.draw(selectedUnitRectangle);
     window.draw(selectedText);
     window.draw(selectedUnitStatsRectangle);
+    window.draw(spriteVs);
+    window.draw(enemyUnitRectangle);
+    window.draw(enemyText);
     window.draw(enemyUnitStatsRectangle);
 }
 
