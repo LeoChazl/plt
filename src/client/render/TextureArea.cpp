@@ -125,28 +125,30 @@ bool TextureArea::loadUnitDisplay(state::State& currentState, render::TileSet& t
     quads.setPrimitiveType(sf::Quads);
     quads.resize(4);
 
-    if(currentState.verifyIsSelected()){
+    if(currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY())){
         auto currentMobileEntity = currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY()); // Get the currently selected MobileEntity
 
-        sf::Vertex* quad = &quads[0];
+        if(currentMobileEntity->getPlayerId()==currentState.getCurrentPlayerID()){
+            sf::Vertex* quad = &quads[0];
 
-        int tx = currentMobileEntity->getEntityId();
-        int ty = currentMobileEntity->getStatus();
+            int tx = currentMobileEntity->getEntityId();
+            int ty = currentMobileEntity->getStatus();
 
-        // Definition of the four corners of the vertex in the window
-            // 2 coordinates (x,y) for each vertex --> x = the unit X position in the map product the width of the unit tileSet
-            //                                     --> y = the unit Y position in the map product the height of the unit tileSet
-        quad[0].position = sf::Vector2f(600.f, 810.f);
-        quad[1].position = sf::Vector2f(600.f + textureTileset.getCellWidth(), 810.f);
-        quad[2].position = sf::Vector2f(600.f + textureTileset.getCellWidth(), 810.f + textureTileset.getCellHeight());
-        quad[3].position = sf::Vector2f(600.f, 810.f + textureTileset.getCellHeight());
-                
-        // Definition of coordinates in the tileset to retrieve the corresponding sprite
-            // Same as quads position
-        quad[0].texCoords = sf::Vector2f(tx * textureTileset.getCellWidth(), ty * textureTileset.getCellHeight());
-        quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset.getCellWidth(), ty * textureTileset.getCellHeight());
-        quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset.getCellWidth(), (ty+1) * textureTileset.getCellHeight());
-        quad[3].texCoords = sf::Vector2f(tx * textureTileset.getCellWidth(), (ty+1) * textureTileset.getCellHeight());
+            // Definition of the four corners of the vertex in the window
+                // 2 coordinates (x,y) for each vertex --> x = the unit X position in the map product the width of the unit tileSet
+                //                                     --> y = the unit Y position in the map product the height of the unit tileSet
+            quad[0].position = sf::Vector2f(600.f, 810.f);
+            quad[1].position = sf::Vector2f(600.f + textureTileset.getCellWidth(), 810.f);
+            quad[2].position = sf::Vector2f(600.f + textureTileset.getCellWidth(), 810.f + textureTileset.getCellHeight());
+            quad[3].position = sf::Vector2f(600.f, 810.f + textureTileset.getCellHeight());
+                    
+            // Definition of coordinates in the tileset to retrieve the corresponding sprite
+                // Same as quads position
+            quad[0].texCoords = sf::Vector2f(tx * textureTileset.getCellWidth(), ty * textureTileset.getCellHeight());
+            quad[1].texCoords = sf::Vector2f((tx+1) * textureTileset.getCellWidth(), ty * textureTileset.getCellHeight());
+            quad[2].texCoords = sf::Vector2f((tx+1) * textureTileset.getCellWidth(), (ty+1) * textureTileset.getCellHeight());
+            quad[3].texCoords = sf::Vector2f(tx * textureTileset.getCellWidth(), (ty+1) * textureTileset.getCellHeight());
+        }
     }
     return true;
 }
