@@ -8,17 +8,20 @@ using namespace render;
 TileSet::TileSet(render::TileSetID newID){
     id = newID;
     
-    cellWidth=32;
-    cellHeight=32;
-    
     switch(id){
         case UNITSTILESET:
+            cellWidth=32;
+            cellHeight=32;
             imageFile="rsc/Images/characters_tileset_32.png";
             break;
         case CURSORTILESET:
+            cellWidth=32;
+            cellHeight=32;
             imageFile="rsc/Images/cursor_32.png";
             break;
         case MAPTILESET:
+            cellWidth=32;
+            cellHeight=32;
             imageFile="rsc/Images/map_tileset.png";
             break;
         case UNITDISPLAYTILESET:

@@ -119,7 +119,7 @@ bool TextureArea::loadUnits(state::State& currentState, render::TileSet& texture
  * 
  * return : boolean when loading was successful
  */
-/*bool TextureArea::loadUnitDisplay(state::State& currentState, render::TileSet& textureTileset){
+bool TextureArea::loadUnitDisplay(state::State& currentState, render::TileSet& textureTileset){
     texture = textureTileset.getTexture(); 
 
     quads.setPrimitiveType(sf::Quads);
@@ -149,7 +149,7 @@ bool TextureArea::loadUnits(state::State& currentState, render::TileSet& texture
         quad[3].texCoords = sf::Vector2f(tx * textureTileset.getCellWidth(), (ty+1) * textureTileset.getCellHeight());
     }
     return true;
-}*/
+}
 
 /** Load all the information needed to draw the cursor from the tileSet and the Cursor object in the state
  * param : 

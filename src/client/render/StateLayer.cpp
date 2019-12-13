@@ -21,19 +21,24 @@ StateLayer::StateLayer (state::State& State, sf::RenderWindow& window): window(w
     screenWidth=1950;
     screenHeight=900;
 
-    // Load units tileset image
+    // Loading all the tileset images
 	TileSet tileSetCharacters(UNITSTILESET);
 	unique_ptr<TileSet> ptr_charTileSet (new TileSet(tileSetCharacters));
     // Store pointer of the TileSet object
 	tileSets.push_back(move(ptr_charTileSet));
 
-    TileSet tileSetCursor(CURSORTILESET);//Load Cursor tileset image
+    TileSet tileSetCursor(CURSORTILESET);
 	unique_ptr<TileSet> ptr_cursorTileSet (new TileSet(tileSetCursor));
 	tileSets.push_back(move(ptr_cursorTileSet));
 
     TileSet tileSetMap(MAPTILESET);
 	unique_ptr<TileSet> ptr_mapTileSet (new TileSet(tileSetMap));
 	tileSets.push_back(move(ptr_mapTileSet));
+
+    // For the units on the HUD
+    TileSet tileSetUnitDisplay(UNITDISPLAYTILESET);
+    unique_ptr<TileSet> ptr_unitDisplayTileSet (new TileSet(tileSetUnitDisplay));
+    tileSets.push_back(move(ptr_unitDisplayTileSet));
 }
 
 // Functions
@@ -49,19 +54,19 @@ void StateLayer::initTextureAreas (state::State state){
     TextureArea map;
     TextureArea units;
     TextureArea cursor;
-    //TextureArea unitDisplay;
+    TextureArea unitDisplay;
 
     // Loading the tiles in TextureArea objects
     units.loadUnits(state,*tileSets[0]);
     cursor.loadCursor(state,*tileSets[1]);
     map.loadMap(state,*tileSets[2]);
-    //unitDisplay.loadUnitDisplay(state,*tileSets[3]);
+    unitDisplay.loadUnitDisplay(state,*tileSets[3]);
 
     // Declaration of pointers to store them in the global array for all the layers
 	unique_ptr<TextureArea> ptr_map (new TextureArea(map));
     unique_ptr<TextureArea> ptr_units (new TextureArea(units));
     unique_ptr<TextureArea> ptr_cursor(new TextureArea(cursor));
-    //unique_ptr<TextureArea> ptr_unitDisplay(new TextureArea(unitDisplay));
+    unique_ptr<TextureArea> ptr_unitDisplay(new TextureArea(unitDisplay));
 
     // Empty the table of all the elements in case we want to refresh the display
     if(textureAreas.size()!=0){
@@ -74,7 +79,7 @@ void StateLayer::initTextureAreas (state::State state){
     textureAreas.push_back(move(ptr_map));
     textureAreas.push_back(move(ptr_units));
     textureAreas.push_back(move(ptr_cursor));
-    //textureAreas.push_back(move(ptr_unitDisplay));
+    textureAreas.push_back(move(ptr_unitDisplay));
 }
 
 /** Display each of the TextureArea layer in screen--> initialized in textureArea array with the "initTextureAreas(state)" function
@@ -185,9 +190,10 @@ void StateLayer::draw (state::State& state){
 	window.draw(*textureAreas[0]);	// Draw the map layer with the TextureArea type object as Target		
 	window.draw(*textureAreas[1]);	// Draw the units layer
 	window.draw(*textureAreas[2]);	// Draw the cursor layer
-    //window.draw(*textureAreas[3]);  // Draw selected unit picture
+    window.draw(*textureAreas[3]);  // Draw selected unit picture
 
     drawBottomInfos(state);
+    drawRightInfos(state);
     
 	window.display();
 }
@@ -209,9 +215,9 @@ void StateLayer::drawBottomInfos(state::State& state){
     sf::Text currentText;
     currentText.setFont(font);
     currentText.setString(currentString);
-    currentText.setCharacterSize(14);
+    currentText.setCharacterSize(16);
     currentText.setFillColor(sf::Color::White);
-    currentText.setPosition(775.f ,815.f);
+    currentText.setPosition(765.f ,815.f);
 
     // Current action rectangle at the bottom
     sf::RectangleShape currentActionRectangle(sf::Vector2f(300.f, 25.f));
@@ -225,7 +231,7 @@ void StateLayer::drawBottomInfos(state::State& state){
     currentAction.setString(currentActionString);
     currentAction.setCharacterSize(12);
     currentAction.setFillColor(sf::Color::White);
-    currentAction.setPosition(775.f ,855.f);
+    currentAction.setPosition(795.f ,855.f);
 
     window.draw(currentPlayerRectangle);
     window.draw(currentText);
@@ -239,7 +245,33 @@ void StateLayer::drawBottomInfos(state::State& state){
  * state -> current state
  */
 void StateLayer::drawRightInfos(state::State& state){
+    sf::RectangleShape selectedUnitRectangle(sf::Vector2f(250.f, 30.f));
+	selectedUnitRectangle.setPosition(1635.f, 110.f);
+    sf::Color colorSelectedUnitRectangle(0,0,0,100);
+	selectedUnitRectangle.setFillColor(colorSelectedUnitRectangle);
 
+    string selectedString = "Selected unit stats";
+    sf::Text selectedText;
+    selectedText.setFont(font);
+    selectedText.setString(selectedString);
+    selectedText.setCharacterSize(14);
+    selectedText.setFillColor(sf::Color::White);
+    selectedText.setPosition(1675.f ,115.f);
+
+    // Selected unit stats box
+    sf::RectangleShape selectedUnitStatsRectangle(sf::Vector2f(250.f, 250.f));
+	selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
+	selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
+
+    // Enemy stats box
+    sf::RectangleShape enemyUnitStatsRectangle(sf::Vector2f(250.f, 250.f));
+	enemyUnitStatsRectangle.setPosition(1635.f, 520.f);
+	enemyUnitStatsRectangle.setFillColor(sf::Color::Black);
+
+    window.draw(selectedUnitRectangle);
+    window.draw(selectedText);
+    window.draw(selectedUnitStatsRectangle);
+    window.draw(enemyUnitStatsRectangle);
 }
 
 

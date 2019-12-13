@@ -30,19 +30,21 @@ int main(int argc, char* argv[])
             engineTest.run();
         }
 
-        else if(strcmp(argv[1],"aiRandom")==0){
+        else if(strcmp(argv[1],"random_ai")==0){
             AiTest aiTest;
             aiTest.run();
-        }else if(strcmp(argv[1],"aiHeuristic")==0){
+        }
+        
+        else if(strcmp(argv[1],"heuristic_ai")==0){
             HeuristicAiTest heuristicAiTest;
             heuristicAiTest.run();
-        }else if(strcmp(argv[1],"deepAi")==0){
+        }
+        
+        else if(strcmp(argv[1],"deep_ai")==0){
             DeepAiTest deepAiTest;
             deepAiTest.run();
         }
     }
-    //HeuristicAiTest heuristicAiTest;
-    //heuristicAiTest.run();
     return 0;
 }
 
