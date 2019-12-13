@@ -110,20 +110,20 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
 
 
     //Init childNode
-    DeepAiNode childNode;
-    childNode.setPtrParent(&headNode);
-    childNode.setExecutedCommand(possibleCommandList[0].get());//with the "get" function I just recover the adress of the pointor without shared pointor specification and proprities
+    //DeepAiNode childNode;
+    //childNode.setPtrParent(&headNode);
+    //childNode.setExecutedCommand(possibleCommandList[0].get());//with the "get" function I just recover the adress of the pointor without shared pointor specification and proprities
     
 
     
     //Create a chained list and store it in the parent "childDeepAiNodeList" attribut
-    BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),0);
-    //deepAi.createChildNodes(copiedEngine,headNode,possibleCommandList);
+    //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),0);
+    ////deepAi.createChildNodes(copiedEngine,headNode,possibleCommandList);
 
     //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),possibleCommandList.size());
     //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[0]->getPtrParent(),headNode.getChildDeepAiNodeList()[1]->getPtrParent());
 
-    childNode.getExecutedCommand()->execute(copiedEngine.getState());
+   /* childNode.getExecutedCommand()->execute(copiedEngine.getState());
 
     std::vector<ai::DeepAiNode*> childNodesList= headNode.getChildDeepAiNodeList();
     for (uint i = 0; i < possibleCommandList.size(); i++)
@@ -134,12 +134,12 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
         childNode.setExecutedCommand(possibleCommandList[i].get());
         childNodesList.push_back(&childNode);
     }
-    headNode.setChildDeepAiNodeList(childNodesList);
+    headNode.setChildDeepAiNodeList(childNodesList);*/
 
     /***************************************/
     /*"createTheTree" function test*/
     /***************************************/
-    for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
+    /*for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
     {
         deepAi.copyEngine(engine,copiedEngine);
         headNode.getChildDeepAiNodeList()[i]->getExecutedCommand()->execute(copiedEngine.getState());
@@ -148,34 +148,34 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
         /***********************************/
         /*"attackableEnemies" function test*/
         /***********************************/
-        std::vector<state::Position> attackableEnemiesPositionList;
-        attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
+        //std::vector<state::Position> attackableEnemiesPositionList;
+        //attackableEnemiesPositionList=deepAi.attackableEnemies(copiedEngine,0,1);
 
         /**********************************/
         /*"optimalMoveCoord" function test*/
         /**********************************/
-        std::vector<state::Position> optimalMoveCoord;
-        optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,0,1);
+        //std::vector<state::Position> optimalMoveCoord;
+        //optimalMoveCoord=deepAi.optimalMoveCoord(copiedEngine,0,1);
 
         /*************************************/
         /*"storeAttackCommands" function test*/
         /*************************************/
-        std::vector<std::shared_ptr<engine::Command>> possibleCommandList2;
-        BOOST_CHECK_EQUAL(possibleCommandList2.size(),0);
+        //std::vector<std::shared_ptr<engine::Command>> possibleCommandList2;
+        //BOOST_CHECK_EQUAL(possibleCommandList2.size(),0);
 
-        deepAi.storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
-        BOOST_CHECK_EQUAL(possibleCommandList2.size(),1);
+        //deepAi.storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
+        //BOOST_CHECK_EQUAL(possibleCommandList2.size(),1);
 
         /***********************************/
         /*"storeMoveCommands" function test*/
         /***********************************/
-        deepAi.storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
-        BOOST_CHECK_EQUAL(possibleCommandList2.size(),2);
+        //deepAi.storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
+        //BOOST_CHECK_EQUAL(possibleCommandList2.size(),2);
 
         /***************************************/
         /*"storeEndActionCommand" function test*/
         /***************************************/
-        deepAi.storeEndActionCommand(copiedEngine,possibleCommandList2,0);
+        /*deepAi.storeEndActionCommand(copiedEngine,possibleCommandList2,0);
         BOOST_CHECK_EQUAL(possibleCommandList2.size(),3);
 
         //deepAi.createChildNodes(copiedEngine,*headNode.getChildDeepAiNodeList()[i],possibleCommandList2);
@@ -207,13 +207,13 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
         BOOST_CHECK_EQUAL(parentNode.getChildDeepAiNodeList().size(),headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
         BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),6);
 
-    }
+    }*/
 
 
     /***************************************/
     /*"evalSituation" function test*/
     /***************************************/
-    for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
+    /*for (uint i = 0; i < headNode.getChildDeepAiNodeList().size(); i++)
     {
         for (uint j = 0; j < headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(); j++)
         {
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
         //cout<<headNode.getChildDeepAiNodeList()[i]->getScore();
          //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList().size(),10);
 
-    }
+    }*/
     
 
     
