@@ -263,6 +263,14 @@ void StateLayer::drawRightInfos(state::State& state){
 	selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
 	selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
 
+    string statsSelectedString = "Unit type\n\nHealth\n\nAttack\n\nArmor\n\nMovements";
+	sf::Text statsSelectedText;
+	statsSelectedText.setFont(font);
+	statsSelectedText.setString(statsSelectedString);	
+	statsSelectedText.setCharacterSize(15);
+	statsSelectedText.setFillColor(sf::Color::White);
+	statsSelectedText.setPosition(1650, 185);
+
     sf::Texture vs;
     vs.loadFromFile("rsc/Images/vs.png");
     sf::Sprite spriteVs;
@@ -287,13 +295,23 @@ void StateLayer::drawRightInfos(state::State& state){
 	enemyUnitStatsRectangle.setPosition(1635.f, 520.f);
 	enemyUnitStatsRectangle.setFillColor(sf::Color::Black);
 
+    string statsEnemyString = "Unit type\n\nHealth\n\nAttack\n\nArmor\n\nMovements";
+	sf::Text statsEnemyText;
+	statsEnemyText.setFont(font);
+	statsEnemyText.setString(statsEnemyString);	
+	statsEnemyText.setCharacterSize(15);
+	statsEnemyText.setFillColor(sf::Color::White);
+	statsEnemyText.setPosition(1650, 545);
+
     window.draw(selectedUnitRectangle);
     window.draw(selectedText);
     window.draw(selectedUnitStatsRectangle);
+    window.draw(statsSelectedText);
     window.draw(spriteVs);
     window.draw(enemyUnitRectangle);
     window.draw(enemyText);
     window.draw(enemyUnitStatsRectangle);
+    window.draw(statsEnemyText);
 }
 
 

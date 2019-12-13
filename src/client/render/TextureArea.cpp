@@ -125,7 +125,7 @@ bool TextureArea::loadUnitDisplay(state::State& currentState, render::TileSet& t
     quads.setPrimitiveType(sf::Quads);
     quads.resize(4);
 
-    if(currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY())){
+    if(currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY()) && currentState.verifyIsSelected()){
         auto currentMobileEntity = currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY()); // Get the currently selected MobileEntity
 
         if(currentMobileEntity->getPlayerId()==currentState.getCurrentPlayerID()){
