@@ -390,14 +390,14 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
         auto target = currentMobileEntity;
         bool attackIsOngoing = true;
 
-        //As long as the target is not choose (i.e the Atttacker is the target) and the Attack is not canceled
+        //As long as the target is not choosen (i.e the Atttacker is the target) and the Attack is not canceled
         while(target==currentMobileEntity && attackIsOngoing){
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 if(state.getCursor().getX()!=0 && leftRange!=0){
                     state.getCursor().setX(state.getCursor().getX()-1);//Set the new cursor position
                     rightRange++; //update attack range variables
                     leftRange--;
-                    state.notifyObservers(stateEvent, state);//Notify OBserver in order to update the cursor position on the screen
+                    state.notifyObservers(stateEvent, state);//Notify Observer in order to update the cursor position on the screen
                     usleep(waitingTime);
                 }
             } 
