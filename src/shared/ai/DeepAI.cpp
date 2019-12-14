@@ -110,7 +110,7 @@ void DeepAI::run (engine::Engine& engine){
                     {
                         std::shared_ptr<DeepAiNode> ptrChildNode(std::make_shared<DeepAiNode>());
                         ptrChildNode->setPtrParent(ptrHeadNode);
-                        ptrChildNode->setExecutedCommand(possibleCommandList[0]);
+                        ptrChildNode->setExecutedCommand(possibleCommandList[i]);
                         childNodesList.push_back(ptrChildNode);
                     }
                     ptrHeadNode->setChildDeepAiNodeList(childNodesList);
@@ -122,36 +122,37 @@ void DeepAI::run (engine::Engine& engine){
                     {
                         copyEngine(engine,copiedEngine);
                         ptrHeadNode->getChildDeepAiNodeList()[i]->getExecutedCommand()->execute(copiedEngine.getState());
+                        copiedEngine.update();
                         //possibleCommandList[i]->execute(copiedEngine.getState());
                         
                         /***********************************/
                         /*"attackableEnemies" function test*/
                         /***********************************/
                         std::vector<state::Position> attackableEnemiesPositionList;
-                        attackableEnemiesPositionList=attackableEnemies(copiedEngine,i,artificialIntelligenceID);
+                        attackableEnemiesPositionList=attackableEnemies(copiedEngine,0,1);
 
                         /**********************************/
                         /*"optimalMoveCoord" function test*/
                         /**********************************/
                         std::vector<state::Position> optimalMoveCoords;
-                        optimalMoveCoords=optimalMoveCoord(copiedEngine,i,artificialIntelligenceID);
+                        optimalMoveCoords=optimalMoveCoord(copiedEngine,0,1);
 
                         /*************************************/
                         /*"storeAttackCommands" function test*/
                         /*************************************/
                         std::vector<std::shared_ptr<engine::Command>> possibleCommandList2;
 
-                        storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,i);
+                        storeAttackCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
 
                         /***********************************/
                         /*"storeMoveCommands" function test*/
                         /***********************************/
-                        storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,i);
+                        storeMoveCommands(copiedEngine,attackableEnemiesPositionList,possibleCommandList2,0);
 
                         /***************************************/
                         /*"storeEndActionCommand" function test*/
                         /***************************************/
-                        storeEndActionCommand(copiedEngine,possibleCommandList2,i);
+                        storeEndActionCommand(copiedEngine,possibleCommandList2,0);
 
                         //deepAi.createChildNodes(copiedEngine,*headNode.getChildDeepAiNodeList()[i],possibleCommandList2);
                         std::vector<std::shared_ptr<DeepAiNode>> childNodesList2= ptrHeadNode->getChildDeepAiNodeList();
@@ -175,8 +176,7 @@ void DeepAI::run (engine::Engine& engine){
 
                         //ptrChildParentNode->setChildDeepAiNodeList(childNodesList2);
                         ptrHeadNode->getChildDeepAiNodeList()[i]->setChildDeepAiNodeList(childNodesList2);
-                        //BOOST_CHECK_EQUAL(ptrChildParentNode->getChildDeepAiNodeList().size(),ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
-                        //BOOST_CHECK_EQUAL(headNode.getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size(),6);
+                        
 
                     }
 
@@ -190,7 +190,7 @@ void DeepAI::run (engine::Engine& engine){
                         {
                             copyEngine(engine,copiedEngine);
                             ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]->getExecutedCommand()->execute(copiedEngine.getState());
-                            //deepAi.evalSituation(copiedEngine,*ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]);
+                        
                             ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]->setScore(evalSituation(copiedEngine));
 
                         }
@@ -200,6 +200,7 @@ void DeepAI::run (engine::Engine& engine){
 
                     int optimalCommandIndex=findOptimalCommandIndex(ptrHeadNode);
                     executeOptimalCommand(engine,optimalCommandIndex,ptrHeadNode);
+                    engine.update();
                 }
             }
         }
@@ -229,7 +230,7 @@ std::vector<state::Position> DeepAI::attackableEnemies (engine::Engine& copiedEn
     std::vector<state::Position> attackableEnemiesPositionList;
     std::vector<state::Position> allowedAttackPosition=copiedEngine.getState().getPlayerList()[artificalIntelligenceID]->getMobileEntityList()[aiUnitIndex]->allowedAttack(copiedEngine.getState());
     int x,y;
-    for (int i = 0; i < allowedAttackPosition.size(); i++)
+    for (uint i = 0; i < allowedAttackPosition.size(); i++)
     {
         x=allowedAttackPosition[i].getX();
         y=allowedAttackPosition[i].getY();
@@ -261,7 +262,7 @@ std::vector<state::Position> DeepAI::optimalMoveCoord (engine::Engine& copiedEng
  */
 void DeepAI::storeAttackCommands (engine::Engine& engine, std::vector<state::Position>& attackableEnemiesPositionList, std::vector<std::shared_ptr<engine::Command>>& possibleCommandList, int aiUnitIndex){
     int x,y;
-    for (int i = 0; i < attackableEnemiesPositionList.size(); i++)
+    for (uint i = 0; i < attackableEnemiesPositionList.size(); i++)
     {
         x=attackableEnemiesPositionList[i].getX();
         y=attackableEnemiesPositionList[i].getY();
@@ -277,7 +278,7 @@ void DeepAI::storeAttackCommands (engine::Engine& engine, std::vector<state::Pos
  */
 void DeepAI::storeMoveCommands (engine::Engine& copiedEngine, std::vector<state::Position>& optimalMoveCoord, std::vector<std::shared_ptr<engine::Command>>& possibleCommandList, int aiUnitIndex){
     
-    for (int i = 0; i < optimalMoveCoord.size(); i++)
+    for (uint i = 0; i < optimalMoveCoord.size(); i++)
     {
         Move movement(*copiedEngine.getState().ptrReferenceToPlayingEntity(aiUnitIndex), optimalMoveCoord[i]);//Initialize the movement pointor with the unit to move and the position to reach
 		shared_ptr<Command> ptr_move(new Move(movement));
@@ -340,7 +341,7 @@ int DeepAI::evalSituation(engine::Engine& copiedEngine){
     }else{
         int sumCurrentPv=0, sumAdversePv=0, currentPlayerAliveUnits=0, AdverseAliveUnits=0;
         Position deadPosition(-1,-1);
-        for(int i=0; i<copiedEngine.getState().getPlayerList().size(); i++){
+        for(uint i=0; i<copiedEngine.getState().getPlayerList().size(); i++){
             //the player is the artificial intelligence
             if(i==artificialIntelligenceID){
                 for (size_t j = 0; j < copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList().size(); j++)
@@ -360,11 +361,11 @@ int DeepAI::evalSituation(engine::Engine& copiedEngine){
                 }
             }
         }
-        score=sumCurrentPv-sumAdversePv+100*currentPlayerAliveUnits-100*AdverseAliveUnits;
+        score=sumCurrentPv-sumAdversePv+100*currentPlayerAliveUnits-AdverseAliveUnits;
         cout<<"Evaluation function return  :" << score<<endl;
         return score;
     }
-    
+    return -1000;
 }
 
 /**Give the max score chose between childNode score
@@ -403,7 +404,7 @@ void DeepAI::minimixeScore (std::shared_ptr<DeepAiNode>& ptrEvaluatedNode){
     ptrEvaluatedNode->setScore(minScore);
 }
 
-/**
+/**Optimal Command index 
  * 
  * 
  */
@@ -423,10 +424,88 @@ int DeepAI::findOptimalCommandIndex (std::shared_ptr<DeepAiNode>& ptrHeadNode){
 }
 
 
-/**
+/**Execute Optimal Commmand
  * 
  * 
  */
 void DeepAI::executeOptimalCommand (engine::Engine& engine, int optimalCommandIndex, std::shared_ptr<DeepAiNode>& ptrHeadNode){
     ptrHeadNode->getChildDeepAiNodeList()[optimalCommandIndex]->getExecutedCommand()->execute(engine.getState());
 }
+
+
+/**AStartAlgorithm
+ * 
+ * 
+ */
+/*std::vector<state::Position> DeepAI::algorithmAStar (engine::Engine& engine, state::Position start, state::Position goal){
+    vector<Position> path;
+
+    // Check if the goal is reachable and has a unit on it
+    if(engine.getState().isOccupied(goal.getX(), goal.getY())){
+        vector<Position> possibleNextPosition=engine.getState().getMobileEntity(goal.getX(), goal.getY())->allowedMove(engine.getState());
+        if(possibleNextPosition.size()==0){
+            return path;
+        }
+    }
+
+    // Contains the nodes already processed by A star
+    vector<Node> processedNodes;
+    // Contains the nodes reached by A star and has to be processed
+    vector<Node> nodeStack;
+
+    bool goalNotReached=true;
+
+    // Initializing starting node
+    Node startNode(nullptr, start);
+    startNode.setDistanceFromStart(0);
+    startNode.setDistanceFromGoal(start.distance(goal));
+
+    nodeStack.push_back(startNode);
+
+    // As long as there are nodes to process or that the goal isn't reached
+    while(nodeStack.size()!=0 && goalNotReached){
+        int minNodeIndex=minIndex(nodeStack);// Index of node with the minimum heuristic distance
+        Node currentNode = nodeStack[minNodeIndex];// In the stack list take the node with the minimum heuristic distance
+
+        // Recover all neighbors node from the actual position
+        vector<Node> nodeNeighbors = currentNode.getNeighbors(engine.getState());
+        if(nodeNeighbors.size()!=0){
+            // For each node in the Neighbors Node
+            for(size_t i=0; i<nodeNeighbors.size(); i++){
+                // If the neighbors node is in the processing node stack
+                if(nodeInStack(nodeStack,nodeNeighbors[i])!=-1){
+                    // If a node is already in stack but a new shorter path from start is found
+                    if(currentNode.getDistanceFromStart()+1 < nodeNeighbors[i].getDistanceFromStart()){//the distance of the current node from the start < the distance of the neighbor node from the start
+                        nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);//increase the distance from start to "+1"
+                        nodeNeighbors[i].setPreviousNode(&currentNode); // Replace the neighbor node withe the current node in the neighbor stack
+                    }
+                }
+                else{
+                    // New node is reached
+                    nodeNeighbors[i].setPreviousNode(new Node(currentNode));
+                    nodeNeighbors[i].setDistanceFromStart(currentNode.getDistanceFromStart()+1);
+                    nodeNeighbors[i].setDistanceFromGoal(nodeNeighbors[i].getPosition().distance(goal));
+                    nodeStack.push_back(nodeNeighbors[i]);
+                }
+                if(nodeNeighbors[i].getPosition().distance(goal)==1){
+                    goalNotReached=false;
+                    cout << "goal" << endl;
+
+                    // Get the path from goal to start
+                    path.push_back(nodeNeighbors[i].getPosition());
+                    Node nextNode= *nodeNeighbors[i].getPreviousNode();
+                    while(!nextNode.getPosition().equal(startNode.getPosition())){
+                        cout << "Next node pos :" << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
+                        path.push_back(nextNode.getPosition());
+                        nextNode=*nextNode.getPreviousNode();
+                    }
+                }
+            }
+            // Empty the nodeNeighbors list for next iteration
+            nodeNeighbors.clear();
+        }
+        processedNodes.push_back(currentNode);
+        nodeStack.erase(nodeStack.begin() + minNodeIndex);
+    }
+    return path;
+}*/
