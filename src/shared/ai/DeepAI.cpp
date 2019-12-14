@@ -252,6 +252,13 @@ std::vector<state::Position> DeepAI::attackableEnemies (engine::Engine& copiedEn
 std::vector<state::Position> DeepAI::optimalMoveCoord (engine::Engine& copiedEngine, int aiUnitIndex, int artificialIntelligenceID){
     //change with the ASTAR Algorithm results
     std::vector<state::Position> optimalMoveCoord=copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[aiUnitIndex]->allowedMove(copiedEngine.getState());
+    HeuristicAI heurAi(2);
+    state::Position start,goal;
+    start.setX(copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[aiUnitIndex]->getX());
+    start.setY(copiedEngine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[aiUnitIndex]->getY());
+
+    goal=copiedEngine.getState().getClosestEnemyPosition(start);
+    optimalMoveCoord=heurAi.algorithmAStar(copiedEngine,start,goal);
     return optimalMoveCoord;
 }
 
