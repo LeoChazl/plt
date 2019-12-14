@@ -192,8 +192,8 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
             ptrChildNode2->setExecutedCommand(possibleCommandList[0]);
             childNodesList2.push_back(ptrChildNode2);
 
-            possibleCommandList2[i]->execute(copiedEngine.getState());
-            ptrChildNode->setScore(deepAi.evalSituation(engine));
+            //possibleCommandList2[i]->execute(copiedEngine.getState());
+            //ptrChildNode->setScore(deepAi.evalSituation(engine));
         }
         
         BOOST_CHECK_EQUAL(ptrChildParentNode->getChildDeepAiNodeList().size(),ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList().size());
@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
             deepAi.copyEngine(engine,copiedEngine);
             ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]->getExecutedCommand()->execute(copiedEngine.getState());
             //deepAi.evalSituation(copiedEngine,*ptrHeadNode->getChildDeepAiNodeList()[i]->getChildDeepAiNodeList()[j]);
-            deepAi.evalSituation(copiedEngine);
+            ptrChildNode->setScore(deepAi.evalSituation(copiedEngine));
            
 
         }

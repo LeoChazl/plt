@@ -45,6 +45,8 @@ int main(int argc, char* argv[])
             deepAiTest.run();
         }
     }
+    DeepAiTest deepAiTest;
+    deepAiTest.run();
     return 0;
 }
 
