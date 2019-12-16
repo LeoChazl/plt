@@ -1,5 +1,7 @@
 #include "../client.h"
 #include "../render.h"
+
+#include <unistd.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -44,5 +46,6 @@ void RenderTest::run(){
 
         // Draw all the display on the screen
         stateLayer.draw(state);
+        usleep(50000);
     }
 }

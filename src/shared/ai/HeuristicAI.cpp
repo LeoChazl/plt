@@ -64,36 +64,18 @@ void HeuristicAI::run (engine::Engine& engine){
                         }
                         
                     }else{
-                        // Recover in a list all attackable positions
+                        // Check and recover in a list all units position inside the attack Zone
                         std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
-                        std::vector<Position> occupiedPositionInAttackZone;
-                        int x_unit,y_unit;
-                        if(allowedAttackPositionList.size()!=0){
-                            // Check and recover in a list all units position inside the attack Zone
-                            for (size_t m = 0; m < allowedAttackPositionList.size(); m++)
-                            {
-                                x_unit=allowedAttackPositionList[m].getX();
-                                y_unit=allowedAttackPositionList[m].getY();
-                                if(engine.getState().isOccupied(x_unit,y_unit)){
-                                    occupiedPositionInAttackZone.push_back(allowedAttackPositionList[i]);
-                                }
-                            }
 
-                            // There are units in attackable zone
-                            if(occupiedPositionInAttackZone.size()!=0){
-                                unitToAttack=attackSuccessScoring(occupiedPositionInAttackZone,*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],engine.getState());
+                        // If there are units to attack
+                        if(allowedAttackPositionList.size()!=0){
+                                unitToAttack=attackSuccessScoring(allowedAttackPositionList,*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],engine.getState());
                                 action=1; // Attack=1
-                            }else{ // No units in attackable zone
-                                action=0; // Move=0
-                            }
+                        }else if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
+                            action=2; // EndAction=2
                         }else{
                             action=0; // Move=0
                         }
-
-                        if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
-                            action=2; // EndAction=2
-                        }
-
                     }
                 }
 
@@ -113,15 +95,14 @@ void HeuristicAI::run (engine::Engine& engine){
                         std::vector<state::Position> moveList=algorithmAStar(engine,start,goal);
 
                         // Move Command
-                        while(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()!=0){
-                            Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],moveList[moveList.size()-1]);
-                            unique_ptr<Command> ptr_movement (new Move(movement));
-                            engine.addCommand(0, move(ptr_movement));
-                            engine.update();//update engine will use state to notify render about changes
+                        Move movement (*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],moveList[moveList.size()-1]);
+                        unique_ptr<Command> ptr_movement (new Move(movement));
+                        engine.addCommand(0, move(ptr_movement));
+                        engine.update();//update engine will use state to notify render about changes
 
-                            sleep(waitingTime);
-                            moveList.pop_back();
-                        }
+                        sleep(waitingTime);
+                        moveList.pop_back();
+
                         moveList.clear();
                     }
                 }
@@ -283,13 +264,11 @@ std::vector<state::Position> HeuristicAI::algorithmAStar (engine::Engine& engine
                 }
                 if(nodeNeighbors[i].getPosition().distance(goal)==1){
                     goalNotReached=false;
-                    cout << "goal" << endl;
 
                     // Get the path from goal to start
                     path.push_back(nodeNeighbors[i].getPosition());
                     Node nextNode= *nodeNeighbors[i].getPreviousNode();
                     while(!nextNode.getPosition().equal(startNode.getPosition())){
-                        cout << "Next node pos :" << nextNode.getPosition().getX() << ", " << nextNode.getPosition().getY() << endl;
                         path.push_back(nextNode.getPosition());
                         nextNode=*nextNode.getPreviousNode();
                     }

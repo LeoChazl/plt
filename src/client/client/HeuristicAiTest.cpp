@@ -106,7 +106,7 @@ void HeuristicAiTest::run(){
             
             stateLayer.inputManager(event, engine.getState());
             engine.screenRefresh();
-            usleep(5);
+            usleep(50000);
         }
     }
 }

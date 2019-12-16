@@ -51,6 +51,18 @@ void Move::execute(state::State& state){
 
             // Change the state
             if(moveFeasible){
+                if(destination.getX()>selectedUnit.getX()){
+                    selectedUnit.setDirection(RIGHT);
+                }
+                else if(destination.getX()<selectedUnit.getX()){
+                    selectedUnit.setDirection(LEFT);
+                }
+                else if(destination.getY()>selectedUnit.getY()){
+                    selectedUnit.setDirection(DOWN);
+                }
+                else{
+                    selectedUnit.setDirection(UP);
+                }
                 selectedUnit.setX(destination.getX());
                 selectedUnit.setY(destination.getY());
                 selectedUnit.setMovementLeft(selectedUnit.getMovementLeft()-1);
