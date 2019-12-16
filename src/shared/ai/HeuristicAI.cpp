@@ -34,6 +34,8 @@ void HeuristicAI::run (engine::Engine& engine){
             {
                 // Set the status of the current Unit as selected
                 engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->setStatus(SELECTED);
+                engine.getState().getCursor().setX(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getX());
+                engine.getState().getCursor().setY(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getY());
                 bool ennemyUnitsAllDead=true;
 
                 // Check if there are enemy units still alive

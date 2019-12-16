@@ -149,7 +149,7 @@ vector<Position> MobileEntity::allowedAttack(State& state){
 
     for(int i=x-attackRange;i<=x+attackRange;i++){
         for(int j=x-attackRange;j<=y+attackRange;j++){
-            
+            // Test the border
             if(i>=0 && j>=0 && i<state.getEntityMap().getWidth() && j<state.getEntityMap().getHeight()){
                 // Test in the attack range and unit presence
                 if(state.isOccupied(i,j)){
