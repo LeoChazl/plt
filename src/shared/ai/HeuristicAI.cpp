@@ -55,6 +55,7 @@ void HeuristicAI::run (engine::Engine& engine){
 				}
 				else{
                     // AI Units health are weak --> run (Move)
+                    std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
                     std::vector<Position> allowedMovePositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedMove(engine.getState());
                     if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getHealth()<=10){
                         if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
@@ -65,16 +66,19 @@ void HeuristicAI::run (engine::Engine& engine){
                         
                     }else{
                         // Check and recover in a list all units position inside the attack Zone
-                        std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
+                        //std::vector<Position> allowedAttackPositionList = engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->allowedAttack(engine.getState());
 
                         // If there are units to attack
                         if(allowedAttackPositionList.size()!=0){
                                 unitToAttack=attackSuccessScoring(allowedAttackPositionList,*engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i],engine.getState());
                                 action=1; // Attack=1
+                                cout<<"attack action"<<endl; 
                         }else if(engine.getState().getPlayerList()[artificialIntelligenceID]->getMobileEntityList()[i]->getMovementLeft()==0 || allowedMovePositionList.size()==0){
                             action=2; // EndAction=2
+                            cout<<"situation2"<<endl;
                         }else{
                             action=0; // Move=0
+                            cout<<"move"<<endl;
                         }
                     }
                 }

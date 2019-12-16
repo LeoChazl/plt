@@ -84,8 +84,8 @@ void DeepAiTest::run(){
 
         while (1){
             //engine.checkRoundStart();
-            ai::DeepAI deepAi(2);
-            deepAi.run(engine);
+            ai::HeuristicAI heuristic1(1);
+            heuristic1.run(engine);
 
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){
@@ -107,7 +107,11 @@ void DeepAiTest::run(){
                     window.close();
             }
             
-            stateLayer.inputManager(event, engine.getState());
+            //stateLayer.inputManager(event, engine.getState());
+            ai::HeuristicAI heuristic2(2);
+            heuristic2.run(engine);
+
+
             engine.screenRefresh();
             usleep(50000);
         }

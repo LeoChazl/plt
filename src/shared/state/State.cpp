@@ -39,25 +39,34 @@ bool State::initPlayers(){
     srand(time(0));
 
     // Initialization of the first player
-    shared_ptr<Player> ptrPlayer1(new Player(1));
+    shared_ptr<Player> ptrPlayer1(make_shared<Player> (1));
 
-    shared_ptr<MobileEntity> ptrMage(new Mage(ptrPlayer1->getId()));
 
-    shared_ptr<MobileEntity> ptrKnight(new Knight(ptrPlayer1->getId()));
-
+    shared_ptr<MobileEntity> ptrMage(make_shared<Mage> (2,2,ptrPlayer1->getId()));
     ptrPlayer1->getMobileEntityList().push_back(ptrMage);
-    ptrPlayer1->getMobileEntityList().push_back(ptrKnight);
+    //shared_ptr<MobileEntity> ptrMage2(make_shared<Mage> (20,20,ptrPlayer1->getId()));
+    //ptrPlayer1->getMobileEntityList().push_back(ptrMage2);
+    //shared_ptr<MobileEntity> ptrKnight(make_shared<Knight> (10,10,ptrPlayer1->getId()));
+    //ptrPlayer1->getMobileEntityList().push_back(ptrKnight);
+    //shared_ptr<MobileEntity> ptrKnight2(make_shared<Knight> (15,15,ptrPlayer1->getId()));
+    //ptrPlayer1->getMobileEntityList().push_back(ptrKnight2);
+    shared_ptr<MobileEntity> ptrKnight3(make_shared<Knight> (ptrPlayer1->getId()));
+    ptrPlayer1->getMobileEntityList().push_back(ptrKnight3);
+
     playerList.push_back(ptrPlayer1);
 
     // Initialization of the second player
-    shared_ptr<Player> ptrPlayer2(new Player(2));
+    shared_ptr<Player> ptrPlayer2(make_shared<Player> (2));
 
-    shared_ptr<MobileEntity> ptrTroll(new Troll(ptrPlayer2->getId()));
+    shared_ptr<MobileEntity> ptrTroll(make_shared<Troll> (ptrPlayer2->getId()));
+    shared_ptr<MobileEntity> ptrTroll2(make_shared<Troll> (15,10,ptrPlayer2->getId()));
+    //shared_ptr<MobileEntity> ptrTroll3(make_shared<Troll> (15,9,ptrPlayer2->getId()));
 
-    shared_ptr<MobileEntity> ptrTroll2(new Troll(15,10,ptrPlayer2->getId()));
 
     ptrPlayer2->getMobileEntityList().push_back(ptrTroll);
     ptrPlayer2->getMobileEntityList().push_back(ptrTroll2);
+    //ptrPlayer2->getMobileEntityList().push_back(ptrTroll3);
+
     playerList.push_back(ptrPlayer2);
 
     return true;
