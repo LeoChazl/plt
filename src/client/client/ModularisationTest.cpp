@@ -26,14 +26,34 @@ ModularisationTest::ModularisationTest(){
 void ModularisationTest::run(){
     cout<<"---- Heuristic AI TEST ----"<<endl;
 
-    //Initialize the window
-    sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
+
 
     //Launch engine in another thread
     std::thread t1(&ModularisationTest::engineThread,this);
+    std::thread t2(&ModularisationTest::clientThread,this);
     t1.join();
-    //Engine* ptr_engineThread=(Engine*) engineThread();
-    //Engine engine(*ptr_engineThread);
+    t2.join();
+
+
+}
+
+/**
+ * 
+ * 
+ */
+void ModularisationTest::engineThread(){
+    //Engine Side
+    engine.getState().initPlayers();
+    //cout<<"ok"<<endl;
+}
+
+/**
+ * 
+ * 
+ */
+void ModularisationTest::clientThread(){
+    //Initialize the window
+    sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
     //Client Side (Render)
     StateLayer stateLayer(engine.getState(),window);
@@ -44,9 +64,7 @@ void ModularisationTest::run(){
 
     Engine* ptr_engine=&engine;
     stateLayer.registerRenderObserver(ptr_engine);
-
     bool booting = true;
-
 
     while (window.isOpen()){
         sf::Event event;
@@ -90,14 +108,4 @@ void ModularisationTest::run(){
             usleep(50000);
         }
     }
-}
-
-/**
- * 
- * 
- */
-void ModularisationTest::engineThread(){
-    //Engine Side
-    engine.getState().initPlayers();
-    //cout<<"ok"<<endl;
 }
