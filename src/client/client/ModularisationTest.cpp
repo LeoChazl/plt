@@ -29,9 +29,9 @@ void ModularisationTest::run(){
     //Initialize the window
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
-    //std::thread t1(engineThread);
-    //t1.join();
-    engineThread();
+    //Launch engine in another thread
+    std::thread t1(&ModularisationTest::engineThread,this);
+    t1.join();
     //Engine* ptr_engineThread=(Engine*) engineThread();
     //Engine engine(*ptr_engineThread);
 
@@ -99,4 +99,5 @@ void ModularisationTest::run(){
 void ModularisationTest::engineThread(){
     //Engine Side
     engine.getState().initPlayers();
+    //cout<<"ok"<<endl;
 }
