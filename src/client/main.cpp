@@ -2,6 +2,8 @@
 #include <SFML/Window.hpp>
 #include <iostream>
 #include <string.h>
+#include <thread>
+#include <mutex>
 
 #include "render.h"
 #include "../shared/engine.h"
@@ -44,9 +46,12 @@ int main(int argc, char* argv[])
             DeepAiTest deepAiTest;
             deepAiTest.run();
         }
+        else if(strcmp(argv[1],"thread")==0){
+            ModularisationTest modularisationTest;
+            modularisationTest.run();
+        }
     }
-    DeepAiTest deepAiTest;
-    deepAiTest.run();
+
     return 0;
 }
 
