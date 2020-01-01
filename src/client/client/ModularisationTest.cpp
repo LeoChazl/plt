@@ -4,6 +4,7 @@
 #include "../../shared/engine.h"
 #include <unistd.h>
 #include <thread>
+#include <fstream>
 
 
 #include <fstream>
@@ -23,10 +24,12 @@ ModularisationTest::ModularisationTest(){
 
 }
 
+/**run for the thread test
+ * 
+ * 
+ */
 void ModularisationTest::run(){
-    cout<<"---- Heuristic AI TEST ----"<<endl;
-
-
+    cout<<"---- THREAD TEST ----"<<endl;
 
     //Launch engine in another thread
     std::thread t1(&ModularisationTest::engineThread,this);
@@ -34,6 +37,30 @@ void ModularisationTest::run(){
     t1.join();
     t2.join();
 
+}
+
+/**run for the record test
+ * 
+ * 
+ */
+void ModularisationTest::runRecord(){
+    cout<<"---- RECORD TEST ----"<<endl;
+
+    //Launch engine in another thread
+    //std::thread t1(&ModularisationTest::engineThread,this);
+    //std::thread t2(&ModularisationTest::clientThread,this);
+
+    ofstream recordFile("record.txt");
+    if(recordFile){
+         cout<<"Record file openned with success"<<endl;
+        recordFile<<"oui ça écrit"<<endl;
+    }else{
+        cout<<"Record File open failed"<<endl;
+    }
+
+
+    //t1.join();
+    //t2.join();
 
 }
 
