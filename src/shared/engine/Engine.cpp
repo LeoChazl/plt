@@ -243,6 +243,10 @@ bool Engine::getStop (){
 	return stop;
 }
 
+Json::Value Engine::getRecord(){
+	return record;
+}
+
 void Engine::setCurrentState (state::State currentState){
 	this->currentState=currentState;
 }
