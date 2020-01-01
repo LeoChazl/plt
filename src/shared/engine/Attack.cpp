@@ -11,7 +11,7 @@ using namespace std;
 // Constructor
 
 Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): attacker(attacker),target(target){
-    id = ATTACK;
+    id = JSON_ATTACK;
 }
 
 // Function

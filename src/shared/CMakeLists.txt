@@ -14,6 +14,8 @@ add_library(${lib_shared_target} STATIC ${shared_sources})
 add_dependencies(${lib_shared_target} generate-headers)
 target_include_directories(${lib_shared_target} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
+  ${jsoncpp_include_dir}
+  &{jsoncpp_sources}
   )
 
 # vim: set sw=2 sts=2 et:

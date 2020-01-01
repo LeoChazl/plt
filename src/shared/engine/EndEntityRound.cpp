@@ -9,7 +9,7 @@ using namespace std;
 // Constructor
 
 EndEntityRound::EndEntityRound(state::MobileEntity& selectedUnit): selectedUnit(selectedUnit){
-    id = ENDENTITYROUND;
+    id = JSON_ENDENTITYROUND;
 }
 
 // Function

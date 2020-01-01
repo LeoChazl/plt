@@ -11,7 +11,7 @@ using namespace std;
 // Constructor
 
 Move::Move(state::MobileEntity& selectedUnit, state::Position& destination): selectedUnit(selectedUnit), destination(destination){
-    id = MOVE;
+    id = JSON_MOVE;
 }
 
 // Function
