@@ -11,7 +11,7 @@ using namespace std;
 // Constructor
 
 Move::Move(state::MobileEntity& selectedUnit, state::Position& destination): selectedUnit(selectedUnit), destination(destination){
-    
+    id = MOVE;
 }
 
 // Function
@@ -86,4 +86,15 @@ void Move::execute(state::State& state){
         cout << "The " << entityName << " is not allowed to move.\n" << endl;
         usleep(waitingTime);
     }
+}
+
+Json::Value Move::serialize(){
+	Json::Value newCommand;
+	newCommand["id"] = id;
+	newCommand["xSelectedUnit"] = selectedUnit.getX();
+    newCommand["ySelectedUnit"] = selectedUnit.getY();
+	newCommand["xDestination"] = destination.getX();
+	newCommand["yDestination"] = destination.getY();
+	
+	return newCommand;
 }

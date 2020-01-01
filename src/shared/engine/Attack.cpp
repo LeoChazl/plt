@@ -11,7 +11,7 @@ using namespace std;
 // Constructor
 
 Attack::Attack (state::MobileEntity& attacker, state::MobileEntity& target): attacker(attacker),target(target){
-
+    id = ATTACK;
 }
 
 // Function
@@ -95,3 +95,13 @@ void Attack::execute (state::State& state){
     }
 }
 
+Json::Value Attack::serialize(){
+	Json::Value newCommand;
+	newCommand["id"] = id;
+	newCommand["xAttacker"] = attacker.getX();
+    newCommand["yAttacker"] = attacker.getY();
+	newCommand["xTarget"] = target.getX();
+    newCommand["yTarget"] = target.getY();
+	
+	return newCommand;
+}

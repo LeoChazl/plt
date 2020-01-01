@@ -2,6 +2,7 @@
 #include "../state.h"
 #include <iostream>
 #include <unistd.h>
+#include "../../../extern/jsoncpp-1.8.0/jsoncpp.cpp"
 
 using namespace state;
 using namespace engine;
@@ -11,6 +12,8 @@ using namespace std;
 
 Engine::Engine () : currentState(){
 	changeRound = false;
+	record["size"] = 0;
+	record["tabCommand"][0] = "";
 }
 
 // Functions
@@ -21,8 +24,16 @@ Engine::Engine () : currentState(){
  * priority -> index in the list 
  * ptr_cmd -> pointor on the command
  */ 
-void Engine::addCommand (int priority, std::unique_ptr<Command> ptr_cmd){
+/*void Engine::addCommand (int priority, std::unique_ptr<Command> ptr_cmd){
 	currentCommands[priority]=move(ptr_cmd);
+}*/
+
+void Engine::addCommand(int priority, std::unique_ptr<Command> ptr_cmd){
+	Json::Value newCommand = ptr_cmd->serialize();
+	record["tabCommand"][record["size"].asUInt()] = newCommand;
+	record["size"] = record["size"].asUInt() + 1;
+	
+	currentCommands[priority]=move(ptr_cmd);	
 }
 
 /** Executes all the commands in the associative list

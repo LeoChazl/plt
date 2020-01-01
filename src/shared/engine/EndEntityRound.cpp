@@ -9,7 +9,7 @@ using namespace std;
 // Constructor
 
 EndEntityRound::EndEntityRound(state::MobileEntity& selectedUnit): selectedUnit(selectedUnit){
-
+    id = ENDENTITYROUND;
 }
 
 // Function
@@ -39,4 +39,13 @@ void EndEntityRound::execute(state::State& state){
 		cout << "The " << entityName << " has already finished his round.\n" <<endl;
         usleep(waitingTime);
 	}
+}
+
+Json::Value EndEntityRound::serialize(){
+	Json::Value newCommand;	
+	newCommand["id"] = id;
+	newCommand["xSelectedUnit"] = selectedUnit.getX();
+    newCommand["ySelectedUnit"] = selectedUnit.getY();
+	
+	return newCommand;
 }
