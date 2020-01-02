@@ -110,12 +110,12 @@ void ModularisationTest::runPlay(){
 			    engine.replayCommands(commandsFile);
 			    alreadyReplayed = true;
 		    }
-            /*//Check if all ennemy units are dead or not
+            //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){
                 window.close();
                 cout<<"Game END"<<endl;
                 break;
-            }*/
+            }
 
             //Check if all units had played
             if(engine.checkRoundEnd()){

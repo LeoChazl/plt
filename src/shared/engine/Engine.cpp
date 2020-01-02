@@ -250,7 +250,7 @@ void Engine::replayCommands(std::string fileName){
 			if(root["tabCommand"][i]["id"].asUInt() == 1){
 				Position destination(root["tabCommand"][i]["xDestination"].asUInt(),root["tabCommand"][i]["yDestination"].asUInt());
 				
-				Move movement(*currentState.getMobileEntity(root["tabCommand"][i]["xSelectyedUnit"].asUInt(),root["tabCommand"][i]["ySelectyedUnit"].asUInt()), destination);
+				Move movement(*currentState.getMobileEntity(root["tabCommand"][i]["xSelectedUnit"].asUInt(),root["tabCommand"][i]["ySelectedUnit"].asUInt()), destination);
 		
 				unique_ptr<Command> ptr_move(new Move(movement));
 				addCommand(0, move(ptr_move));
@@ -291,7 +291,8 @@ void Engine::replayCommands(std::string fileName){
 			}
 			else{
 				cout << "The command " << i << " is unknown" << endl;
-			}						
+			}
+			usleep(500000);						
 		}								
 	}				
 	else{
