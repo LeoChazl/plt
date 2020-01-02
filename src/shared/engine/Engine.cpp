@@ -1,6 +1,7 @@
 #include "../engine.h"
 #include "../state.h"
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include "../../../extern/jsoncpp-1.8.0/jsoncpp.cpp"
 
@@ -24,9 +25,6 @@ Engine::Engine () : currentState(){
  * priority -> index in the list 
  * ptr_cmd -> pointor on the command
  */ 
-/*void Engine::addCommand (int priority, std::unique_ptr<Command> ptr_cmd){
-	currentCommands[priority]=move(ptr_cmd);
-}*/
 
 void Engine::addCommand(int priority, std::unique_ptr<Command> ptr_cmd){
 	Json::Value newCommand = ptr_cmd->serialize();
@@ -224,6 +222,83 @@ void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::St
 	}
 }
 
+/** Read commands from a .txt file and executes them
+ * 
+ * params : 
+ * fileName -> name of the .txt file 
+ */
+
+void Engine::replayCommand(std::string fileName){
+	cout << "Replay is starting" << endl;
+
+	// Opening the .txt file
+	ifstream commandsFile(fileName);
+	if (commandsFile){
+		Json::Value root;
+		Json::Reader reader;
+		if(!reader.parse(commandsFile, root)){
+			cout 	<< "Failed to parse commands\n" << reader.getFormattedErrorMessages();
+		}
+		// Closing the file in reading mode
+		commandsFile.close();
+						
+		cout << "Size of the commands table of "<< fileName << " : " << root["tabCommand"].size() << endl;
+						
+		// Converting commands from Json to objects
+		for (unsigned int i = 0; i < root["tabCommand"].size(); i++){
+			// Move case
+			if(root["tabCommand"][i]["id"].asUInt() == 1){
+				Position destination(root["tabCommand"][i]["xDestination"].asUInt(),root["tabCommand"][i]["yDestination"].asUInt());
+				
+				Move movement(*currentState.getMobileEntity(root["tabCommand"][i]["xSelectyedUnit"].asUInt(),root["tabCommand"][i]["ySelectyedUnit"].asUInt()), destination);
+		
+				unique_ptr<Command> ptr_move(new Move(movement));
+				addCommand(0, move(ptr_move));
+				update();
+
+				if(checkRoundEnd()){
+					cout<<"Round  change"<<endl;
+					checkRoundStart();
+				}
+			}
+
+			// Attack case
+			else if(root["tabCommand"][i]["id"].asUInt() == 2){
+				Attack attack(*currentState.getMobileEntity(root["tabCommand"][i]["xAttacker"].asUInt(),root["tabCommand"][i]["yAttacker"].asUInt()),*currentState.getMobileEntity(root["tabCommand"][i]["xTarget"].asUInt(),root["tabCommand"][i]["yTarget"].asUInt()));
+								
+				unique_ptr<Command> ptr_attack (new Attack(attack));
+				addCommand(0, move(ptr_attack));
+				update();
+
+				if(checkRoundEnd()){
+					cout<<"Round  change"<<endl;
+					checkRoundStart();
+				}
+			}
+
+			// End entity round case
+			else if(root["tabCommand"][i]["id"].asUInt() == 3){
+				EndEntityRound endEntityround(*currentState.getMobileEntity(root["tabCommand"][i]["xSelectedUnit"].asUInt(),root["tabCommand"][i]["ySelectedUnit"].asUInt()));
+					
+				unique_ptr<Command> ptr_endEntityRound (new EndEntityRound(endEntityround));
+				addCommand(0, move(ptr_endEntityRound));
+				update();
+
+				if(checkRoundEnd()){
+					cout<<"Round  change"<<endl;
+					checkRoundStart();
+				}
+			}
+			else{
+				cout << "The command " << i << " is unknown" << endl;
+			}						
+		}								
+	}				
+	else{
+		cerr << "Unable to open the commands file (read)" << endl;
+	}							
+	cout << "The replay has ended" << endl;
+}
 
 //	Getters and Setters
 

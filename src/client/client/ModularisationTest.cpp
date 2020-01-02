@@ -39,29 +39,75 @@ void ModularisationTest::run(){
 
 }
 
-/**run for the record test
- * 
- * 
- */
+// Run for the record test
 void ModularisationTest::runRecord(){
     cout<<"---- RECORD TEST ----"<<endl;
 
-    //Launch engine in another thread
-    //std::thread t1(&ModularisationTest::engineThread,this);
-    //std::thread t2(&ModularisationTest::clientThread,this);
-
     ofstream recordFile("record.txt");
     if(recordFile){
-         cout<<"Record file openned with success"<<endl;
+         cout<<"Record file opened with success"<<endl;
         recordFile<<"oui ça écrit"<<endl;
     }else{
         cout<<"Record File open failed"<<endl;
     }
+}
 
+// Run to play the .txt file
+void ModularisationTest::runPlay(){
+    cout << "---- PLAY TEST ----" << endl;
 
-    //t1.join();
-    //t2.join();
-
+    Json::Value root;
+			unsigned int longueur_map_cases = 25, largeur_map_cases = 25;
+			std::string chemin_fichier_map_txt = "res/map1.txt";
+			std::string fichier_commandes = "res/replay.txt";
+			
+			// Creation des tables de correspondances et du moteur
+			Correspondances tab_corres = Correspondances();
+			Moteur moteur;
+			
+			if(	moteur.getEtat().initGrille(chemin_fichier_map_txt, longueur_map_cases, largeur_map_cases, tab_corres)){
+				sf::RenderWindow window(sf::VideoMode(largeur_map_cases*16,longueur_map_cases*16 +200),"Map");
+				
+				moteur.getEtat().initPersonnages(tab_corres);
+				moteur.getEtat().initCurseur();
+				StateLayer stateLayer(moteur.getEtat(), window);
+				stateLayer.initSurfaces(moteur.getEtat());
+								
+				StateLayer* ptr_stateLayer=&stateLayer;
+				moteur.getEtat().registerObserver(ptr_stateLayer);
+				
+				
+								
+				cout << "\t\t--- Play ---" << endl;
+				cout << "Pour lancer la partie, appuyez sur la touche P\n" << endl;						
+				
+				bool demarrage = true ;				
+				bool partie_rejouee = false;
+				sf::Event event;
+				StateEvent stateEvent(ALLCHANGED);
+				
+				while (window.isOpen()){				
+					// Au premier appui sur P, on ouvre le fichier et on execute les commandes
+					if(partie_rejouee == false && sf::Keyboard::isKeyPressed(sf::Keyboard::P)){
+						
+						engine.readCommands(commandsFile);
+						partie_rejouee = true;
+					}
+								
+					if (demarrage){
+						stateLayer.draw(window);
+						demarrage = false;
+					}
+					
+					while (window.pollEvent(event)){
+						// Fermeture de la fenetre
+						if (event.type == sf::Event::Closed){
+							window.close();
+						}
+					}					
+				}
+			}
+		}
 }
 
 /**
@@ -69,9 +115,7 @@ void ModularisationTest::runRecord(){
  * 
  */
 void ModularisationTest::engineThread(){
-    //Engine Side
     engine.getState().initPlayers();
-    //cout<<"ok"<<endl;
 }
 
 /**
