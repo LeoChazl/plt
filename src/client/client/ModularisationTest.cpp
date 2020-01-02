@@ -68,13 +68,12 @@ void ModularisationTest::runPlay(){
 
 	std::string commandsFile = "record.txt";
 								
-
     //Initialize the window
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
-    //Engine Side
-    Engine engine;
-    engine.getState().initPlayers();
+    //Engine Thread
+    std::thread t1(&ModularisationTest::engineThread,this);
+    t1.join();
 
     //Client Side (Render)
     StateLayer stateLayer(engine.getState(),window);
@@ -99,7 +98,7 @@ void ModularisationTest::runPlay(){
             booting = false;
         }
 
-        while (1){
+        //while (1){
             window.pollEvent(event);
 
 		    // Open file and read the commands
@@ -127,7 +126,7 @@ void ModularisationTest::runPlay(){
 
             engine.screenRefresh();
             usleep(50000);
-        }
+        //}
     }			
 }
 
