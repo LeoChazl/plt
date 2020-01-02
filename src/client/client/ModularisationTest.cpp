@@ -43,10 +43,21 @@ void ModularisationTest::run(){
 void ModularisationTest::runRecord(){
     cout<<"---- RECORD TEST ----"<<endl;
 
-    ofstream recordFile("record.txt");
+    //Launch engine in another thread
+    std::thread t1(&ModularisationTest::engineThread,this);
+    std::thread t2(&ModularisationTest::clientThread,this);
+
+    t1.join();
+    t2.join();
+
+
+    Json::FastWriter fastWriter;
+    std::string output = fastWriter.write(engine.getRecord());
+
+    ofstream recordFile("record.txt",ios::app);
     if(recordFile){
-         cout<<"Record file opened with success"<<endl;
-        recordFile<<"oui ça écrit"<<endl;
+         cout<<"Record file openned with success"<<endl;
+        recordFile<<output<<endl;
     }else{
         cout<<"Record File open failed"<<endl;
     }
