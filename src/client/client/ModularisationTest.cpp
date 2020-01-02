@@ -53,7 +53,7 @@ void ModularisationTest::runRecord(){
     Json::FastWriter fastWriter;
     std::string output = fastWriter.write(engine.getRecord());
 
-    ofstream recordFile("record.txt",ios::app);
+    ofstream recordFile("record.txt");
     if(recordFile){
          cout<<"Recording file opened with success"<<endl;
         recordFile<<output<<endl;
@@ -68,7 +68,6 @@ void ModularisationTest::runPlay(){
 
 	std::string commandsFile = "record.txt";
 								
-	cout << "To start the replay press P\n" << endl;	
 
     //Initialize the window
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
@@ -102,14 +101,11 @@ void ModularisationTest::runPlay(){
 
         while (1){
             window.pollEvent(event);
-            ai::HeuristicAI heuristicAi1(1);
-            ai::HeuristicAI heuristic2(2);
 
 		    // Open file and read the commands
-		    if(alreadyReplayed == false && sf::Keyboard::isKeyPressed(sf::Keyboard::P)){
-			    engine.replayCommands(commandsFile);
-			    alreadyReplayed = true;
-		    }
+			engine.replayCommands(commandsFile);
+		    alreadyReplayed = true;
+
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){
                 window.close();
