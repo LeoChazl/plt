@@ -54,6 +54,10 @@ int main(int argc, char* argv[])
             ModularisationTest modularisationTest;
             modularisationTest.runRecord();
         }
+        else if(strcmp(argv[1],"play")==0){
+            ModularisationTest modularisationTest;
+            modularisationTest.runPlay();
+        }
     }
 
     return 0;

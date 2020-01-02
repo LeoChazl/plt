@@ -228,7 +228,7 @@ void Engine::engineRenderChanged(EngineRenderEvent& engineRenderEvent, state::St
  * fileName -> name of the .txt file 
  */
 
-void Engine::replayCommand(std::string fileName){
+void Engine::replayCommands(std::string fileName){
 	cout << "Replay is starting" << endl;
 
 	// Opening the .txt file
