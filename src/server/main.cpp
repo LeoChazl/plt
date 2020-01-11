@@ -20,19 +20,6 @@ public:
     }
 };
 
-// Function handling important uploaded data (not used here)
-static int
-post_iterator(void *cls,
-        enum MHD_ValueKind kind,
-        const char *key,
-        const char *filename,
-        const char *content_type,
-        const char *transfer_encoding,
-        const char *data, uint64_t off, size_t size) 
-{
-    return MHD_NO;
-}
-
 // Destroy the data of a request
 static void
 request_completed (void *cls, struct MHD_Connection *connection,
@@ -49,15 +36,15 @@ request_completed (void *cls, struct MHD_Connection *connection,
 static int
 main_handler (void *cls,      
           struct MHD_Connection *connection,
-          const char *url, // 
+          const char *url, 
           const char *method,
           const char *version,
           const char *upload_data, size_t *upload_data_size, void **ptr) 
 {
-    // Données pour une requête (en plusieurs appels à cette fonction)
+    // Data for a request (in multiple calls of this function)
     Request *request = (Request*)*ptr;
 
-    // Premier appel pour cette requête
+    // First call for this request
     if (!request) { 
         request = new Request();
         if (!request) {
@@ -68,7 +55,7 @@ main_handler (void *cls,
         return MHD_YES;
     }    
     
-    // Cas où il faut récupérer les données envoyés par l'utilisateur
+    // Case where we retrieve data sent by the user
     if (strcmp(method, MHD_HTTP_METHOD_POST) == 0
      || strcmp(method, MHD_HTTP_METHOD_PUT) == 0) {
         if (*upload_data_size != 0) {
@@ -115,6 +102,29 @@ int main(int argc, char* argv[])
     if(argc>1){
         if(strcmp(argv[1],"listen")==0){
             cout << "I am the server" << endl;
+            try {
+                ServicesManager servicesManager;
+                Game game;
+                unique_ptr<PlayerService> ptrPlayerService(new PlayerService(ref(game)));  
+                servicesManager.registerService(move(ptrPlayerService));
+
+                struct MHD_Daemon *d;
+                d = MHD_start_daemon(
+                        MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
+                        8080,
+                        NULL, NULL, 
+                        &main_handler, (void*) &servicesManager,
+                        MHD_OPTION_NOTIFY_COMPLETED, request_completed, NULL,
+                        MHD_OPTION_END);
+                if (d == NULL)
+                    return 1;
+                cout << "Press enter to stop the server" << endl;
+                    (void) getc(stdin);
+                    MHD_stop_daemon(d);
+                }
+            catch(exception& e) {
+                cerr << "Exception: " << e.what() << endl;
+            }
         }
     }
     return 0;

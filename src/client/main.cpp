@@ -26,22 +26,18 @@ int main(int argc, char* argv[])
             RenderTest renderTest;
             renderTest.run();
         }
-
         else if(strcmp(argv[1],"engine")==0){
             EngineTest engineTest;
             engineTest.run();
         }
-
         else if(strcmp(argv[1],"random_ai")==0){
             AiTest aiTest;
             aiTest.run();
         }
-        
         else if(strcmp(argv[1],"heuristic_ai")==0){
             HeuristicAiTest heuristicAiTest;
             heuristicAiTest.run();
         }
-
         else if(strcmp(argv[1],"deep_ai")==0){
             DeepAiTest deepAiTest;
             deepAiTest.run();
@@ -57,6 +53,10 @@ int main(int argc, char* argv[])
         else if(strcmp(argv[1],"play")==0){
             ModularisationTest modularisationTest;
             modularisationTest.runPlay();
+        }
+        else if(strcmp(argv[1],"network")==0){
+            ServerTest serverTest;
+            serverTest.run();
         }
     }
 
