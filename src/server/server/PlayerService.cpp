@@ -38,7 +38,7 @@ HttpStatus PlayerService::post (const Json::Value& in, int id) {
 
 HttpStatus PlayerService::put (Json::Value& out,const Json::Value& in) {
 	if(game.getPlayersList().size()>=2){
-		throw ServiceException(HttpStatus::OUT_OF_RESOURCES,"Aucune place libre");
+		throw ServiceException(HttpStatus::OUT_OF_RESOURCES,"No more space");
 	}
     string name = in["name"].asString();
     bool free = in["free"].asBool();
