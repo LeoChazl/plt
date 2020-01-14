@@ -38,7 +38,7 @@ void Engine::addCommand(int priority, std::unique_ptr<Command> ptr_cmd){
  * 
  */
 void Engine::update(){
-	StateEvent stateEvent(PLAYERCHANGE);
+	StateEvent stateEvent(ALLCHANGE);
 
 	map<int, std::unique_ptr<Command>>::iterator it;
 
@@ -56,7 +56,7 @@ void Engine::update(){
 }
 
 void Engine::screenRefresh(){
-	StateEvent stateEvent(PLAYERCHANGE);
+	StateEvent stateEvent(ALLCHANGE);
 	currentState.notifyObservers(stateEvent, currentState); // Notify the state which will notify render
 
 }

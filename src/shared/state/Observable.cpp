@@ -34,7 +34,7 @@ void Observable::unregisterObserver(Observer* obs){
 /** Scroll through the list of observers
  * To complete when render part of the code is done
  */
-void const Observable::notifyObservers(const StateEvent& stateEvent, State& state){
+void const Observable::notifyObservers(StateEvent& stateEvent, State& state){
 	for(auto observer : observers){
 		observer->stateChanged(stateEvent, state);
 	}

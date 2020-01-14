@@ -95,7 +95,7 @@ void AiTest::run(){
             if(engine.checkRoundEnd()){
                 cout<<"round  change"<<endl;
                 engine.checkRoundStart();
-                StateEvent stateEvent(PLAYERCHANGE);
+                StateEvent stateEvent(ALLCHANGE);
                 engine.getState().notifyObservers(stateEvent, engine.getState());
             }
 

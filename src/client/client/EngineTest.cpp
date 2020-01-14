@@ -83,7 +83,7 @@ void EngineTest::run(){
 
             if(!engine.getState().getEndGame() && engine.checkRoundEnd()){
                 engine.checkRoundStart();
-                StateEvent stateEvent(PLAYERCHANGE);
+                StateEvent stateEvent(ALLCHANGE);
                 engine.getState().notifyObservers(stateEvent, engine.getState());
             }
 

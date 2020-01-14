@@ -95,7 +95,7 @@ void HeuristicAiTest::run(){
             if(engine.checkRoundEnd()){
                 cout<<"Round  change"<<endl;
                 engine.checkRoundStart();
-                StateEvent stateEvent(PLAYERCHANGE);
+                StateEvent stateEvent(ALLCHANGE);
                 engine.getState().notifyObservers(stateEvent, engine.getState());
             }
 

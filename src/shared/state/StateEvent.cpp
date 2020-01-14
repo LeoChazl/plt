@@ -10,8 +10,16 @@ StateEvent::StateEvent(StateEventID stateEventID){
 }
 
 
-// Getter
+// Getter and setters
 
 StateEventID StateEvent::getStateEventID(){
     return stateEventID;
+}
+
+string StateEvent::getActionText(){
+    return actionText;
+}
+
+void StateEvent::setActionText(string actionText){
+    this->actionText = actionText;
 }

@@ -192,7 +192,7 @@ void StateLayer::draw (state::State& state){
 	window.draw(*textureAreas[2]);	// Draw the cursor layer
     window.draw(*textureAreas[3]);  // Draw selected unit picture
 
-    drawBottomInfos(state);
+    //drawBottomInfos("",state);
     drawRightInfos(state);
     
 	window.display();
@@ -203,7 +203,7 @@ void StateLayer::draw (state::State& state){
  * param :
  * state -> current state
  */
-void StateLayer::drawBottomInfos(state::State& state){
+void StateLayer::drawBottomInfos(std::string text, state::State& state){
 
     // Current player rectangle at the bottm
     sf::RectangleShape currentPlayerRectangle(sf::Vector2f(300.f, 30.f));
@@ -225,13 +225,15 @@ void StateLayer::drawBottomInfos(state::State& state){
     sf::Color colorCurrentActionRectangle(0,0,0,200);
 	currentActionRectangle.setFillColor(colorCurrentActionRectangle);
 
-    string currentActionString = "Smth is moving";
     sf::Text currentAction;
     currentAction.setFont(font);
-    currentAction.setString(currentActionString);
+    currentAction.setString(text);
     currentAction.setCharacterSize(12);
     currentAction.setFillColor(sf::Color::White);
-    currentAction.setPosition(795.f ,855.f);
+    sf::FloatRect currentActionRect = currentAction.getLocalBounds();
+	currentAction.setOrigin((int)(currentActionRect.left + currentActionRect.width/2.0f),
+		           (int)(currentActionRect.top  + currentActionRect.height/2.0f));
+    currentAction.setPosition(848.f ,863.f);
 
     window.draw(currentPlayerRectangle);
     window.draw(currentText);
@@ -314,20 +316,28 @@ void StateLayer::drawRightInfos(state::State& state){
     window.draw(statsEnemyText);
 }
 
-
 /** Called when there has been changes in the state and updates the display
  * 
  */
-void StateLayer::stateChanged(const state::StateEvent& stateEvent, state::State& state){
-    initTextureAreas(state);
-    draw(state);
+void StateLayer::stateChanged(state::StateEvent& stateEvent, state::State& state){
+    if(stateEvent.getStateEventID() == ALLCHANGE){
+        initTextureAreas(state);
+        draw(state);
+    }
+
+    if(stateEvent.getStateEventID() == ACTIONTEXTCHANGE){
+        draw(state);
+        drawBottomInfos(stateEvent.getActionText());
+    }
+
+
 }
 
 void StateLayer::inputManager(sf::Event event, state::State& state){
     int waitingTime = 60000;
 
     // To notify the State
-    StateEvent stateEvent(PLAYERCHANGE);
+    StateEvent stateEvent(ALLCHANGE);
 
     // Arrow keys and return when no unit is selected
     if(event.type==sf::Event::KeyPressed && !state.verifyIsSelected()){
