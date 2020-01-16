@@ -28,24 +28,10 @@ void HeuristicAiTest::run(){
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
 
     /**************************/
-    //sf::View view2(sf::Vector2f(350, 300), sf::Vector2f(800, 400));
-    //window.setView(view2);
     // la vue de jeu (toute la fenêtre)
     // création d'une vue faisant la moitié de la vue par défaut
     sf::View view = window.getDefaultView();
-    //view.zoom(0.5f);
     window.setView(view);
-
-    // réactivation de la vue par défaut
-    //window.setView(window.getDefaultView());
-    /*sf::View gameView(sf::Vector2f(400, 300), sf::Vector2f(800, 400));
-    gameView.setViewport(sf::FloatRect(0, 0, 1, 1));
-    window.setView(gameView);*/
-
-    // la mini-carte (dans un coin en haut à droite)
-    /*sf::View minimapView(sf::Vector2f(975, 450), sf::Vector2f(1950, 900));
-    minimapView.setViewport(sf::FloatRect(0.75f, 0, 0.25f, 0.25f));
-    window.setView(minimapView);*/
 
 
     /************************/
