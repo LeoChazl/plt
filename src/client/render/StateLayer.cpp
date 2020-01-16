@@ -210,7 +210,8 @@ void StateLayer::draw (state::State& state){
 	window.draw(*textureAreas[2]);	// Draw the cursor layer
     window.draw(*textureAreas[3]);  // Draw selected unit picture
 
-    //drawBottomInfos("",state);
+    drawBottomInfos(state);
+    drawAction(actionText,state);
     drawRightInfos(state);
     
 	window.display();
@@ -221,7 +222,7 @@ void StateLayer::draw (state::State& state){
  * param :
  * state -> current state
  */
-void StateLayer::drawBottomInfos(std::string text, state::State& state){
+void StateLayer::drawBottomInfos(state::State& state){
 
     // Current player rectangle at the bottm
     sf::RectangleShape currentPlayerRectangle(sf::Vector2f(300.f, 30.f));
@@ -233,29 +234,32 @@ void StateLayer::drawBottomInfos(std::string text, state::State& state){
     sf::Text currentText;
     currentText.setFont(font);
     currentText.setString(currentString);
-    currentText.setCharacterSize(16);
+    currentText.setCharacterSize(18);
     currentText.setFillColor(sf::Color::White);
-    currentText.setPosition(765.f ,815.f);
+    currentText.setPosition(762.f ,812.f);
 
     // Current action rectangle at the bottom
-    sf::RectangleShape currentActionRectangle(sf::Vector2f(300.f, 25.f));
-	currentActionRectangle.setPosition(700.f, 850.f);
+    sf::RectangleShape currentActionRectangle(sf::Vector2f(360.f, 25.f));
+	currentActionRectangle.setPosition(675.f, 850.f);
     sf::Color colorCurrentActionRectangle(0,0,0,200);
 	currentActionRectangle.setFillColor(colorCurrentActionRectangle);
-
-    sf::Text currentAction;
-    currentAction.setFont(font);
-    currentAction.setString(text);
-    currentAction.setCharacterSize(12);
-    currentAction.setFillColor(sf::Color::White);
-    sf::FloatRect currentActionRect = currentAction.getLocalBounds();
-	currentAction.setOrigin((int)(currentActionRect.left + currentActionRect.width/2.0f),
-		           (int)(currentActionRect.top  + currentActionRect.height/2.0f));
-    currentAction.setPosition(848.f ,863.f);
 
     window.draw(currentPlayerRectangle);
     window.draw(currentText);
     window.draw(currentActionRectangle);
+}
+
+void StateLayer::drawAction(std::string text, state::State& state){
+    sf::Text currentAction;
+    currentAction.setFont(font);
+    currentAction.setString(text);
+    currentAction.setCharacterSize(14);
+    currentAction.setFillColor(sf::Color::White);
+    sf::FloatRect currentActionRect = currentAction.getLocalBounds();
+	currentAction.setOrigin((int)(currentActionRect.left + currentActionRect.width/2.0f),
+		           (int)(currentActionRect.top  + currentActionRect.height/2.0f));
+    currentAction.setPosition(854.f ,863.f);
+
     window.draw(currentAction);
 }
 
@@ -430,13 +434,6 @@ void StateLayer::stateChanged(state::StateEvent& stateEvent, state::State& state
         initTextureAreas(state);
         draw(state);
     }
-
-    /*if(stateEvent.getStateEventID() == ACTIONTEXTCHANGE){
-        draw(state);
-        drawBottomInfos(stateEvent.getActionText());
-    }*/
-
-
 }
 
 void StateLayer::inputManager(sf::Event event, state::State& state){
@@ -455,25 +452,29 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             if(cursor_x!=0){ //Keep the cursor inside the screen limits
                 cursor_x -= 1;
-                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                cout << "Cursor moved to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                actionText = "Cursor moved to (" + to_string(cursor_x) + ", " + to_string(cursor_y) + ")";
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             if(cursor_x!=state.getEntityMap().getWidth()-1){//Keep the cursor inside the screen limits
                 cursor_x += 1;
-                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                cout << "Cursor moved to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                actionText = "Cursor moved to (" + to_string(cursor_x) + ", " + to_string(cursor_y) + ")";
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             if(cursor_y!=0){//Keep the cursor inside the screen limits
                 cursor_y -= 1;
-                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                cout << "Cursor moved to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                actionText = "Cursor moved to (" + to_string(cursor_x) + ", " + to_string(cursor_y) + ")";
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             if(cursor_y!=state.getEntityMap().getHeight()-1){//Keep the cursor inside the screen limits
                 cursor_y += 1;
-                cout << "Moving the cursor to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                cout << "Cursor moved to (" << cursor_x << ", " << cursor_y << ").\n" << endl;
+                actionText = "Cursor moved to (" + to_string(cursor_x) + ", " + to_string(cursor_y) + ")";
             }
         }
         else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){ //User press the following button:"ENTER"
@@ -488,13 +489,17 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     currentMobileEntity->setStatus(SELECTED);//Change the Selected MobileEntity Status
 
                     cout << "A unit has been selected.\n" << endl;
+                    actionText = "A unit has been selected";
                 }else if(currentMobileEntity->getStatus()==WAITING){ //the unit is not avaible --> player already play with this unit
-                    cout << "This unit already finished his round.\n" << endl;
+                    cout << "This unit has already finished his round.\n" << endl;
+                    actionText = "This unit has already finished his round";
                 }else{
                     cout << "This unit doesn't belong to the current player.\n" << endl;
+                    actionText = "This unit doesn't belong to the current player";
                 }
             }else{ // the currentPLayer pointor is NULL
                 cout << "No unit in this case.\n" << endl;
+                actionText = "No unit in this case";
             }
         }
         //Reset the cursor position in the state
@@ -509,6 +514,8 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
     } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && (state.verifyIsSelected())){
         cout << "An attack is in preparation.\n" << endl;
         auto currentMobileEntity = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());
+        string currentMobileEntityType = getUnitTypeString(currentMobileEntity->getEntityId());
+        actionText = "The " + currentMobileEntityType + " is preparing an attack !";
 
         // Change cursor color
         state.getCursor().setCodeTuile(1); //Change current cursor color to RED
@@ -565,20 +572,29 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
             //Select the target with  "ENTER" button
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
                 if(state.isOccupied(state.getCursor().getX(),state.getCursor().getY())){//if there are units in the actual cursor position
-                    target = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());//chage the target to the selected one
+                    target = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());//change the target to the selected one
+                    string targetMobileEntityType = getUnitTypeString(target->getEntityId());
+                    actionText = "The " + targetMobileEntityType + " is targeted and has " + to_string((int) target->getHealth()) + " HP !";          
+                    
                     EngineRenderEvent engineRenderEvent(ATTACK); //A class to regitrer the type of Engine Event (ATTACK)
                     Position position(0,0);
 
                     notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, target); //Notify Render Observers that there is an Attack event
-                        
+                    
+                    sleep(2);
+                    actionText = "The " + targetMobileEntityType + " has " + to_string((int)target->getHealth()) + " HP left";
+
                     state.getCursor().setCodeTuile(0); //Set the cursor to target selected color
                     state.notifyObservers(stateEvent, state);// Notify State Observers
+                }else{
+                    actionText = "There is no unit to attack here";
                 }
             }
             //Cancel the attack
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)){
                 attackIsOngoing = false;
                 cout << "The attack is canceled.\n" << endl;
+                actionText = "The attack is canceled";
 
                 // Cursor back to select color
                 state.getCursor().setCodeTuile(2);
@@ -622,7 +638,10 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
 
         if(movement_x != 0 || movement_y!=0){//If there are any x or y axe movement asked by the player
             Position position(currentMobileEntity->getX()+movement_x,currentMobileEntity->getY()+movement_y);
-        
+            string currentMobileEntityType = getUnitTypeString(currentMobileEntity->getEntityId());
+            actionText = "The " + currentMobileEntityType + " moved to (" + to_string(currentMobileEntity->getX()+movement_x) + 
+                ", " + to_string(currentMobileEntity->getY()+movement_y) + ")";        
+
             EngineRenderEvent engineRenderEvent(ARROW_KEYS);
 
             // Second MobileEntity not used here but filled so it match the function arguments
@@ -642,6 +661,23 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
             notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, currentMobileEntity);
         } 
     }
+}
+
+std::string StateLayer::getUnitTypeString(state::EntityId entityId){
+    string unitType;
+    switch(entityId){
+        case TROLL: 
+            unitType = "troll";
+            break;
+        case MAGE:
+            unitType = "mage";
+            break;
+        case KNIGHT:
+            unitType = "knight";
+            break;
+    }
+
+    return unitType;
 }
 
 // Getters
