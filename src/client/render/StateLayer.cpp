@@ -1,6 +1,7 @@
 #include "../render.h"
 #include <iostream>
 #include <unistd.h>
+#include <cmath>
 
 
 using namespace render;
@@ -108,10 +109,19 @@ void StateLayer::draw (state::State& state){
 	right_rectangle[1].position = sf::Vector2f(1950.f, 0.f);
 	right_rectangle[2].position = sf::Vector2f(1950.f, 800.f);
 	right_rectangle[3].position = sf::Vector2f(1600.f, 800.f);
-	right_rectangle[0].color = sf::Color::Yellow;
-	right_rectangle[1].color = sf::Color::Red;
-	right_rectangle[2].color = sf::Color::Yellow;
-	right_rectangle[3].color = sf::Color::Red;
+
+    if(state.getCurrentPlayerID()==1){
+        right_rectangle[0].color = sf::Color::Black;
+        right_rectangle[1].color = sf::Color::White;
+        right_rectangle[2].color = sf::Color::Black;
+        right_rectangle[3].color = sf::Color::White;
+    }else{
+        right_rectangle[0].color = sf::Color::White;
+        right_rectangle[1].color = sf::Color::Black;
+        right_rectangle[2].color = sf::Color::White;
+        right_rectangle[3].color = sf::Color::Black;
+    }
+
 
     // Rectangle shading at coordinates (0,800) and size 1600x100
 	sf::VertexArray bottom_rectangle(sf::Quads, 4);
@@ -119,10 +129,18 @@ void StateLayer::draw (state::State& state){
 	bottom_rectangle[1].position = sf::Vector2f(1600.f, 800.f);
 	bottom_rectangle[2].position = sf::Vector2f(1600.f, 900.f);
 	bottom_rectangle[3].position = sf::Vector2f(0.f, 900.f);
-	bottom_rectangle[0].color = sf::Color::Yellow;
-	bottom_rectangle[1].color = sf::Color::Red;
-	bottom_rectangle[2].color = sf::Color::Yellow;
-	bottom_rectangle[3].color = sf::Color::Red;
+
+    if(state.getCurrentPlayerID()==1){
+        bottom_rectangle[0].color = sf::Color::Black;
+        bottom_rectangle[1].color = sf::Color::White;
+        bottom_rectangle[2].color = sf::Color::Black;
+        bottom_rectangle[3].color = sf::Color::White;
+    }else{
+        bottom_rectangle[0].color = sf::Color::White;
+        bottom_rectangle[1].color = sf::Color::Black;
+        bottom_rectangle[2].color = sf::Color::White;
+        bottom_rectangle[3].color = sf::Color::Black;
+    }
 
     // Control panel
     sf::RectangleShape controlPanel(sf::Vector2f(350.f,100.f));
@@ -268,7 +286,7 @@ void StateLayer::drawRightInfos(state::State& state){
     sf::RectangleShape selectedUnitStatsRectangle(sf::Vector2f(250.f, 250.f));
 	selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
 	selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
-
+        //Display stats text
     string statsSelectedString = "Unit type\n\nHealth\n\nAttack\n\nArmor\n\nMovements";
 	sf::Text statsSelectedText;
 	statsSelectedText.setFont(font);
@@ -276,6 +294,50 @@ void StateLayer::drawRightInfos(state::State& state){
 	statsSelectedText.setCharacterSize(15);
 	statsSelectedText.setFillColor(sf::Color::White);
 	statsSelectedText.setPosition(1650, 185);
+
+    //Display Ally stats values
+    int x,y;
+    x=state.getCursor().getX();
+    y=state.getCursor().getY();
+
+    sf::Text statsSelectedValue;
+    //If the cursor position is occupied by an Unit
+    if(state.isOccupied(x,y)){
+        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
+        //If the mobile entity belong to the player1
+        if(mobileEntitySelected->getPlayerId()==1){
+            //All unit stats convert as an integer and then as a string
+            state::EntityId unitEntityID=mobileEntitySelected->getEntityId();
+            string unitType;
+            if(unitEntityID==0){
+                unitType="Troll";
+            }else if(unitEntityID==1){
+                unitType="Mage";
+            }else{
+                unitType="Knight";
+            }
+            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
+            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
+            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
+            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
+
+            //Create the sfml text bloc
+            string stateSelectedUnitStats=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
+            statsSelectedValue.setFont(font);
+            statsSelectedValue.setString(stateSelectedUnitStats);	
+            statsSelectedValue.setCharacterSize(15);
+            statsSelectedValue.setFillColor(sf::Color::White);
+            statsSelectedValue.setPosition(1810, 185);
+        }
+    }else{
+        string stateSelectedUnitStats="";
+        statsSelectedValue.setFont(font);
+        statsSelectedValue.setString(stateSelectedUnitStats);	
+        statsSelectedValue.setCharacterSize(15);
+        statsSelectedValue.setFillColor(sf::Color::White);
+        statsSelectedValue.setPosition(1810, 185);
+    }
+
 
     sf::Texture vs;
     vs.loadFromFile("rsc/Images/vs.png");
@@ -309,15 +371,59 @@ void StateLayer::drawRightInfos(state::State& state){
 	statsEnemyText.setFillColor(sf::Color::White);
 	statsEnemyText.setPosition(1650, 545);
 
+
+    //Display Ennemy stats values
+
+    sf::Text statsSelectedEnnemyValue;
+    //If the cursor position is occupied by an Unit
+    if(state.isOccupied(x,y)){
+        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
+        //If the mobile entity belong to the player1
+        if(mobileEntitySelected->getPlayerId()==2){
+            //All unit stats convert as an integer and then as a string
+            state::EntityId unitEntityID=mobileEntitySelected->getEntityId();
+            string unitType;
+            if(unitEntityID==0){
+                unitType="Troll";
+            }else if(unitEntityID==1){
+                unitType="Mage";
+            }else{
+                unitType="Knight";
+            }
+            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
+            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
+            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
+            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
+
+            //Create the sfml text bloc
+            string stateSelectedUnitStats=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
+            statsSelectedEnnemyValue.setFont(font);
+            statsSelectedEnnemyValue.setString(stateSelectedUnitStats);	
+            statsSelectedEnnemyValue.setCharacterSize(15);
+            statsSelectedEnnemyValue.setFillColor(sf::Color::White);
+            statsSelectedEnnemyValue.setPosition(1810, 545);
+        }
+    }else{
+        string stateSelectedUnitStats="";
+        statsSelectedEnnemyValue.setFont(font);
+        statsSelectedEnnemyValue.setString(stateSelectedUnitStats);	
+        statsSelectedEnnemyValue.setCharacterSize(15);
+        statsSelectedEnnemyValue.setFillColor(sf::Color::White);
+        statsSelectedEnnemyValue.setPosition(1810, 545);
+    }
+
+    //Draw all sfml box
     window.draw(selectedUnitRectangle);
     window.draw(selectedText);
     window.draw(selectedUnitStatsRectangle);
     window.draw(statsSelectedText);
+    window.draw(statsSelectedValue);
     window.draw(spriteVs);
     window.draw(enemyUnitRectangle);
     window.draw(enemyText);
     window.draw(enemyUnitStatsRectangle);
     window.draw(statsEnemyText);
+    window.draw(statsSelectedEnnemyValue);
 }
 
 /** Called when there has been changes in the state and updates the display
