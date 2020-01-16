@@ -1,6 +1,7 @@
 #include "../render.h"
 #include <iostream>
 #include <unistd.h>
+#include <cmath>
 
 
 using namespace render;
@@ -289,14 +290,50 @@ void StateLayer::drawRightInfos(state::State& state){
 	statsSelectedText.setCharacterSize(15);
 	statsSelectedText.setFillColor(sf::Color::White);
 	statsSelectedText.setPosition(1650, 185);
-        //Display stats value
-    string stateSelectedUnitStats="\n\n100\n\n20\n\n10\n\n5";
-	sf::Text statsSelectedValue;
-	statsSelectedValue.setFont(font);
-	statsSelectedValue.setString(stateSelectedUnitStats);	
-	statsSelectedValue.setCharacterSize(15);
-	statsSelectedValue.setFillColor(sf::Color::White);
-	statsSelectedValue.setPosition(1850, 185);
+
+    //Display Ally stats values
+    int x,y;
+    x=state.getCursor().getX();
+    y=state.getCursor().getY();
+
+    sf::Text statsSelectedValue;
+    //If the cursor position is occupied by an Unit
+    if(state.isOccupied(x,y)){
+        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
+        //If the mobile entity belong to the player1
+        if(mobileEntitySelected->getPlayerId()==1){
+            //All unit stats convert as an integer and then as a string
+            state::EntityId unitEntityID=mobileEntitySelected->getEntityId();
+            string unitType;
+            if(unitEntityID==0){
+                unitType="Troll";
+            }else if(unitEntityID==1){
+                unitType="Mage";
+            }else{
+                unitType="Knight";
+            }
+            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
+            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
+            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
+            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
+
+            //Create the sfml text bloc
+            string stateSelectedUnitStats=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
+            statsSelectedValue.setFont(font);
+            statsSelectedValue.setString(stateSelectedUnitStats);	
+            statsSelectedValue.setCharacterSize(15);
+            statsSelectedValue.setFillColor(sf::Color::White);
+            statsSelectedValue.setPosition(1810, 185);
+        }
+    }else{
+        string stateSelectedUnitStats="";
+        statsSelectedValue.setFont(font);
+        statsSelectedValue.setString(stateSelectedUnitStats);	
+        statsSelectedValue.setCharacterSize(15);
+        statsSelectedValue.setFillColor(sf::Color::White);
+        statsSelectedValue.setPosition(1810, 185);
+    }
+
 
     sf::Texture vs;
     vs.loadFromFile("rsc/Images/vs.png");
@@ -330,6 +367,48 @@ void StateLayer::drawRightInfos(state::State& state){
 	statsEnemyText.setFillColor(sf::Color::White);
 	statsEnemyText.setPosition(1650, 545);
 
+
+    //Display Ennemy stats values
+
+    sf::Text statsSelectedEnnemyValue;
+    //If the cursor position is occupied by an Unit
+    if(state.isOccupied(x,y)){
+        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
+        //If the mobile entity belong to the player1
+        if(mobileEntitySelected->getPlayerId()==2){
+            //All unit stats convert as an integer and then as a string
+            state::EntityId unitEntityID=mobileEntitySelected->getEntityId();
+            string unitType;
+            if(unitEntityID==0){
+                unitType="Troll";
+            }else if(unitEntityID==1){
+                unitType="Mage";
+            }else{
+                unitType="Knight";
+            }
+            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
+            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
+            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
+            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
+
+            //Create the sfml text bloc
+            string stateSelectedUnitStats=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
+            statsSelectedEnnemyValue.setFont(font);
+            statsSelectedEnnemyValue.setString(stateSelectedUnitStats);	
+            statsSelectedEnnemyValue.setCharacterSize(15);
+            statsSelectedEnnemyValue.setFillColor(sf::Color::White);
+            statsSelectedEnnemyValue.setPosition(1810, 545);
+        }
+    }else{
+        string stateSelectedUnitStats="";
+        statsSelectedEnnemyValue.setFont(font);
+        statsSelectedEnnemyValue.setString(stateSelectedUnitStats);	
+        statsSelectedEnnemyValue.setCharacterSize(15);
+        statsSelectedEnnemyValue.setFillColor(sf::Color::White);
+        statsSelectedEnnemyValue.setPosition(1810, 545);
+    }
+
+    //Draw all sfml box
     window.draw(selectedUnitRectangle);
     window.draw(selectedText);
     window.draw(selectedUnitStatsRectangle);
@@ -340,6 +419,7 @@ void StateLayer::drawRightInfos(state::State& state){
     window.draw(enemyText);
     window.draw(enemyUnitStatsRectangle);
     window.draw(statsEnemyText);
+    window.draw(statsSelectedEnnemyValue);
 }
 
 /** Called when there has been changes in the state and updates the display
