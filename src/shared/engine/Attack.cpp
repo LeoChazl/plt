@@ -44,8 +44,6 @@ void Attack::execute (state::State& state){
             break;
     }
 
-    cout << "The " << entityNameAttacker << " will attack or try to attack the " << entityNameTarget << "." << endl;
-
     bool attackIsPossible=false;
     //Store all the possible coordinates for the attack
     std::vector<state::Position> listeCoordAtq=attacker.allowedAttack(state);
