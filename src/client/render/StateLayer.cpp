@@ -270,9 +270,9 @@ void StateLayer::drawAction(std::string text, state::State& state){
  */
 void StateLayer::drawRightInfos(state::State& state){
     sf::RectangleShape selectedUnitRectangle(sf::Vector2f(250.f, 30.f));
-	selectedUnitRectangle.setPosition(1635.f, 110.f);
+    selectedUnitRectangle.setPosition(1635.f, 110.f);
     sf::Color colorSelectedUnitRectangle(0,0,0,100);
-	selectedUnitRectangle.setFillColor(colorSelectedUnitRectangle);
+    selectedUnitRectangle.setFillColor(colorSelectedUnitRectangle);
 
     string selectedString = "Selected unit stats";
     sf::Text selectedText;
@@ -284,60 +284,25 @@ void StateLayer::drawRightInfos(state::State& state){
 
     // Selected unit stats box
     sf::RectangleShape selectedUnitStatsRectangle(sf::Vector2f(250.f, 250.f));
-	selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
-	selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
-        //Display stats text
+    selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
+    selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
+
+    //Display stats text
     string statsSelectedString = "Unit type\n\nHealth\n\nAttack\n\nArmor\n\nMovements";
-	sf::Text statsSelectedText;
-	statsSelectedText.setFont(font);
-	statsSelectedText.setString(statsSelectedString);	
-	statsSelectedText.setCharacterSize(15);
-	statsSelectedText.setFillColor(sf::Color::White);
-	statsSelectedText.setPosition(1650, 185);
+    sf::Text statsSelectedText;
+    statsSelectedText.setFont(font);
+    statsSelectedText.setString(statsSelectedString);	
+    statsSelectedText.setCharacterSize(15);
+    statsSelectedText.setFillColor(sf::Color::White);
+    statsSelectedText.setPosition(1650, 185);
 
     //Display Ally stats values
-    int x,y;
-    x=state.getCursor().getX();
-    y=state.getCursor().getY();
-
     sf::Text statsSelectedValue;
-    //If the cursor position is occupied by an Unit
-    if(state.isOccupied(x,y)){
-        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
-        //If the mobile entity belong to the player1
-        if(mobileEntitySelected->getPlayerId()==1){
-            //All unit stats convert as an integer and then as a string
-            state::EntityId unitEntityID=mobileEntitySelected->getEntityId();
-            string unitType;
-            if(unitEntityID==0){
-                unitType="Troll";
-            }else if(unitEntityID==1){
-                unitType="Mage";
-            }else{
-                unitType="Knight";
-            }
-            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
-            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
-            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
-            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
-
-            //Create the sfml text bloc
-            string stateSelectedUnitStats=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
-            statsSelectedValue.setFont(font);
-            statsSelectedValue.setString(stateSelectedUnitStats);	
-            statsSelectedValue.setCharacterSize(15);
-            statsSelectedValue.setFillColor(sf::Color::White);
-            statsSelectedValue.setPosition(1810, 185);
-        }
-    }else{
-        string stateSelectedUnitStats="";
-        statsSelectedValue.setFont(font);
-        statsSelectedValue.setString(stateSelectedUnitStats);	
-        statsSelectedValue.setCharacterSize(15);
-        statsSelectedValue.setFillColor(sf::Color::White);
-        statsSelectedValue.setPosition(1810, 185);
-    }
-
+    statsSelectedValue.setFont(font);
+    statsSelectedValue.setString(statsText1);	
+    statsSelectedValue.setCharacterSize(15);
+    statsSelectedValue.setFillColor(sf::Color::White);
+    statsSelectedValue.setPosition(1810, 185);
 
     sf::Texture vs;
     vs.loadFromFile("rsc/Images/vs.png");
@@ -373,44 +338,13 @@ void StateLayer::drawRightInfos(state::State& state){
 
 
     //Display Ennemy stats values
-
     sf::Text statsSelectedEnnemyValue;
-    //If the cursor position is occupied by an Unit
-    if(state.isOccupied(x,y)){
-        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
-        //If the mobile entity belong to the player1
-        if(mobileEntitySelected->getPlayerId()==2){
-            //All unit stats convert as an integer and then as a string
-            state::EntityId unitEntityID=mobileEntitySelected->getEntityId();
-            string unitType;
-            if(unitEntityID==0){
-                unitType="Troll";
-            }else if(unitEntityID==1){
-                unitType="Mage";
-            }else{
-                unitType="Knight";
-            }
-            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
-            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
-            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
-            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
+    statsSelectedEnnemyValue.setFont(font);
+    statsSelectedEnnemyValue.setString(statsText2);	
+    statsSelectedEnnemyValue.setCharacterSize(15);
+    statsSelectedEnnemyValue.setFillColor(sf::Color::White);
+    statsSelectedEnnemyValue.setPosition(1810, 545);
 
-            //Create the sfml text bloc
-            string stateSelectedUnitStats=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
-            statsSelectedEnnemyValue.setFont(font);
-            statsSelectedEnnemyValue.setString(stateSelectedUnitStats);	
-            statsSelectedEnnemyValue.setCharacterSize(15);
-            statsSelectedEnnemyValue.setFillColor(sf::Color::White);
-            statsSelectedEnnemyValue.setPosition(1810, 545);
-        }
-    }else{
-        string stateSelectedUnitStats="";
-        statsSelectedEnnemyValue.setFont(font);
-        statsSelectedEnnemyValue.setString(stateSelectedUnitStats);	
-        statsSelectedEnnemyValue.setCharacterSize(15);
-        statsSelectedEnnemyValue.setFillColor(sf::Color::White);
-        statsSelectedEnnemyValue.setPosition(1810, 545);
-    }
 
     //Draw all sfml box
     window.draw(selectedUnitRectangle);
@@ -505,6 +439,9 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
         //Reset the cursor position in the state
         state.getCursor().setX(cursor_x);
         state.getCursor().setY(cursor_y);
+
+        displayUnitStat(state, cursor_x, cursor_y);
+        displayEnemyUnitStat(state,cursor_x,cursor_y);
         //Notify all registred Observer in "state Observers" list
         state.notifyObservers(stateEvent, state);
 
@@ -538,8 +475,8 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setX(state.getCursor().getX()-1);//Set the new cursor position
                     rightRange++; //update attack range variables
                     leftRange--;
+                    displayEnemyUnitStat(state,state.getCursor().getX(),state.getCursor().getY());
                     state.notifyObservers(stateEvent, state);//Notify Observer in order to update the cursor position on the screen
-                    usleep(waitingTime);
                 }
             } 
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
@@ -547,8 +484,8 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setX(state.getCursor().getX()+1);
                     rightRange--;
                     leftRange++;
+                    displayEnemyUnitStat(state,state.getCursor().getX(),state.getCursor().getY());
                     state.notifyObservers(stateEvent, state);
-                    usleep(waitingTime);
                 }
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
@@ -556,8 +493,8 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setY(state.getCursor().getY()-1);
                     upRange--;
                     downRange++;
+                    displayEnemyUnitStat(state,state.getCursor().getX(),state.getCursor().getY());
                     state.notifyObservers(stateEvent, state);
-                    usleep(waitingTime);
                 }
             }
             else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
@@ -565,8 +502,8 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setY(state.getCursor().getY()+1);
                     upRange++;
                     downRange--;
+                    displayEnemyUnitStat(state,state.getCursor().getX(),state.getCursor().getY());
                     state.notifyObservers(stateEvent, state);
-                    usleep(waitingTime);
                 }
             }
             //Select the target with  "ENTER" button
@@ -575,17 +512,19 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     target = state.getMobileEntity(state.getCursor().getX(), state.getCursor().getY());//change the target to the selected one
                     string targetMobileEntityType = getUnitTypeString(target->getEntityId());
                     actionText = "The " + targetMobileEntityType + " is targeted and has " + to_string((int) target->getHealth()) + " HP !";          
-                    
+                    displayEnemyUnitStat(state,state.getCursor().getX(),state.getCursor().getY());
                     EngineRenderEvent engineRenderEvent(ATTACK); //A class to regitrer the type of Engine Event (ATTACK)
                     Position position(0,0);
 
-                    notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, target); //Notify Render Observers that there is an Attack event
-                    
+                    notifyRenderObservers(engineRenderEvent, state, position, currentMobileEntity, target);
+
                     sleep(2);
                     actionText = "The " + targetMobileEntityType + " has " + to_string((int)target->getHealth()) + " HP left";
-
+                    displayEnemyUnitStat(state,state.getCursor().getX(),state.getCursor().getY());
+                    
                     state.getCursor().setCodeTuile(0); //Set the cursor to target selected color
-                    state.notifyObservers(stateEvent, state);// Notify State Observers
+                    // Notify State Observers
+                    state.notifyObservers(stateEvent, state);
                 }else{
                     actionText = "There is no unit to attack here";
                 }
@@ -604,9 +543,9 @@ void StateLayer::inputManager(sf::Event event, state::State& state){
                     state.getCursor().setX(currentMobileEntity->getX());//ReSet the cursor on the selected mobileEntity--> Attacker
                     state.getCursor().setY(currentMobileEntity->getY());
                 }
-                state.notifyObservers(stateEvent, state); //Notify the state observer in rder to draw the cursor on the Attacker
-                usleep(waitingTime);
+                state.notifyObservers(stateEvent, state); //Notify the state observer in rder to draw the cursor on the Attacker   
             }
+            usleep(waitingTime);
         }
     
     // Case a unit is already selected and move or end round
@@ -678,6 +617,52 @@ std::string StateLayer::getUnitTypeString(state::EntityId entityId){
     }
 
     return unitType;
+}
+
+void StateLayer::displayUnitStat(State& state, int x, int y){
+    //If the cursor position is occupied by an Unit
+    if(state.isOccupied(x,y)){
+        std::shared_ptr<MobileEntity> mobileEntitySelected=state.getMobileEntity(x,y);
+        
+        if(mobileEntitySelected->getStatus()==SELECTED){
+            //All unit stats converted to integer and then string
+            string unitType = getUnitTypeString(mobileEntitySelected->getEntityId());     
+            string unitHealth=to_string((int)mobileEntitySelected->getHealth());
+            string unitAttack=to_string((int)mobileEntitySelected->getDamage());
+            string unitArmor=to_string((int)mobileEntitySelected->getArmor());
+            string unitMovementLeft=to_string((int)mobileEntitySelected->getMovementLeft());
+
+            //Create the sfml text bloc
+            statsText1=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
+        }
+    }else{
+        statsText1="";
+    }
+    
+}
+
+void StateLayer::displayEnemyUnitStat(State& state, int x, int y){
+    //If the cursor position is occupied by an Unit
+    if(state.isOccupied(x,y)){
+        std::shared_ptr<MobileEntity> mobileEntityTargeted=state.getMobileEntity(x,y);
+
+        if(mobileEntityTargeted->getPlayerId()!=state.getCurrentPlayerID()&&state.verifyIsSelected()){
+            //All unit stats converted to integer and then string
+            string unitType = getUnitTypeString(mobileEntityTargeted->getEntityId());     
+            string unitHealth=to_string((int)mobileEntityTargeted->getHealth());
+            string unitAttack=to_string((int)mobileEntityTargeted->getDamage());
+            string unitArmor=to_string((int)mobileEntityTargeted->getArmor());
+            string unitMovementLeft=to_string((int)mobileEntityTargeted->getMovementLeft());
+
+            //Create the sfml text bloc
+            statsText2=unitType+"\n\n"+unitHealth+"\n\n"+unitAttack+"\n\n"+unitArmor+"\n\n"+unitMovementLeft;
+        }
+        else{
+            statsText2="";
+        }
+    }else{
+        statsText2="";
+    }
 }
 
 // Getters

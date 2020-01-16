@@ -125,10 +125,10 @@ bool TextureArea::loadUnitDisplay(state::State& currentState, render::TileSet& t
     quads.setPrimitiveType(sf::Quads);
     quads.resize(4);
 
-    if(currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY()) && currentState.verifyIsSelected()){
+    if(currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY())){
         auto currentMobileEntity = currentState.getMobileEntity(currentState.getCursor().getX(), currentState.getCursor().getY()); // Get the currently selected MobileEntity
 
-        if(currentMobileEntity->getPlayerId()==currentState.getCurrentPlayerID()){
+        if(currentMobileEntity->getPlayerId()==currentState.getCurrentPlayerID()&&currentMobileEntity->getStatus()==SELECTED){
             sf::Vertex* quad = &quads[0];
 
             int tx = currentMobileEntity->getEntityId();
