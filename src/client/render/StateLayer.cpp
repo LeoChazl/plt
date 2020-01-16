@@ -108,10 +108,19 @@ void StateLayer::draw (state::State& state){
 	right_rectangle[1].position = sf::Vector2f(1950.f, 0.f);
 	right_rectangle[2].position = sf::Vector2f(1950.f, 800.f);
 	right_rectangle[3].position = sf::Vector2f(1600.f, 800.f);
-	right_rectangle[0].color = sf::Color::Yellow;
-	right_rectangle[1].color = sf::Color::Red;
-	right_rectangle[2].color = sf::Color::Yellow;
-	right_rectangle[3].color = sf::Color::Red;
+
+    if(state.getCurrentPlayerID()==1){
+        right_rectangle[0].color = sf::Color::Black;
+        right_rectangle[1].color = sf::Color::White;
+        right_rectangle[2].color = sf::Color::Black;
+        right_rectangle[3].color = sf::Color::White;
+    }else{
+        right_rectangle[0].color = sf::Color::White;
+        right_rectangle[1].color = sf::Color::Black;
+        right_rectangle[2].color = sf::Color::White;
+        right_rectangle[3].color = sf::Color::Black;
+    }
+
 
     // Rectangle shading at coordinates (0,800) and size 1600x100
 	sf::VertexArray bottom_rectangle(sf::Quads, 4);
@@ -119,10 +128,18 @@ void StateLayer::draw (state::State& state){
 	bottom_rectangle[1].position = sf::Vector2f(1600.f, 800.f);
 	bottom_rectangle[2].position = sf::Vector2f(1600.f, 900.f);
 	bottom_rectangle[3].position = sf::Vector2f(0.f, 900.f);
-	bottom_rectangle[0].color = sf::Color::Yellow;
-	bottom_rectangle[1].color = sf::Color::Red;
-	bottom_rectangle[2].color = sf::Color::Yellow;
-	bottom_rectangle[3].color = sf::Color::Red;
+
+    if(state.getCurrentPlayerID()==1){
+        bottom_rectangle[0].color = sf::Color::Black;
+        bottom_rectangle[1].color = sf::Color::White;
+        bottom_rectangle[2].color = sf::Color::Black;
+        bottom_rectangle[3].color = sf::Color::White;
+    }else{
+        bottom_rectangle[0].color = sf::Color::White;
+        bottom_rectangle[1].color = sf::Color::Black;
+        bottom_rectangle[2].color = sf::Color::White;
+        bottom_rectangle[3].color = sf::Color::Black;
+    }
 
     // Control panel
     sf::RectangleShape controlPanel(sf::Vector2f(350.f,100.f));
@@ -264,7 +281,7 @@ void StateLayer::drawRightInfos(state::State& state){
     sf::RectangleShape selectedUnitStatsRectangle(sf::Vector2f(250.f, 250.f));
 	selectedUnitStatsRectangle.setPosition(1635.f, 160.f);
 	selectedUnitStatsRectangle.setFillColor(sf::Color::Black);
-
+        //Display stats text
     string statsSelectedString = "Unit type\n\nHealth\n\nAttack\n\nArmor\n\nMovements";
 	sf::Text statsSelectedText;
 	statsSelectedText.setFont(font);
@@ -272,6 +289,14 @@ void StateLayer::drawRightInfos(state::State& state){
 	statsSelectedText.setCharacterSize(15);
 	statsSelectedText.setFillColor(sf::Color::White);
 	statsSelectedText.setPosition(1650, 185);
+        //Display stats value
+    string stateSelectedUnitStats="\n\n100\n\n20\n\n10\n\n5";
+	sf::Text statsSelectedValue;
+	statsSelectedValue.setFont(font);
+	statsSelectedValue.setString(stateSelectedUnitStats);	
+	statsSelectedValue.setCharacterSize(15);
+	statsSelectedValue.setFillColor(sf::Color::White);
+	statsSelectedValue.setPosition(1850, 185);
 
     sf::Texture vs;
     vs.loadFromFile("rsc/Images/vs.png");
@@ -309,6 +334,7 @@ void StateLayer::drawRightInfos(state::State& state){
     window.draw(selectedText);
     window.draw(selectedUnitStatsRectangle);
     window.draw(statsSelectedText);
+    window.draw(statsSelectedValue);
     window.draw(spriteVs);
     window.draw(enemyUnitRectangle);
     window.draw(enemyText);
@@ -325,10 +351,10 @@ void StateLayer::stateChanged(state::StateEvent& stateEvent, state::State& state
         draw(state);
     }
 
-    if(stateEvent.getStateEventID() == ACTIONTEXTCHANGE){
+    /*if(stateEvent.getStateEventID() == ACTIONTEXTCHANGE){
         draw(state);
         drawBottomInfos(stateEvent.getActionText());
-    }
+    }*/
 
 
 }
