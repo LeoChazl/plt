@@ -3,6 +3,7 @@
 #include "../../shared/ai.h"
 #include "../../shared/engine.h"
 #include <unistd.h>
+#include <string.h>
 
 
 #include <fstream>
@@ -17,12 +18,12 @@ using namespace render;
 using namespace engine;
 using namespace ai;
 
-AiTest::AiTest(){
+AiVsAi::AiVsAi(){
 
 }
 
-void AiTest::run(){
-    cout<<"---- AI TEST ----"<<endl;
+void AiVsAi::run(std::string firstAi,std::string secondAi){
+    cout<<"---- Heuristic AI TEST ----"<<endl;
 
     //Initialize the window
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
@@ -32,6 +33,9 @@ void AiTest::run(){
     // création d'une vue faisant la moitié de la vue par défaut
     sf::View view = window.getDefaultView();
     window.setView(view);
+
+
+    /************************/
 
     //Engine Side
     Engine engine;
@@ -63,9 +67,18 @@ void AiTest::run(){
         }
 
         while (1){
-            //engine.checkRoundStart();
-            RandomAI randomAi(2);
-            randomAi.run(engine);
+            //Fixe the fist AI
+            if(firstAi=="random_ai"){
+                ai::RandomAI randomAi1(1);
+                randomAi1.run(engine);
+            }else if(firstAi=="heuristic_ai"){
+                ai::HeuristicAI heuristicAi1(1);
+                heuristicAi1.run(engine);
+            }else if(firstAi=="deep_ai"){
+                ai::DeepAI deepAi1(1);
+                deepAi1.run(engine);
+            }
+
 
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){
@@ -76,7 +89,7 @@ void AiTest::run(){
 
             //Check if all units had played
             if(engine.checkRoundEnd()){
-                cout<<"round  change"<<endl;
+                cout<<"Round  change"<<endl;
                 engine.checkRoundStart();
                 StateEvent stateEvent(ALLCHANGE);
                 engine.getState().notifyObservers(stateEvent, engine.getState());
@@ -87,7 +100,21 @@ void AiTest::run(){
                     window.close();
             }
             
-            stateLayer.inputManager(event, engine.getState());
+            //Fixe the second AI
+            if(secondAi=="random_ai"){
+                ai::RandomAI randomAi2(2);
+                randomAi2.run(engine);
+            }else if(secondAi=="heuristic_ai"){
+                ai::HeuristicAI heuristicAi2(2);
+                heuristicAi2.run(engine);
+            }else if(secondAi=="deep_ai"){
+                ai::DeepAI deepAi2(2);
+                deepAi2.run(engine);
+            }
+
+
+            /******** Erase Comments if you want to control a player*************/
+            //stateLayer.inputManager(event, engine.getState());
             engine.screenRefresh();
             usleep(50000);
         }

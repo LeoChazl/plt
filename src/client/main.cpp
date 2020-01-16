@@ -21,7 +21,7 @@ using namespace client;
 
 int main(int argc, char* argv[])
 {
-    if(argc>1){
+    if(argc==2){
         if(strcmp(argv[1],"render")==0){
             RenderTest renderTest;
             renderTest.run();
@@ -58,6 +58,10 @@ int main(int argc, char* argv[])
             ServerTest serverTest;
             serverTest.run();
         }
+        printf("La taille de la liste d'aguments %d",argc);
+    }else if(argc==3){
+        AiVsAi aiVsAi;
+        aiVsAi.run(argv[1],argv[2]);
     }
 
     return 0;

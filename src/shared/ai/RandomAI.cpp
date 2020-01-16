@@ -23,7 +23,7 @@ void RandomAI::run (engine::Engine& engine){
 		int randomPosition;
 		int randomAttackPosition;
 
-        int waitingTime=3;
+        int waitingTime=1;
         artificialIntelligenceID=artificialIntelligenceID-1;
 
         // For each Unit controlled by artificial Intelligence Player
