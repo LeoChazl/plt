@@ -67,8 +67,8 @@ void HeuristicAiTest::run(){
 
         while (1){
             //engine.checkRoundStart();
-            ai::HeuristicAI heuristicAi1(1);
-            heuristicAi1.run(engine);
+            //ai::HeuristicAI heuristicAi1(1);
+            //heuristicAi1.run(engine);
 
             //Check if all ennemy units are dead or not
             if(engine.checkGameEnd()==true){
@@ -93,7 +93,7 @@ void HeuristicAiTest::run(){
             ai::HeuristicAI heuristic2(2);
             heuristic2.run(engine);
             /******** Erase Comments if you want to control a player*************/
-            //stateLayer.inputManager(event, engine.getState());
+            stateLayer.inputManager(event, engine.getState());
             engine.screenRefresh();
             usleep(50000);
         }

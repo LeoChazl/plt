@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE(Mage_test)
     //Get EntityId
     BOOST_CHECK_EQUAL(mage.getEntityId(), MAGE);
     //Get and set Mana
-    BOOST_CHECK_EQUAL(mage.getX(), 12);
+    BOOST_CHECK_EQUAL(mage.getX(), 14);
     BOOST_CHECK_EQUAL(mage.getY(), 10);
     BOOST_CHECK_EQUAL(mage.getMana(), 100);
     BOOST_CHECK_EQUAL(mage.getManaMax(), 100);
