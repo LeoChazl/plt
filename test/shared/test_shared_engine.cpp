@@ -28,6 +28,7 @@ namespace sf {
 
 BOOST_AUTO_TEST_CASE(TestStaticAssert)
 {
+  {
     sf::RenderWindow window(sf::VideoMode(1950, 900), "Fire Emblem");
     sf::View view = window.getDefaultView();
     window.setView(view);
@@ -273,5 +274,14 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     usleep(100);
 
 
+    bool changeRound=true;
+    engine.checkRoundStart();
+    engine.checkGameEnd();
+  
+  }
+  {
+    EngineRenderEvent engineEvent(ATTACK);
+    engineEvent.getEngineRenderEventID();
+  }
 
 }

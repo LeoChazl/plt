@@ -418,6 +418,33 @@ BOOST_AUTO_TEST_CASE(PLayer_test)
     BOOST_CHECK_EQUAL(player1.getId(),2);
     BOOST_CHECK_EQUAL(player1.getName(),"player2");
   }
+
+  {
+    StateEvent stateEvent(ALLCHANGE);
+    stateEvent.getActionText();
+    stateEvent.setActionText("Action1");
+  }
+
+  {
+    Troll troll;
+    Mage mage(1);
+    /*std::shared_ptr<Troll> ptr_troll(&troll);
+    std::vector<std::shared_ptr<state::MobileEntity>&> unitList;
+    unitList.push_back(ptr_troll);*/
+
+    /*Player player4(3,"player3");
+    
+    player4.setMobileEntityList(unitList);
+    player4.deleteEntity(troll);*/
+
+
+    Player player4(1,"player1");
+    State state;
+    state.initPlayers();
+    state.deletePlayer(player4); 
+    state.getPlayerList()[0]->deleteEntity(troll);
+
+  }
 }
 
 

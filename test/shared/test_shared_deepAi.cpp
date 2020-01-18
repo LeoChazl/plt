@@ -26,6 +26,7 @@ namespace ai{
 
 BOOST_AUTO_TEST_CASE(TestStaticAssert)
 {
+  {
     //Engine Init
     Engine engine;
     engine.getState().initPlayers();
@@ -231,6 +232,17 @@ BOOST_AUTO_TEST_CASE(TestStaticAssert)
     int optimalCommandIndex=deepAi.findOptimalCommandIndex(ptrHeadNode);
     deepAi.executeOptimalCommand(engine,optimalCommandIndex,ptrHeadNode);
     
+  }
 
+  {
+          //Engine Init
+    Engine engine;
+    engine.getState().initPlayers();
+    
+    int artificialIntelligenceID=1;
+
+    DeepAI deep_ai(artificialIntelligenceID);
+    deep_ai.run(engine);
+  }
     
 }
